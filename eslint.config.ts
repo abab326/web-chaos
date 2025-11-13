@@ -11,14 +11,14 @@ export default [
     ignores: ['dist/**', 'node_modules/**'],
   },
   {
-    files: ['**/*.{js,mjs,cjs,ts}'],
+    files: ['src/**/*.{js,mjs,cjs,ts}'],
     languageOptions: {
       parser: parser,
       ecmaVersion: 'latest',
       sourceType: 'module',
     },
     plugins: {
-      '@typescript-eslint': typescript as any,
+      '@typescript-eslint': typescript,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -27,6 +27,7 @@ export default [
       '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+  vue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
     ignores: ['dist/**', 'node_modules/**'],
@@ -41,10 +42,9 @@ export default [
     },
     plugins: {
       vue: vue,
-      '@typescript-eslint': typescript as any,
+      '@typescript-eslint': typescript,
     },
     rules: {
-      ...(vue.configs['flat/recommended'] as any).rules,
       ...typescript.configs.recommended.rules,
       'vue/multi-word-component-names': 'off',
       '@typescript-eslint/no-unused-vars': 'error',

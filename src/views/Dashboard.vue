@@ -7,137 +7,148 @@
     </div>
 
     <!-- 统计卡片 -->
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-      <div class="p-6 bg-white rounded-lg shadow">
-        <div class="flex items-center">
-          <div class="p-3 text-blue-600 bg-blue-100 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
+    <el-row :gutter="20">
+      <el-col :xs="24" :sm="12" :lg="6">
+        <el-card shadow="hover" class="mb-4">
+          <div class="flex items-center">
+            <el-avatar :size="48" class="text-blue-600 bg-blue-100">
+              <el-icon><User /></el-icon>
+            </el-avatar>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">总用户数</p>
+              <p class="text-2xl font-bold text-gray-900">1,234</p>
+            </div>
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600">总用户数</p>
-            <p class="text-2xl font-bold text-gray-900">1,234</p>
-          </div>
-        </div>
-      </div>
+        </el-card>
+      </el-col>
 
-      <div class="p-6 bg-white rounded-lg shadow">
-        <div class="flex items-center">
-          <div class="p-3 text-green-600 bg-green-100 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-              />
-            </svg>
+      <el-col :xs="24" :sm="12" :lg="6">
+        <el-card shadow="hover" class="mb-4">
+          <div class="flex items-center">
+            <el-avatar :size="48" class="text-green-600 bg-green-100">
+              <el-icon><TrendCharts /></el-icon>
+            </el-avatar>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">今日访问</p>
+              <p class="text-2xl font-bold text-gray-900">567</p>
+            </div>
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600">今日访问</p>
-            <p class="text-2xl font-bold text-gray-900">567</p>
-          </div>
-        </div>
-      </div>
+        </el-card>
+      </el-col>
 
-      <div class="p-6 bg-white rounded-lg shadow">
-        <div class="flex items-center">
-          <div class="p-3 text-yellow-600 bg-yellow-100 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+      <el-col :xs="24" :sm="12" :lg="6">
+        <el-card shadow="hover" class="mb-4">
+          <div class="flex items-center">
+            <el-avatar :size="48" class="text-yellow-600 bg-yellow-100">
+              <el-icon><Money /></el-icon>
+            </el-avatar>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">总收入</p>
+              <p class="text-2xl font-bold text-gray-900">¥12,345</p>
+            </div>
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600">总收入</p>
-            <p class="text-2xl font-bold text-gray-900">¥12,345</p>
-          </div>
-        </div>
-      </div>
+        </el-card>
+      </el-col>
 
-      <div class="p-6 bg-white rounded-lg shadow">
-        <div class="flex items-center">
-          <div class="p-3 text-red-600 bg-red-100 rounded-full">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 10V3L4 14h7v7l9-11h-7z"
-              />
-            </svg>
+      <el-col :xs="24" :sm="12" :lg="6">
+        <el-card shadow="hover" class="mb-4">
+          <div class="flex items-center">
+            <el-avatar :size="48" class="text-red-600 bg-red-100">
+              <el-icon><Cpu /></el-icon>
+            </el-avatar>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">系统负载</p>
+              <p class="text-2xl font-bold text-gray-900">23%</p>
+            </div>
           </div>
-          <div class="ml-4">
-            <p class="text-sm font-medium text-gray-600">系统负载</p>
-            <p class="text-2xl font-bold text-gray-900">23%</p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </el-card>
+      </el-col>
+    </el-row>
 
     <!-- 图表区域 -->
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <div class="p-6 bg-white rounded-lg shadow">
-        <h3 class="mb-4 text-lg font-semibold text-gray-900">访问趋势</h3>
-        <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
-          <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
-        </div>
-      </div>
+    <el-row :gutter="20">
+      <el-col :xs="24" :lg="12">
+        <el-card shadow="hover" class="mb-4">
+          <template #header>
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-semibold">访问趋势</span>
+              <el-button type="primary" text>查看详情</el-button>
+            </div>
+          </template>
+          <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
+            <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
+          </div>
+        </el-card>
+      </el-col>
 
-      <div class="p-6 bg-white rounded-lg shadow">
-        <h3 class="mb-4 text-lg font-semibold text-gray-900">用户分布</h3>
-        <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
-          <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
-        </div>
-      </div>
-    </div>
+      <el-col :xs="24" :lg="12">
+        <el-card shadow="hover" class="mb-4">
+          <template #header>
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-semibold">用户分布</span>
+              <el-button type="primary" text>查看详情</el-button>
+            </div>
+          </template>
+          <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
+            <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
 
     <!-- 最近活动 -->
-    <div class="bg-white rounded-lg shadow">
-      <div class="px-6 py-4 border-b">
-        <h3 class="text-lg font-semibold text-gray-900">最近活动</h3>
-      </div>
-      <div class="p-6">
-        <div class="space-y-4">
-          <div
-            v-for="activity in recentActivities"
-            :key="activity.id"
-            class="flex items-center space-x-4"
-          >
-            <div class="shrink-0">
-              <div class="flex justify-center items-center w-8 h-8 bg-blue-100 rounded-full">
-                <span class="text-sm font-medium text-blue-600">{{ activity.initials }}</span>
+    <el-card class="recent-activities">
+      <template #header>
+        <div class="card-header">
+          <span>最近活动</span>
+          <el-button type="primary" link>查看全部</el-button>
+        </div>
+      </template>
+      <el-timeline>
+        <el-timeline-item
+          v-for="activity in recentActivities"
+          :key="activity.id"
+          :timestamp="activity.time"
+          :type="activity.type"
+          placement="top"
+        >
+          <el-card shadow="hover">
+            <div class="activity-item">
+              <el-avatar :size="32" :icon="activity.icon" />
+              <div class="activity-content">
+                <p class="activity-message">{{ activity.message }}</p>
+                <p class="activity-detail">{{ activity.detail }}</p>
               </div>
             </div>
-            <div class="flex-1 min-w-0">
-              <p class="text-sm text-gray-900">{{ activity.message }}</p>
-              <p class="text-xs text-gray-500">{{ activity.time }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </el-card>
+        </el-timeline-item>
+      </el-timeline>
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import {
+  User,
+  TrendCharts,
+  Money,
+  Cpu,
+  UserFilled,
+  Setting,
+  Download,
+  Monitor,
+} from '@element-plus/icons-vue'
 
 interface Activity {
   id: number
   initials: string
   message: string
   time: string
+  detail: string
+  avatar?: string
+  icon: any
+  type: 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 
 const recentActivities = ref<Activity[]>([
@@ -146,28 +157,181 @@ const recentActivities = ref<Activity[]>([
     initials: 'JD',
     message: '张三 创建了新用户',
     time: '2分钟前',
+    detail: '用户ID: U1001',
+    icon: UserFilled,
+    type: 'success',
   },
   {
     id: 2,
     initials: 'LW',
     message: '李四 更新了系统设置',
     time: '5分钟前',
+    detail: '修改了安全配置',
+    icon: Setting,
+    type: 'warning',
   },
   {
     id: 3,
     initials: 'WW',
     message: '王五 导出了用户数据',
     time: '10分钟前',
+    detail: '导出文件: users_2024.csv',
+    icon: Download,
+    type: 'info',
   },
   {
     id: 4,
     initials: 'ZL',
     message: '赵六 登录了系统',
     time: '15分钟前',
+    detail: 'IP: 192.168.1.100',
+    icon: Monitor,
+    type: 'primary',
   },
 ])
 </script>
 
 <style scoped>
-/* 自定义样式 */
+.dashboard {
+  padding: 20px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+
+.stats-grid {
+  margin-bottom: 24px;
+}
+
+.stats-grid .el-col {
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #909399;
+  margin-bottom: 8px;
+}
+
+.stat-trend {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.trend-up {
+  color: #f56c6c;
+}
+
+.trend-down {
+  color: #67c23a;
+}
+
+.stat-icon {
+  font-size: 48px;
+  color: #409eff;
+  opacity: 0.8;
+}
+
+.chart-section {
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  height: 100%;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.chart-placeholder {
+  height: 300px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #909399;
+  font-size: 14px;
+}
+
+.recent-activities {
+  margin-bottom: 24px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-message {
+  margin: 0;
+  font-weight: 500;
+  font-size: 14px;
+  color: #303133;
+}
+
+.activity-detail {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #909399;
+}
+
+:deep(.el-timeline-item__node) {
+  background-color: #409eff;
+}
+
+:deep(.el-timeline-item__timestamp) {
+  color: #909399;
+  font-size: 12px;
+}
 </style>

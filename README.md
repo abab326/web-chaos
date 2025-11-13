@@ -1,5 +1,184 @@
-# Vue 3 + TypeScript + Vite
+# Web Chaos Admin
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+基于 Vue 3.5 + Vite 7 + TypeScript + TailwindCSS 4 的现代化后台管理系统
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 🚀 技术栈
+
+- **前端框架**: Vue 3.5 + Composition API + `<script setup>`
+- **构建工具**: Vite 7.0
+- **开发语言**: TypeScript
+- **样式框架**: TailwindCSS 4.0
+- **代码规范**: ESLint 9 + Prettier
+- **路由管理**: Vue Router 4
+- **状态管理**: Pinia
+- **工具库**: VueUse
+
+## 📦 项目特性
+
+### 核心功能
+- ✅ 响应式布局设计
+- ✅ 现代化 UI 界面
+- ✅ 路由权限控制
+- ✅ 代码规范检查
+- ✅ TypeScript 支持
+- ✅ 组件化开发
+
+### 页面组件
+- ✅ 仪表板 (Dashboard)
+- ✅ 用户管理 (Users)
+- ✅ 系统设置 (Settings)
+- ✅ 登录页面 (Login)
+- ✅ 404 页面 (NotFound)
+
+### 开发体验
+- ✅ 热重载开发
+- ✅ 代码自动格式化
+- ✅ TypeScript 类型检查
+- ✅ 生产环境优化
+
+## 🛠️ 快速开始
+
+### 环境要求
+- Node.js >= 16.0.0
+- npm >= 7.0.0 或 yarn >= 1.22.0
+
+### 安装依赖
+```bash
+npm install
+# 或
+yarn install
+```
+
+### 开发模式
+```bash
+npm run dev
+# 或
+yarn dev
+```
+访问 http://localhost:3000
+
+### 构建生产版本
+```bash
+npm run build
+# 或
+yarn build
+```
+
+### 代码检查
+```bash
+# ESLint 检查
+npm run lint
+
+# 代码格式化
+npm run format
+
+# TypeScript 类型检查
+npm run type-check
+```
+
+## 📁 项目结构
+
+```
+src/
+├── layouts/          # 布局组件
+│   └── MainLayout.vue
+├── views/            # 页面组件
+│   ├── Dashboard.vue
+│   ├── Users.vue
+│   ├── Settings.vue
+│   ├── Login.vue
+│   └── NotFound.vue
+├── router/           # 路由配置
+│   └── index.ts
+├── style.css         # 全局样式
+├── App.vue           # 根组件
+└── main.ts           # 入口文件
+```
+
+## 🎨 设计规范
+
+### 颜色系统
+- 主色调: `#3b82f6` (蓝色)
+- 成功色: `#10b981` (绿色)
+- 警告色: `#f59e0b` (黄色)
+- 危险色: `#ef4444` (红色)
+- 中性色: `#64748b` (灰色)
+
+### 响应式断点
+- sm: 640px
+- md: 768px
+- lg: 1024px
+- xl: 1280px
+- 2xl: 1536px
+
+## 🔧 配置说明
+
+### Vite 配置
+- 开发服务器端口: 3000
+- 路径别名: `@` 指向 `src` 目录
+- 构建目标: ES2022
+
+### ESLint 配置
+- Vue 3 推荐规则
+- TypeScript 支持
+- Prettier 集成
+
+### TailwindCSS 配置
+- 使用 Vite 插件集成
+- 支持 JIT 模式
+- 自定义颜色和间距
+
+## 🚀 部署指南
+
+### 构建生产版本
+```bash
+npm run build
+```
+
+构建产物位于 `dist` 目录，可直接部署到静态文件服务器。
+
+### 服务器配置
+对于单页应用，需要配置服务器将所有路由重定向到 `index.html`。
+
+**Nginx 配置示例:**
+```nginx
+location / {
+    try_files $uri $uri/ /index.html;
+}
+```
+
+## 🤝 开发指南
+
+### 添加新页面
+1. 在 `src/views/` 创建 Vue 组件
+2. 在 `src/router/index.ts` 添加路由配置
+3. 在布局组件中添加菜单项
+
+### 添加新组件
+1. 在 `src/components/` 创建组件
+2. 使用 TypeScript 定义 Props 类型
+3. 遵循 Composition API 最佳实践
+
+### 样式开发
+- 优先使用 TailwindCSS 工具类
+- 复杂样式使用 CSS 模块
+- 遵循 BEM 命名规范
+
+## 📝 更新日志
+
+### v1.0.0 (2024-01-01)
+- 项目初始化
+- 基础框架搭建
+- 核心功能实现
+
+## 📄 许可证
+
+MIT License
+
+## 👥 贡献者
+
+- 项目维护者: Web Chaos Team
+
+---
+
+**注意**: 这是一个基础的后台管理系统模板，可根据实际需求进行扩展和定制。

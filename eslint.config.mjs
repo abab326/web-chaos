@@ -1,3 +1,4 @@
+import { defineConfig } from 'eslint/config'
 import js from '@eslint/js'
 import vue from 'eslint-plugin-vue'
 import typescript from '@typescript-eslint/eslint-plugin'
@@ -5,10 +6,22 @@ import parser from '@typescript-eslint/parser'
 import vueParser from 'vue-eslint-parser'
 import prettierConfig from 'eslint-config-prettier/flat'
 import pluginPrettier from 'eslint-plugin-prettier'
+import globals from 'globals'
 
-export default [
+/** @type {import('eslint').Linter.FlatConfig[]} */
+export default defineConfig([
   {
     ignores: ['dist/**', 'node_modules/**'],
+  },
+  {
+    files: ['src/**/*.{js,mjs,cjs,ts}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+      },
+    },
   },
   {
     files: ['src/**/*.{js,mjs,cjs,ts}'],
@@ -61,4 +74,4 @@ export default [
       'prettier/prettier': 'error',
     },
   },
-]
+])

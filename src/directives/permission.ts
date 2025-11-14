@@ -1,25 +1,40 @@
 import type { Directive, DirectiveBinding } from 'vue'
 
+import { usePermissionStore } from '@/store/permission'
+
 type PermissionMode = 'any' | 'all'
 export type PermissionChecker = (requiredPermissions: string[], mode: PermissionMode) => boolean
 
+export type PermissionDirective = Directive<HTMLElement, string | string[]>
+
+/**
+ * 默认权限检查函数
+ * @param requiredPermissions 所需权限数组
+ * @param mode 检查模式 ('any' 或 'all')
+ * @returns 是否有权限
+ */
+const defaultPermissionChecker: PermissionChecker = (requiredPermissions, mode) => {
+  const permissionStore = usePermissionStore()
+  const userPermissions = permissionStore.permissions
+  console.warn('v-permission: 未提供权限检查函数，默认允许访问。')
+  if (mode === 'any') {
+    return requiredPermissions.some((permission: string) => userPermissions.includes(permission))
+  } else if (mode === 'all') {
+    return requiredPermissions.every((permission: string) => userPermissions.includes(permission))
+  }
+  return false
+}
 /**
  * 权限指令工厂函数
  * @param checker 权限检查函数
  * @returns 权限指令
  */
-export function createPermissionDirective(
-  checker?: PermissionChecker
-): Directive<HTMLElement, string | string[]> {
+export function createPermissionDirective(checker?: PermissionChecker): PermissionDirective {
   // 默认权限检查函数 (警告并允许访问)
-  const permissionChecker =
-    checker ||
-    ((required, mode) => {
-      console.warn('v-permission: 未提供权限检查函数，默认允许访问。')
-      return true
-    })
+  const permissionChecker = checker || defaultPermissionChecker
 
   const updatePermission = (el: HTMLElement, binding: DirectiveBinding<string | string[]>) => {
+    console.log('updatePermission', binding)
     const mode = (binding.arg as PermissionMode) || 'any'
     const requiredPermissions = Array.isArray(binding.value) ? binding.value : [binding.value]
     const hasPermission = permissionChecker(requiredPermissions, mode)

@@ -128,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, markRaw } from 'vue'
 import {
   User,
   TrendCharts,
@@ -158,7 +158,7 @@ const recentActivities = ref<Activity[]>([
     message: '张三 创建了新用户',
     time: '2分钟前',
     detail: '用户ID: U1001',
-    icon: UserFilled,
+    icon: markRaw(UserFilled),
     type: 'success',
   },
   {
@@ -167,7 +167,7 @@ const recentActivities = ref<Activity[]>([
     message: '李四 更新了系统设置',
     time: '5分钟前',
     detail: '修改了安全配置',
-    icon: Setting,
+    icon: markRaw(Setting),
     type: 'warning',
   },
   {
@@ -176,7 +176,7 @@ const recentActivities = ref<Activity[]>([
     message: '王五 导出了用户数据',
     time: '10分钟前',
     detail: '导出文件: users_2024.csv',
-    icon: Download,
+    icon: markRaw(Download),
     type: 'info',
   },
   {
@@ -185,7 +185,7 @@ const recentActivities = ref<Activity[]>([
     message: '赵六 登录了系统',
     time: '15分钟前',
     detail: 'IP: 192.168.1.100',
-    icon: Monitor,
+    icon: markRaw(Monitor),
     type: 'primary',
   },
 ])

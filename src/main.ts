@@ -1,10 +1,11 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+
 import router from './router'
 import { setupStore } from './store'
 import { setupElementPlus } from './plugins/element'
 import './style.css'
-
+import 'element-plus/dist/index.css'
+import App from './App.vue'
 const app = createApp(App)
 
 // 注册插件

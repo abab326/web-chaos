@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
+
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
@@ -12,7 +12,7 @@ export function setupElementPlus(app: App<Element>) {
   app.use(ElementPlus, {
     locale: zhCn,
     // 设置尺寸
-    size: 'default' as const
+    size: 'default' as const,
   })
 
   // 注册所有图标

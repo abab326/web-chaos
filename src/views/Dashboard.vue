@@ -97,7 +97,15 @@
     </el-row>
 
     <!-- 最近活动 -->
-    <el-card class="recent-activities" v-watermark="['张三李四王五', '赵六', '张三李四王五']">
+    <el-card
+      class="recent-activities"
+      v-watermark="{
+        text: ['张三李四王五', '赵六', '张三李四王五'],
+        fontSize: 40,
+        angle: -15,
+        color: 'red',
+      }"
+    >
       <template #header>
         <div class="card-header">
           <span>最近活动</span>

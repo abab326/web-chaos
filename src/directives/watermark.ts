@@ -132,43 +132,63 @@ function createWatermarkImage(
   if (!ctx) {
     return { url: '', width: 0, height: 0 }
   }
-  // 计算文本尺寸和画布大小
-  const lineHeight = fontSize! * 1.5
-  const textFont = `${fontSize}px/${lineHeight}px sans-serif`
+
+  const textFont = `${fontSize}px px sans-serif`
   // 设置文本样式
   ctx.font = textFont
   ctx.fillStyle = color!
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  // 计算文本高度（使用实际字体高度）
-  const { actualBoundingBoxAscent: textAscent, actualBoundingBoxDescent: textDescent } =
-    ctx.measureText(textArray[0]!)
-  const textHeight = textAscent + textDescent
-  // 计算文本最大宽度（使用实际字体宽度）
-  const maxTextWidth = Math.max(...textArray.map((text) => ctx.measureText(text).width))
-  const maxTextHeight = textHeight * textArray.length
-  console.log('maxTextWidth', maxTextWidth)
-  console.log('maxTextHeight', maxTextHeight)
+  const lineHeight = 1.4
+  // 计算每行宽度和高度
+  let maxWidth = 0
+  let totalHeight = 0
+
+  const lineHeights = []
+
+  for (const line of textArray) {
+    const m = ctx.measureText(line)
+    const h = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent
+
+    lineHeights.push(h)
+    totalHeight += h * lineHeight
+
+    if (m.width > maxWidth) {
+      maxWidth = m.width
+    }
+  }
 
   // 计算旋转角度的弧度
   const angleRad = (angle! * Math.PI) / 180
-  const sinAngle = Math.abs(Math.sin(angleRad))
-  const cosAngle = Math.abs(Math.cos(angleRad))
-  // 计算旋转后的文本块宽度和高度
-  const rotatedWidth = maxTextWidth * cosAngle + maxTextHeight * sinAngle
-  const rotatedHeight = maxTextWidth * sinAngle + maxTextHeight * cosAngle
 
-  canvas.width = rotatedWidth
-  canvas.height = rotatedHeight
-  // 计算文本起始位置
-  const startY = maxTextWidth * sinAngle
+  // 旋转后占用的外接矩形尺寸
+  const rotatedWidth =
+    Math.abs(maxWidth * Math.cos(angleRad)) + Math.abs(totalHeight * Math.sin(angleRad))
+
+  const rotatedHeight =
+    Math.abs(maxWidth * Math.sin(angleRad)) + Math.abs(totalHeight * Math.cos(angleRad))
+
+  const padding = 20
+
+  canvas.width = rotatedWidth + padding * 2
+  canvas.height = rotatedHeight + padding * 2
+
   ctx.font = textFont
-  ctx.translate(0, startY)
-  ctx.rotate(angleRad)
+  ctx.fillStyle = color!
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
 
-  textArray.forEach((text, index) => {
-    ctx.fillText(text, 0, (index + 1) * textHeight)
-  })
+  // 移动到中心
+  ctx.translate(canvas.width / 2, canvas.height / 2)
+  // 旋转坐标系
+  ctx.rotate(angleRad)
+  // 多行文本绘制（竖直方向上依次绘制）
+  let y = -totalHeight / 2
+
+  for (let i = 0; i < textArray.length; i++) {
+    ctx.fillText(textArray[i]!, 0, y + lineHeights[i]! / 2)
+    y += lineHeights[i]! * lineHeight
+  }
   return { url: canvas.toDataURL(), width: rotatedWidth, height: rotatedHeight }
 }
 

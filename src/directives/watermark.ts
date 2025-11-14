@@ -1,19 +1,5 @@
 import type { Directive, DirectiveBinding } from 'vue'
-
-/**
- * 水印指令
- * @directive v-watermark
- * @param text 水印文本 (支持数组形式多行显示)
- * @param options 水印配置
- */
-interface WatermarkOptions {
-  text?: string | string[]
-  fontSize?: number
-  color?: string
-  opacity?: number
-  angle?: number
-  zIndex?: number
-}
+import type { WatermarkDirective, WatermarkOptions } from './type'
 
 /**
  * 清理水印资源
@@ -192,7 +178,7 @@ function createWatermarkImage(
   return { url: canvas.toDataURL(), width: rotatedWidth, height: rotatedHeight }
 }
 
-export const watermark: Directive<HTMLElement, string | string[] | WatermarkOptions> = {
+export const watermark: WatermarkDirective = {
   mounted(el, binding) {
     createWatermark(el, binding)
   },

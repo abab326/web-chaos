@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-6 h-full flex flex-col">
     <!-- 页面标题和操作栏 -->
     <div class="flex justify-between items-center">
       <div>
@@ -42,7 +42,7 @@
     </div>
 
     <!-- 用户表格 -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-lg shadow overflow-hidden flex-1">
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
@@ -162,6 +162,8 @@
         </div>
       </div>
     </div>
+    <!-- 分页组件 -->
+    <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="100" />
   </div>
 </template>
 

@@ -34,7 +34,7 @@ const emit = defineEmits<{
 // 默认分页参数
 const defaultPagination: PaginationParams = {
   page: 1,
-  pageSize: 10
+  pageSize: 10,
 }
 
 // 计算当前页
@@ -43,11 +43,11 @@ const currentPage = computed({
   set: (val: number) => {
     const newPagination = {
       ...(props.modelValue || defaultPagination),
-      page: val
+      page: val,
     }
     emit('update:modelValue', newPagination)
     emit('page-change', newPagination)
-  }
+  },
 })
 
 // 计算每页大小
@@ -57,11 +57,11 @@ const pageSize = computed({
     const newPagination = {
       ...(props.modelValue || defaultPagination),
       pageSize: val,
-      page: 1 // 重置到第一页
+      page: 1, // 重置到第一页
     }
     emit('update:modelValue', newPagination)
     emit('page-change', newPagination)
-  }
+  },
 })
 
 // 处理每页大小变化
@@ -79,6 +79,5 @@ const handleCurrentChange = (current: number) => {
 .pagination-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
 }
 </style>

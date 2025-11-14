@@ -53,8 +53,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Monitor, UserFilled, Setting, TrendCharts, Document, Grid } from '@element-plus/icons-vue'
 
-// Props
-const props = defineProps<{
+defineProps<{
   sidebarOpen: boolean
 }>()
 

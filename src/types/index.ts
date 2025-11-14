@@ -6,7 +6,6 @@
 export interface PaginationParams {
   page: number
   pageSize: number
-  total?: number
 }
 
 // 分页响应接口

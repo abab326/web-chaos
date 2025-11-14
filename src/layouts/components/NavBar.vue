@@ -8,8 +8,8 @@
         :text="true"
         :link="true"
         size="small"
-        @click="handleNavClick(item.key)"
         class="whitespace-nowrap"
+        @click="handleNavClick(item.key)"
       >
         {{ item.label }}
       </el-button>
@@ -20,8 +20,8 @@
         size="small"
         type="default"
         text
-        @click="handleAddNav"
         class="whitespace-nowrap"
+        @click="handleAddNav"
       >
         新建
       </el-button>
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
@@ -38,11 +38,14 @@ import { ElMessage } from 'element-plus'
 const route = useRoute()
 
 // Props
-const props = withDefaults(defineProps<{
-  showAddNavButton?: boolean
-}>(), {
-  showAddNavButton: true
-})
+withDefaults(
+  defineProps<{
+    showAddNavButton?: boolean
+  }>(),
+  {
+    showAddNavButton: true,
+  }
+)
 
 // Emits
 const emit = defineEmits<{
@@ -63,7 +66,7 @@ const navItems = ref([
   {
     key: 'reports',
     label: '报表',
-  }
+  },
 ])
 
 // 当前激活的导航项
@@ -87,7 +90,7 @@ const handleRouteChange = () => {
 const handleNavClick = (key: string) => {
   activeNav.value = key
   emit('nav-click', key)
-  ElMessage.info(`切换到${navItems.value.find(item => item.key === key)?.label}`)
+  ElMessage.info(`切换到${navItems.value.find((item) => item.key === key)?.label}`)
 }
 
 // 处理添加导航

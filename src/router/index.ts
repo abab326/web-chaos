@@ -25,6 +25,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/Settings.vue'),
         meta: { title: '系统设置', icon: 'settings' },
       },
+      {
+        path: 'table-example',
+        name: 'TableExample',
+        component: () => import('@/views/TableExample.vue'),
+        meta: { title: '表格示例', icon: 'table-example' },
+      },
     ],
   },
   {

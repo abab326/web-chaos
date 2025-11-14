@@ -1,4 +1,4 @@
-import request, { type ResponseData } from './request'
+import { apiService } from '../services/index'
 import type { UserInfo } from '@/store/user'
 
 // 登录请求接口
@@ -18,48 +18,30 @@ export interface LoginResponse {
  * @param data 登录信息
  */
 export const login = (data: LoginRequest) => {
-  return request<ResponseData<LoginResponse>>({
-    url: '/auth/login',
-    method: 'POST',
-    data
-  })
+  return apiService.post<LoginResponse>('/auth/login', data)
 }
 
 /**
  * 获取用户信息
  */
 export const getUserInfo = () => {
-  return request<ResponseData<UserInfo>>({
-    url: '/auth/userInfo',
-    method: 'GET'
-  })
+  return apiService.get<UserInfo>('/auth/userInfo')
 }
 
 /**
  * 退出登录
  */
 export const logout = () => {
-  return request<ResponseData<null>>({
-    url: '/auth/logout',
-    method: 'POST'
-  })
+  return apiService.post<null>('/auth/logout')
 }
 
 /**
  * 获取用户列表
  * @param params 查询参数
  */
-export const getUserList = (params?: {
-  page?: number
-  pageSize?: number
-  keyword?: string
-}) => {
-  return request<ResponseData<{
+export const getUserList = (params?: { page?: number; pageSize?: number; keyword?: string }) => {
+  return apiService.get<{
     list: UserInfo[]
     total: number
-  }>>({
-    url: '/users',
-    method: 'GET',
-    params
-  })
+  }>('/users', { params })
 }

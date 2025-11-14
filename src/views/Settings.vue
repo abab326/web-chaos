@@ -13,13 +13,13 @@
           <button
             v-for="tab in tabs"
             :key="tab.id"
-            @click="activeTab = tab.id"
             class="px-1 py-4 text-sm font-medium border-b-2"
             :class="
               activeTab === tab.id
                 ? 'border-blue-500 text-blue-600'
                 : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
             "
+            @click="activeTab = tab.id"
           >
             {{ tab.name }}
           </button>
@@ -35,16 +35,16 @@
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-700">系统名称</label>
                 <input
-                  type="text"
                   v-model="settings.general.siteName"
+                  type="text"
                   class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
                 <label class="block mb-2 text-sm font-medium text-gray-700">系统版本</label>
                 <input
-                  type="text"
                   v-model="settings.general.version"
+                  type="text"
                   class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   readonly
                 />
@@ -62,8 +62,8 @@
 
             <div class="flex items-center">
               <input
-                type="checkbox"
                 v-model="settings.general.maintenanceMode"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
               <label class="block ml-2 text-sm text-gray-900">维护模式</label>
@@ -89,8 +89,8 @@
 
             <div class="flex items-center">
               <input
-                type="checkbox"
                 v-model="settings.security.twoFactorAuth"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
               <label class="block ml-2 text-sm text-gray-900">启用双因素认证</label>
@@ -98,8 +98,8 @@
 
             <div class="flex items-center">
               <input
-                type="checkbox"
                 v-model="settings.security.loginAttempts"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
               <label class="block ml-2 text-sm text-gray-900">限制登录尝试次数</label>
@@ -108,8 +108,8 @@
             <div v-if="settings.security.loginAttempts">
               <label class="block mb-2 text-sm font-medium text-gray-700">最大登录尝试次数</label>
               <input
-                type="number"
                 v-model="settings.security.maxLoginAttempts"
+                type="number"
                 min="1"
                 max="10"
                 class="px-3 py-2 w-32 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -128,8 +128,8 @@
                 <p class="text-sm text-gray-500">接收系统邮件通知</p>
               </div>
               <input
-                type="checkbox"
                 v-model="settings.notifications.email"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
             </div>
@@ -140,8 +140,8 @@
                 <p class="text-sm text-gray-500">接收系统内部消息</p>
               </div>
               <input
-                type="checkbox"
                 v-model="settings.notifications.system"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
             </div>
@@ -152,8 +152,8 @@
                 <p class="text-sm text-gray-500">接收安全相关警报</p>
               </div>
               <input
-                type="checkbox"
                 v-model="settings.notifications.security"
+                type="checkbox"
                 class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
               />
             </div>
@@ -163,14 +163,14 @@
         <!-- 操作按钮 -->
         <div class="flex justify-end mt-6 space-x-3">
           <button
-            @click="resetSettings"
             class="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50"
+            @click="resetSettings"
           >
             重置
           </button>
           <button
-            @click="saveSettings"
             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+            @click="saveSettings"
           >
             保存设置
           </button>

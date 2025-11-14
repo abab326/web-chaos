@@ -3,11 +3,11 @@
     <div class="flex justify-between items-center px-6 h-full">
       <div class="flex items-center space-x-4">
         <el-button
-          @click="handleToggleSidebar"
           :icon="Fold"
           text
           circle
           class="text-gray-500 hover:text-gray-700"
+          @click="handleToggleSidebar"
         />
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -20,7 +20,7 @@
           <el-button :icon="Bell" text circle class="text-gray-500 hover:text-gray-700" />
         </el-badge>
 
-        <el-dropdown @command="handleUserCommand" trigger="click">
+        <el-dropdown trigger="click" @command="handleUserCommand">
           <span class="flex items-center space-x-2 cursor-pointer el-dropdown-link">
             <el-avatar :size="32" src="" class="bg-blue-500">
               <span class="font-semibold text-white">A</span>
@@ -53,14 +53,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  Fold,
-  Bell,
-  ArrowDown,
-  User,
-  Lock,
-  SwitchButton
-} from '@element-plus/icons-vue'
+import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const route = useRoute()

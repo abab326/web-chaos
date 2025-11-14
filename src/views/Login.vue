@@ -18,8 +18,8 @@
         ref="formRef"
         :model="form"
         :rules="rules"
-        @submit.prevent="handleLogin"
         class="mt-8 space-y-6"
+        @submit.prevent="handleLogin"
       >
         <el-form-item prop="email">
           <el-input

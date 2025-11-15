@@ -1,14 +1,10 @@
 <template>
-  <el-header class="bg-white border-b border-gray-200 shadow-sm">
-    <div class="flex justify-between items-center px-6 h-full">
-      <div class="flex items-center space-x-4">
-        <el-button
-          :icon="Fold"
-          text
-          circle
-          class="text-gray-500 hover:text-gray-700"
-          @click="handleToggleSidebar"
-        />
+  <el-header class="">
+    <div class="h-full w-full flex justify-between items-center px-2">
+      <el-icon class="cursor-pointer m-2" :size="16" @click="handleToggleSidebar">
+        <Fold />
+      </el-icon>
+      <div class="flex-1">
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>{{ currentRouteTitle }}</el-breadcrumb-item>
@@ -92,7 +88,7 @@ const handleUserCommand = async (command: string) => {
         })
         ElMessage.success('退出登录成功')
         // 这里可以添加退出登录的逻辑
-        // router.push('/login')
+        router.push('/login')
       } catch {
         // 用户取消操作
       }

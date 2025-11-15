@@ -18,9 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { useWindowSize } from '@vueuse/core'
 
 // 导入布局组件
 import Sidebar from './components/Sidebar.vue'
@@ -32,11 +33,28 @@ const router = useRouter()
 
 // 侧边栏展开状态
 const sidebarOpen = ref(true)
+const { width } = useWindowSize()
+const isMobile = ref(false)
 
 // 切换侧边栏
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value
-  // 可以在这里添加保存用户偏好设置的逻辑
+}
+
+// 关闭侧边栏（移动端专用）
+const closeSidebar = () => {
+  if (isMobile.value) {
+    sidebarOpen.value = false
+  }
+}
+
+// 检查是否为移动设备
+const checkIsMobile = () => {
+  isMobile.value = width.value <= 768
+  // 在移动设备上默认关闭侧边栏
+  if (isMobile.value) {
+    sidebarOpen.value = false
+  }
 }
 
 // 处理导航栏点击
@@ -67,6 +85,18 @@ const handleAddNav = () => {
   ElMessage.info('添加新导航功能')
   // 这里可以实现动态添加导航项的逻辑
 }
+
+// 监听窗口大小变化
+onMounted(() => {
+  checkIsMobile()
+  // 监听移动端关闭侧边栏事件
+  window.addEventListener('close-sidebar', closeSidebar)
+})
+
+onUnmounted(() => {
+  // 清理事件监听器
+  window.removeEventListener('close-sidebar', closeSidebar)
+})
 </script>
 
 <style scoped></style>

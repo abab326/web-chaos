@@ -16,7 +16,7 @@ export type PermissionDirective = Directive<HTMLElement, string | string[]>
 const defaultPermissionChecker: PermissionChecker = (requiredPermissions, mode) => {
   const permissionStore = usePermissionStore()
   const userPermissions = permissionStore.permissions
-  console.warn('v-permission: 未提供权限检查函数，默认允许访问。')
+  console.warn('v-permission: 未提供权限检查函数，默认使用全局权限检查函数。')
   if (mode === 'any') {
     return requiredPermissions.some((permission: string) => userPermissions.includes(permission))
   } else if (mode === 'all') {

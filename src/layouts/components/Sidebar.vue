@@ -2,6 +2,7 @@
   <el-aside
     :width="sidebarOpen ? '240px' : '64px'"
     class="bg-white shadow-lg transition-all duration-300"
+    :class="{ 'mobile-closed': !sidebarOpen && isMobile }"
   >
     <div class="p-4 border-b border-gray-200">
       <div class="flex justify-between items-center">
@@ -19,6 +20,15 @@
             <span class="font-semibold text-white">W</span>
           </el-avatar>
         </div>
+        <!-- 移动端关闭按钮 -->
+        <el-icon
+          v-if="isMobile && sidebarOpen"
+          class="cursor-pointer md:hidden"
+          :size="20"
+          @click="handleMobileClose"
+        >
+          <Close />
+        </el-icon>
       </div>
     </div>
 
@@ -36,6 +46,7 @@
         :key="route.name"
         :index="route.name as string"
         :route="{ name: route.name }"
+        @click="handleMenuItemClick"
       >
         <el-icon>
           <component :is="getIcon(route.meta?.icon as string)"></component>
@@ -51,7 +62,16 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Monitor, UserFilled, Setting, TrendCharts, Document, Grid } from '@element-plus/icons-vue'
+import {
+  Monitor,
+  UserFilled,
+  Setting,
+  TrendCharts,
+  Document,
+  Grid,
+  Close,
+} from '@element-plus/icons-vue'
+import { useWindowSize } from '@vueuse/core'
 
 defineProps<{
   sidebarOpen: boolean
@@ -59,6 +79,10 @@ defineProps<{
 
 const route = useRoute()
 const router = useRouter()
+
+// 获取窗口尺寸信息
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value <= 768)
 
 // 获取当前路由名称
 const currentRouteName = computed(() => {
@@ -84,13 +108,34 @@ const getIcon = (icon: string) => {
   }
   return icons[icon] || Document
 }
+
+// 处理移动端关闭
+const handleMobileClose = () => {
+  // 通过事件通知父组件关闭侧边栏
+  window.dispatchEvent(new CustomEvent('close-sidebar'))
+}
+
+// 处理菜单项点击
+const handleMenuItemClick = () => {
+  // 在移动端点击菜单项后关闭侧边栏
+  if (isMobile.value) {
+    window.dispatchEvent(new CustomEvent('close-sidebar'))
+  }
+}
 </script>
 
 <style scoped>
 .el-aside {
+  height: 100%;
   background-color: #ffffff;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+/* 移动端关闭状态 */
+.mobile-closed {
+  transform: translateX(-100%);
 }
 
 .el-menu {
@@ -113,6 +158,13 @@ const getIcon = (icon: string) => {
   .el-aside {
     position: fixed !important;
     z-index: 2000;
+    transform: translateX(0);
+    transition: transform 0.3s ease;
+  }
+
+  /* 移动端关闭状态 */
+  .mobile-closed {
+    transform: translateX(-100%);
   }
 }
 </style>

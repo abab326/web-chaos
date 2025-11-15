@@ -1,64 +1,100 @@
 <template>
-  <div class="space-y-6">
+  <div class="p-4 md:p-6 h-full overflow-auto">
     <!-- 页面标题 -->
-    <div>
-      <h1 class="text-2xl font-bold text-gray-900">仪表板</h1>
-      <p class="mt-1 text-gray-600">欢迎回来，这里是您的系统概览</p>
+    <div class="mb-6 animate-fade-in-down">
+      <h1 class="text-xl md:text-2xl font-bold text-gray-900">仪表板</h1>
+      <p class="mt-1 text-sm text-gray-600">欢迎回来，这里是您的系统概览</p>
     </div>
 
     <!-- 统计卡片 -->
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="hover" class="mb-4">
+    <el-row :gutter="12" class="mb-6 animate-staggered-fade-in">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="6"
+        class="mb-4 md:mb-0 animate-fade-in-up"
+        style="animation-delay: 0.1s"
+      >
+        <el-card
+          shadow="hover"
+          class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
+        >
           <div class="flex items-center">
-            <el-avatar :size="48" class="text-blue-600 bg-blue-100">
+            <el-avatar :size="40" class="text-blue-600 bg-blue-100">
               <el-icon><User /></el-icon>
             </el-avatar>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600">总用户数</p>
-              <p class="text-2xl font-bold text-gray-900">1,234</p>
+            <div class="ml-3">
+              <p class="text-xs md:text-sm font-medium text-gray-600">总用户数</p>
+              <p class="text-lg md:text-2xl font-bold text-gray-900">1,234</p>
             </div>
           </div>
         </el-card>
       </el-col>
 
-      <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="hover" class="mb-4">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="6"
+        class="mb-4 md:mb-0 animate-fade-in-up"
+        style="animation-delay: 0.2s"
+      >
+        <el-card
+          shadow="hover"
+          class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
+        >
           <div class="flex items-center">
-            <el-avatar :size="48" class="text-green-600 bg-green-100">
+            <el-avatar :size="40" class="text-green-600 bg-green-100">
               <el-icon><TrendCharts /></el-icon>
             </el-avatar>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600">今日访问</p>
-              <p class="text-2xl font-bold text-gray-900">567</p>
+            <div class="ml-3">
+              <p class="text-xs md:text-sm font-medium text-gray-600">今日访问</p>
+              <p class="text-lg md:text-2xl font-bold text-gray-900">567</p>
             </div>
           </div>
         </el-card>
       </el-col>
 
-      <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="hover" class="mb-4">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="6"
+        class="mb-4 md:mb-0 animate-fade-in-up"
+        style="animation-delay: 0.3s"
+      >
+        <el-card
+          shadow="hover"
+          class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
+        >
           <div class="flex items-center">
-            <el-avatar :size="48" class="text-yellow-600 bg-yellow-100">
+            <el-avatar :size="40" class="text-yellow-600 bg-yellow-100">
               <el-icon><Money /></el-icon>
             </el-avatar>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600">总收入</p>
-              <p class="text-2xl font-bold text-gray-900">¥12,345</p>
+            <div class="ml-3">
+              <p class="text-xs md:text-sm font-medium text-gray-600">总收入</p>
+              <p class="text-lg md:text-2xl font-bold text-gray-900">¥12,345</p>
             </div>
           </div>
         </el-card>
       </el-col>
 
-      <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="hover" class="mb-4">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="6"
+        class="mb-4 md:mb-0 animate-fade-in-up"
+        style="animation-delay: 0.4s"
+      >
+        <el-card
+          shadow="hover"
+          class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
+        >
           <div class="flex items-center">
-            <el-avatar :size="48" class="text-red-600 bg-red-100">
+            <el-avatar :size="40" class="text-red-600 bg-red-100">
               <el-icon><Cpu /></el-icon>
             </el-avatar>
-            <div class="ml-4">
-              <p class="text-sm font-medium text-gray-600">系统负载</p>
-              <p class="text-2xl font-bold text-gray-900">23%</p>
+            <div class="ml-3">
+              <p class="text-xs md:text-sm font-medium text-gray-600">系统负载</p>
+              <p class="text-lg md:text-2xl font-bold text-gray-900">23%</p>
             </div>
           </div>
         </el-card>
@@ -66,58 +102,67 @@
     </el-row>
 
     <!-- 图表区域 -->
-    <el-row :gutter="20">
-      <el-col :xs="24" :lg="12">
-        <el-card shadow="hover" class="mb-4">
+    <el-row :gutter="12" class="mb-6 animate-fade-in">
+      <el-col :xs="24" :sm="12" class="mb-4 md:mb-0 animate-slide-in-left">
+        <el-card shadow="hover" class="rounded-lg border-0 h-full">
           <template #header>
-            <div class="flex justify-between items-center">
-              <span class="text-lg font-semibold">访问趋势</span>
-              <el-button type="primary" text>查看详情</el-button>
+            <div class="flex items-center">
+              <el-icon class="mr-2 text-blue-500">
+                <TrendCharts />
+              </el-icon>
+              <span class="font-semibold text-sm">访问趋势</span>
             </div>
           </template>
-          <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
-            <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
+          <div class="h-64 md:h-80 flex items-center justify-center bg-gray-50 rounded-lg">
+            <el-empty description="图表占位符" />
           </div>
         </el-card>
       </el-col>
 
-      <el-col :xs="24" :lg="12">
-        <el-card shadow="hover" class="mb-4">
+      <el-col :xs="24" :sm="12" class="mb-4 md:mb-0 animate-slide-in-right">
+        <el-card shadow="hover" class="rounded-lg border-0 h-full">
           <template #header>
-            <div class="flex justify-between items-center">
-              <span class="text-lg font-semibold">用户分布</span>
-              <el-button type="primary" text>查看详情</el-button>
+            <div class="flex items-center">
+              <el-icon class="mr-2 text-green-500">
+                <User />
+              </el-icon>
+              <span class="font-semibold text-sm">用户分布</span>
             </div>
           </template>
-          <div class="flex justify-center items-center h-64 bg-gray-100 rounded">
-            <p class="text-gray-500">图表区域 - 可集成 ECharts 或 Chart.js</p>
+          <div class="h-64 md:h-80 flex items-center justify-center bg-gray-50 rounded-lg">
+            <el-empty description="地图占位符" />
           </div>
         </el-card>
       </el-col>
     </el-row>
 
     <!-- 最近活动 -->
-    <el-card v-permission:all="['admin', 'user']" class="recent-activities">
+    <el-card
+      v-permission:all="['admin', 'user']"
+      class="recent-activities rounded-lg border-0 animate-fade-in-up"
+    >
       <template #header>
         <div class="card-header">
-          <span>最近活动</span>
-          <el-button type="primary" link>查看全部</el-button>
+          <span class="font-semibold text-sm">最近活动</span>
+          <el-button type="primary" link size="small">查看全部</el-button>
         </div>
       </template>
       <el-timeline>
         <el-timeline-item
-          v-for="activity in recentActivities"
+          v-for="(activity, index) in recentActivities"
           :key="activity.id"
           :timestamp="activity.time"
           :type="activity.type"
           placement="top"
+          class="animate-fade-in"
+          :style="{ animationDelay: index * 0.1 + 's' }"
         >
-          <el-card shadow="hover">
+          <el-card shadow="hover" class="rounded-lg border-0">
             <div class="activity-item">
-              <el-avatar :size="32" :icon="activity.icon" />
-              <div class="activity-content">
-                <p class="activity-message">{{ activity.message }}</p>
-                <p class="activity-detail">{{ activity.detail }}</p>
+              <el-avatar :size="28" :icon="activity.icon" />
+              <div class="activity-content ml-2">
+                <p class="activity-message text-sm">{{ activity.message }}</p>
+                <p class="activity-detail text-xs text-gray-500">{{ activity.detail }}</p>
               </div>
             </div>
           </el-card>
@@ -128,7 +173,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, markRaw } from 'vue'
+import { ref, markRaw, type Component } from 'vue'
 import {
   User,
   TrendCharts,
@@ -147,7 +192,7 @@ interface Activity {
   time: string
   detail: string
   avatar?: string
-  icon: any
+  icon: Component
   type: 'primary' | 'success' | 'warning' | 'danger' | 'info'
 }
 
@@ -192,138 +237,10 @@ const recentActivities = ref<Activity[]>([
 </script>
 
 <style scoped>
+/* 移除不必要的自定义样式，更多地使用Tailwind CSS类 */
 .dashboard {
-  padding: 20px;
   background-color: #f5f7fa;
   min-height: 100vh;
-}
-
-.stats-grid {
-  margin-bottom: 24px;
-}
-
-.stats-grid .el-col {
-  margin-bottom: 16px;
-}
-
-.stat-card {
-  height: 100%;
-  transition: all 0.3s ease;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.stat-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.stat-info {
-  flex: 1;
-}
-
-.stat-number {
-  font-size: 24px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 8px;
-}
-
-.stat-trend {
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.trend-up {
-  color: #f56c6c;
-}
-
-.trend-down {
-  color: #67c23a;
-}
-
-.stat-icon {
-  font-size: 48px;
-  color: #409eff;
-  opacity: 0.8;
-}
-
-.chart-section {
-  margin-bottom: 24px;
-}
-
-.chart-card {
-  height: 100%;
-}
-
-.chart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.chart-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.chart-placeholder {
-  height: 300px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #909399;
-  font-size: 14px;
-}
-
-.recent-activities {
-  margin-bottom: 24px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.activity-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-}
-
-.activity-content {
-  flex: 1;
-}
-
-.activity-message {
-  margin: 0;
-  font-weight: 500;
-  font-size: 14px;
-  color: #303133;
-}
-
-.activity-detail {
-  margin: 4px 0 0 0;
-  font-size: 12px;
-  color: #909399;
 }
 
 :deep(.el-timeline-item__node) {
@@ -333,5 +250,85 @@ const recentActivities = ref<Activity[]>([
 :deep(.el-timeline-item__timestamp) {
   color: #909399;
   font-size: 12px;
+}
+
+/* 动画样式 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.5s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s ease-out forwards;
+}
+
+.animate-staggered-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
 }
 </style>

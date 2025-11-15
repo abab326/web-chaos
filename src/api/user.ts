@@ -18,7 +18,17 @@ export interface LoginResponse {
  * @param data 登录信息
  */
 export const login = (data: LoginRequest) => {
-  return apiService.post<LoginResponse>('/auth/login', data)
+  const result: LoginResponse = {
+    token: '123456',
+    user: {
+      username: data.username,
+      role: 'USER',
+      avatar: 'https://example.com/avatar.jpg',
+      id: '123456',
+    },
+  }
+  return Promise.resolve(result)
+  // return apiService.post<LoginResponse>('/auth/login', data)
 }
 
 /**

@@ -5,8 +5,8 @@ export type { PaginationParams }
 
 export type BasePaginationProps = {
   total: number
-  pageSizes: number[]
-  disabled: boolean
+  pageSizes?: number[]
+  disabled?: boolean
 }
 
 export type BasePaginationEmits = {

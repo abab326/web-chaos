@@ -4,7 +4,7 @@ import router from './router'
 import { setupStore } from './store'
 import { setupElementPlus } from './plugins/element'
 import { registerDirectives } from './directives'
-import './style.css'
+import './styles/global.css'
 
 import App from './App.vue'
 const app = createApp(App)

@@ -2,7 +2,7 @@
   <div class="table-example-container">
     <base-search-table>
       <!-- 搜索区 -->
-      <template #search> </template>
+      <template #search></template>
       <!-- 功能区 -->
       <template #action>
         <el-button type="primary" icon="Plus">新增</el-button>
@@ -15,7 +15,7 @@
         <el-button type="warning" icon="Download">导出</el-button>
       </template>
       <!-- 表格区 -->
-      <template #table="{ tableHeight }">
+      <template #default="{ tableHeight }">
         <el-table :data="tableData" border stripe :max-height="tableHeight">
           <el-table-column type="index" width="50" />
           <!-- 表格列 -->
@@ -54,7 +54,6 @@
       <template #pagination>
         <base-pagination
           :model-value="pagination"
-          class="pt-2"
           :total="total"
           @pagination-change="handlePaginationChange"
         />
@@ -64,8 +63,8 @@
 </template>
 
 <script setup lang="ts">
-import BasePagination from '@/components/BasePagination.vue'
-import BaseSearchTable from '@/components/BaseSearchTable.vue'
+import { BasePagination } from '@/components/base-pagination'
+import { BaseSearchTable } from '@/components/base-search-table'
 import { useSearchTable, type SearchParams } from '@/hooks/useSearchTable'
 import type { PaginationParams, PaginatedResponse } from '@/types'
 

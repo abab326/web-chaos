@@ -1,83 +1,49 @@
 <template>
   <div class="pagination-wrapper">
     <el-pagination
-      v-model:current-page="currentPage"
-      v-model:page-size="pageSize"
-      :page-sizes="pageSizes"
+      v-model:current-page="modelValue.page"
+      v-model:page-size="modelValue.pageSize"
+      :page-sizes="pageSizes || defaultPageSizes"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
       :disabled="disabled"
-      @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
+      @size-change="handleSizeChange"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { PaginationParams } from '@/types'
-
-// 定义props
-const props = defineProps<{
-  modelValue?: PaginationParams
+const defaultPageSizes = [10, 20, 30, 50, 100]
+defineProps<{
   total: number
   pageSizes?: number[]
   disabled?: boolean
 }>()
 
-// 定义emits
-const emit = defineEmits<{
-  'update:modelValue': [value: PaginationParams]
-  'page-change': [value: PaginationParams]
-}>()
+const emits = defineEmits(['pagination-change'])
 
-// 默认分页参数
-const defaultPagination: PaginationParams = {
-  page: 1,
-  pageSize: 10,
-}
-
-// 计算当前页
-const currentPage = computed({
-  get: () => props.modelValue?.page || defaultPagination.page,
-  set: (val: number) => {
-    const newPagination = {
-      ...(props.modelValue || defaultPagination),
-      page: val,
-    }
-    emit('update:modelValue', newPagination)
-    emit('page-change', newPagination)
-  },
+const modelValue = defineModel<PaginationParams>({
+  required: true,
+  default: () => ({ page: 1, pageSize: 20 }),
 })
 
-// 计算每页大小
-const pageSize = computed({
-  get: () => props.modelValue?.pageSize || defaultPagination.pageSize,
-  set: (val: number) => {
-    const newPagination = {
-      ...(props.modelValue || defaultPagination),
-      pageSize: val,
-      page: 1, // 重置到第一页
-    }
-    emit('update:modelValue', newPagination)
-    emit('page-change', newPagination)
-  },
-})
-
-// 处理每页大小变化
-const handleSizeChange = (size: number) => {
-  pageSize.value = size
+const handleCurrentChange = (page: number) => {
+  emits('pagination-change', { ...modelValue.value, page })
 }
 
-// 处理当前页变化
-const handleCurrentChange = (current: number) => {
-  currentPage.value = current
+const handleSizeChange = (pageSize: number) => {
+  emits('pagination-change', { ...modelValue.value, pageSize })
 }
 </script>
 
 <style scoped>
 .pagination-wrapper {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
+  min-width: fit-content;
+  overflow-x: auto;
 }
 </style>

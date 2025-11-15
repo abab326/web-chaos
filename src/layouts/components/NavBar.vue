@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white border-b border-gray-200 py-2 px-6">
+  <nav class="py-2 px-6">
     <div class="flex items-center space-x-1 overflow-x-auto hide-scrollbar">
       <el-button
         v-for="item in navItems"
@@ -107,8 +107,6 @@ onMounted(() => {
 
 <style scoped>
 nav {
-  border-bottom: 1px solid #e4e7ed;
-  background-color: #ffffff;
 }
 
 .hide-scrollbar {

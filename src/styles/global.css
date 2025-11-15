@@ -1,12 +1,65 @@
 @import 'tailwindcss';
 
-/* 自定义样式 */
-:root {
-  --primary-color: #3b82f6;
-  --secondary-color: #64748b;
-  --success-color: #10b981;
-  --warning-color: #f59e0b;
-  --danger-color: #ef4444;
+@theme {
+  /** 定义变量适配element-plus  **/
+  --color-primary: var(--el-color-primary);
+  --color-primary-light-3: var(--el-color-primary-light-3);
+  --color-primary-light-5: var(--el-color-primary-light-5);
+  --color-primary-light-7: var(--el-color-primary-light-7);
+  --color-primary-light-8: var(--el-color-primary-light-8);
+  --color-primary-light-9: var(--el-color-primary-light-9);
+  --color-primary-dark-2: var(--el-color-primary-dark-2);
+  --color-success: var(--el-color-success);
+  --color-success-light-3: var(--el-color-success-light-3);
+  --color-success-light-5: var(--el-color-success-light-5);
+  --color-success-light-7: var(--el-color-success-light-7);
+  --color-success-light-8: var(--el-color-success-light-8);
+  --color-success-light-9: var(--el-color-success-light-9);
+  --color-success-dark-2: var(--el-color-success-dark-2);
+  --color-warning: var(--el-color-warning);
+  --color-warning-light-3: var(--el-color-warning-light-3);
+  --color-warning-light-5: var(--el-color-warning-light-5);
+  --color-warning-light-7: var(--el-color-warning-light-7);
+  --color-warning-light-8: var(--el-color-warning-light-8);
+  --color-warning-light-9: var(--el-color-warning-light-9);
+  --color-warning-dark-2: var(--el-color-warning-dark-2);
+  --color-danger: var(--el-color-danger);
+  --color-danger-light-3: var(--el-color-danger-light-3);
+  --color-danger-light-5: var(--el-color-danger-light-5);
+  --color-danger-light-7: var(--el-color-danger-light-7);
+  --color-danger-light-8: var(--el-color-danger-light-8);
+  --color-danger-light-9: var(--el-color-danger-light-9);
+  --color-danger-dark-2: var(--el-color-danger-dark-2);
+  --color-info: var(--el-color-info);
+  --color-info-light-3: var(--el-color-info-light-3);
+  --color-info-light-5: var(--el-color-info-light-5);
+  --color-info-light-7: var(--el-color-info-light-7);
+  --color-info-light-8: var(--el-color-info-light-8);
+  --color-info-light-9: var(--el-color-info-light-9);
+  --color-info-dark-2: var(--el-color-info-dark-2);
+  /** 定义边框颜色适配element-plus **/
+  --color-border: var(--el-border-color);
+  --color-border-light: var(--el-border-color-light);
+  --color-border-lighcolorter: var(--el-border-color-lighter);
+  --color-border-extra-light: var(--el-border-color-extra-light);
+  --color-fill--darker: var(--el-fill-color-darker);
+  --color-fill-dark: var(--el-fill-color-dark);
+  --color-fill: var(--el-fill-color);
+  --color-fill-light: var(--el-fill-color-light);
+  --color-fill-lighter: var(--el-fill-color-lighter);
+  --color-fill-extra-light: var(--el-fill-color-extra-light);
+  --color-fill-blank: var(--el-fill-color-blank);
+
+  /** 定义文本颜色适配element-plus **/
+  --color-t-primary: var(--el-text-color-primary);
+  --color-t-regular: var(--el-text-color-regular);
+  --color-t-secondary: var(--el-text-color-secondary);
+  --color-t-placeholder: var(--el-text-color-placeholder);
+  --color-t-disabled: var(--el-text-color-disabled);
+  /** 定义背景颜色适配element-plus **/
+  --color-bg: var(--el-bg-color);
+  --color-bg-page: var(--el-bg-color-page);
+  --color-bg-overlay: var(--el-bg-color-overlay);
 }
 
 /* 全局样式重置 */

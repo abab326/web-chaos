@@ -17,11 +17,11 @@
         </el-badge>
 
         <el-dropdown trigger="click" @command="handleUserCommand">
-          <span class="flex items-center space-x-2 cursor-pointer el-dropdown-link">
-            <el-avatar :size="32" src="" class="bg-blue-500">
-              <span class="font-semibold text-white">A</span>
+          <span class="flex items-center space-x-2 cursor-pointer dropdown-link">
+            <el-avatar :size="32">
+              <span class="font-semibold text-t-primary">A</span>
             </el-avatar>
-            <span class="text-sm font-medium text-gray-700">管理员</span>
+            <span class="text-sm font-medium text-t-primary">管理员</span>
             <el-icon><ArrowDown /></el-icon>
           </span>
           <template #dropdown>
@@ -100,23 +100,19 @@ const handleUserCommand = async (command: string) => {
 <style scoped>
 .el-header {
   padding: 0;
-  height: 64px;
+  height: 4rem;
   display: flex;
   align-items: center;
-  background-color: #ffffff;
   border-bottom: 1px solid #e4e7ed;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
-
-.el-dropdown-link {
+.dropdown-link:hover {
+  background-color: var(--el-color-primary-light-5);
+}
+.dropdown-link {
   outline: none;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.2s;
-}
-
-.el-dropdown-link:hover {
-  background-color: #f5f7fa;
 }
 
 /* 响应式设计 */

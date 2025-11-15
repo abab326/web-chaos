@@ -1,58 +1,47 @@
 <template>
   <el-aside
     :width="sidebarOpen ? '240px' : '64px'"
-    class="bg-white shadow-lg transition-all duration-300"
+    class="shadow-lg transition-all duration-300"
     :class="{ 'mobile-closed': !sidebarOpen && isMobile }"
   >
-    <div class="p-4 border-b border-gray-200">
-      <div class="flex justify-between items-center">
-        <div v-if="sidebarOpen" class="flex items-center space-x-2">
-          <el-avatar :size="32" src="" class="bg-blue-500">
-            <span class="font-semibold text-white">W</span>
-          </el-avatar>
-          <div>
-            <h1 class="text-lg font-bold text-gray-800">Web Chaos Admin</h1>
-            <p class="text-xs text-gray-500">后台管理系统</p>
-          </div>
+    <div class="h-16 flex justify-between items-center border-b border-gray-200">
+      <div v-if="sidebarOpen" class="flex items-center space-x-2">
+        <el-avatar :size="32" src="" class="bg-blue-500">
+          <span class="font-semibold text-white">W</span>
+        </el-avatar>
+        <div>
+          <p class="text-lg">后台管理系统</p>
         </div>
-        <div v-else class="flex justify-center">
-          <el-avatar :size="32" src="" class="bg-blue-500">
-            <span class="font-semibold text-white">W</span>
-          </el-avatar>
-        </div>
-        <!-- 移动端关闭按钮 -->
-        <el-icon
-          v-if="isMobile && sidebarOpen"
-          class="cursor-pointer md:hidden"
-          :size="20"
-          @click="handleMobileClose"
-        >
-          <Close />
-        </el-icon>
       </div>
+      <div v-else class="flex justify-center">
+        <el-avatar :size="32" src="" class="bg-blue-500">
+          <span class="font-semibold text-white">W</span>
+        </el-avatar>
+      </div>
+      <!-- 移动端关闭按钮 -->
+      <el-icon
+        v-if="isMobile && sidebarOpen"
+        class="cursor-pointer md:hidden"
+        :size="20"
+        @click="handleMobileClose"
+      >
+        <Close />
+      </el-icon>
     </div>
 
-    <el-menu
-      :default-active="currentRouteName"
-      :collapse="!sidebarOpen"
-      router
-      class="border-none"
-      background-color="#ffffff"
-      text-color="#606266"
-      active-text-color="#409eff"
-    >
+    <el-menu :default-active="currentRouteName" :collapse="!sidebarOpen" router class="border-none">
       <el-menu-item
-        v-for="route in menuRoutes"
-        :key="route.name"
-        :index="route.name as string"
-        :route="{ name: route.name }"
+        v-for="routeItem in menuRoutes"
+        :key="routeItem.name"
+        :index="routeItem.name as string"
+        :route="{ name: routeItem.name }"
         @click="handleMenuItemClick"
       >
         <el-icon>
-          <component :is="getIcon(route.meta?.icon as string)"></component>
+          <component :is="getIcon(routeItem.meta?.icon as string)"></component>
         </el-icon>
         <template #title>
-          <span>{{ route.meta?.title }}</span>
+          <span>{{ routeItem.meta?.title }}</span>
         </template>
       </el-menu-item>
     </el-menu>
@@ -60,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   Monitor,
@@ -98,7 +87,7 @@ const menuRoutes = computed(() => {
 
 // 获取图标组件
 const getIcon = (icon: string) => {
-  const icons: Record<string, any> = {
+  const icons: Record<string, Component> = {
     dashboard: Monitor,
     users: UserFilled,
     settings: Setting,
@@ -127,7 +116,6 @@ const handleMenuItemClick = () => {
 <style scoped>
 .el-aside {
   height: 100%;
-  background-color: #ffffff;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
   transition: all 0.3s ease;
@@ -143,12 +131,10 @@ const handleMenuItemClick = () => {
 }
 
 .el-menu-item:hover {
-  background-color: #f0f9ff !important;
   color: #409eff !important;
 }
 
 .el-menu-item.is-active {
-  background-color: #ecf5ff !important;
   color: #409eff !important;
   font-weight: 500;
 }

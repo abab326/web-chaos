@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="isMobile"
+      v-show="isMobile"
       class="sidebar-overlay"
       :class="{ 'opacity-0': !isExpanded }"
       @click="toggleExpand"
@@ -20,7 +20,12 @@
           <el-icon :size="24" class="text-primary!"><ElementPlus /></el-icon>
           <span v-if="isExpanded" class="text-primary text-xl">Web Chaos</span>
         </div>
-        <el-icon v-if="isExpanded && isMobile" class="toggle-icon" :size="20" @click="toggleExpand">
+        <el-icon
+          v-if="isExpanded && isMobile"
+          class="text-primary!"
+          :size="20"
+          @click="toggleExpand"
+        >
           <Close />
         </el-icon>
       </div>

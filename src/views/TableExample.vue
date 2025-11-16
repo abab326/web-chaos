@@ -1,5 +1,5 @@
 <template>
-  <div class="table-example-container">
+  <div class="h-full">
     <base-search-table>
       <!-- 搜索区 -->
       <template #search></template>
@@ -20,7 +20,7 @@
           <el-table-column type="index" width="50" />
           <!-- 表格列 -->
           <el-table-column prop="id" label="ID" width="80" sortable />
-          <el-table-column prop="username" label="用户名" width="150" />
+          <el-table-column prop="username" label="用户名" min-width="150" />
           <el-table-column prop="email" label="邮箱" width="200" />
           <el-table-column prop="phone" label="手机号" width="150" />
           <el-table-column prop="status" label="状态" width="100">
@@ -166,15 +166,4 @@ const handleDetail = (row: User) => {
 }
 </script>
 
-<style scoped>
-.table-example-container {
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.search-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-</style>
+<style scoped></style>

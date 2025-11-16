@@ -237,12 +237,6 @@ const recentActivities = ref<Activity[]>([
 </script>
 
 <style scoped>
-/* 移除不必要的自定义样式，更多地使用Tailwind CSS类 */
-.dashboard {
-  background-color: #f5f7fa;
-  min-height: 100vh;
-}
-
 :deep(.el-timeline-item__node) {
   background-color: #409eff;
 }

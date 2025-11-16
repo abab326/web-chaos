@@ -8,11 +8,13 @@
 
       <div class="flex items-center gap-2">
         <!-- 通知图标 -->
-        <el-badge :value="3" :max="99" class="flex! mr-2">
+        <el-badge :value="3" :max="99" class="flex! mr-2 cursor-pointer">
           <el-icon :size="24"><Bell /> </el-icon>
         </el-badge>
         <!-- dark 模式切换 -->
-        <el-icon :size="24" @click="handleToggleDarkMode"> <Tools /> </el-icon>
+        <el-icon class="cursor-pointer" :size="24" @click="handleToggleDarkMode">
+          <Tools />
+        </el-icon>
         <!-- 用户头像 -->
         <el-dropdown trigger="click" @command="handleUserCommand">
           <span

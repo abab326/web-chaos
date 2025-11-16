@@ -15,7 +15,7 @@
       <slot :table-height="tableHeight"></slot>
 
       <!-- 分页区 -->
-      <div ref="paginationAreaRef" class="shrink-0 mt-2">
+      <div v-if="slots.pagination" ref="paginationAreaRef" class="pt-2">
         <slot name="pagination"></slot>
       </div>
     </div>
@@ -38,7 +38,11 @@ const paginationAreaRef = useTemplateRef<HTMLDivElement>('paginationAreaRef')
 // 表格容器元素尺寸
 const { height: tableAreaHeight } = useElementSize(tableAreaRef)
 // 分页容器元素尺寸
-const { height: paginationAreaHeight } = useElementSize(paginationAreaRef)
+const { height: paginationAreaHeight } = useElementSize(
+  paginationAreaRef,
+  { width: 0, height: 0 },
+  { box: 'border-box' }
+)
 
 /**
  * 计算表格可用高度

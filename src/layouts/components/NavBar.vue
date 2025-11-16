@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar-container shadow-sm py-2 px-3">
+  <nav class="border-b border-border-light py-2 px-3">
     <CustomTab ref="customTabRef" @scroll="handleTabScroll">
       <div
         v-for="item in navItems"

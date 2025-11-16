@@ -1,5 +1,5 @@
 import { apiService } from '../services/index'
-import type { UserInfo } from '@/store/user'
+import type { UserInfo } from '@/types/user'
 
 // 登录请求接口
 export interface LoginRequest {
@@ -42,7 +42,7 @@ export const getUserInfo = () => {
  * 退出登录
  */
 export const logout = () => {
-  return apiService.post<null>('/auth/logout')
+  return apiService.post<string>('/auth/logout')
 }
 
 /**

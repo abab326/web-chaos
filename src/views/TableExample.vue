@@ -67,18 +67,7 @@ import { BasePagination } from '@/components/base-pagination'
 import { BaseSearchTable } from '@/components/base-search-table'
 import { useSearchTable, type SearchParams } from '@/hooks/useSearchTable'
 import type { PaginationParams, PaginatedResponse } from '@/types'
-
-// 定义用户类型
-interface User {
-  id: number
-  username: string
-  email: string
-  phone: string
-  status: number
-  role: string
-  createTime: string
-  lastLoginTime: string
-}
+import type { UserBean } from '@/types/user'
 
 // 初始搜索参数
 const initialSearchParams: SearchParams = {
@@ -88,7 +77,7 @@ const initialSearchParams: SearchParams = {
 }
 // 模拟数据
 const mockData = () => {
-  const data: User[] = []
+  const data: UserBean[] = []
 
   for (let i = 1; i <= 100; i++) {
     data.push({
@@ -109,7 +98,7 @@ const mockData = () => {
 // 模拟API请求
 const fetchData = async (
   params: SearchParams & PaginationParams
-): Promise<PaginatedResponse<User>> => {
+): Promise<PaginatedResponse<UserBean>> => {
   console.log('fetchData', params)
   // 模拟API请求延迟
   await new Promise((resolve) => setTimeout(resolve, 500))
@@ -145,23 +134,23 @@ const fetchData = async (
 
 // 使用搜索表格hook
 const { tableData, selectedItems, pagination, total, handlePaginationChange } =
-  useSearchTable<User>({
+  useSearchTable<UserBean>({
     fetchData,
     initialSearchParams,
   })
 
 // 编辑
-const handleEdit = (row: User) => {
+const handleEdit = (row: UserBean) => {
   console.log('编辑:', row)
 }
 
 // 删除
-const handleDelete = (row: User) => {
+const handleDelete = (row: UserBean) => {
   console.log('删除:', row)
 }
 
 // 详情
-const handleDetail = (row: User) => {
+const handleDetail = (row: UserBean) => {
   console.log('详情:', row)
 }
 </script>

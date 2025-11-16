@@ -1,12 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export interface UserInfo {
-  id: string
-  username: string
-  role: string
-  avatar?: string
-}
+import type { UserInfo } from '@/types/user'
 
 export const useUserStore = defineStore('user', () => {
   // 状态

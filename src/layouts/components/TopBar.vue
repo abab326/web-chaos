@@ -1,23 +1,23 @@
 <template>
-  <el-header class="">
+  <el-header class="h-16! flex items-center border-b border-border-light p-0!">
     <div class="h-full w-full flex justify-between items-center px-2">
       <el-icon class="cursor-pointer m-2" :size="16" @click="handleToggleSidebar">
         <Fold />
       </el-icon>
-      <div class="flex-1">
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ currentRouteTitle }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </div>
+      <div class="flex-1"></div>
 
-      <div class="flex items-center space-x-4">
-        <el-badge :value="3" :max="99" class="mr-2">
-          <el-button :icon="Bell" text circle class="text-gray-500 hover:text-gray-700" />
+      <div class="flex items-center gap-2">
+        <!-- 通知图标 -->
+        <el-badge :value="3" :max="99" class="flex! mr-2">
+          <el-icon :size="24"><Bell /> </el-icon>
         </el-badge>
-
+        <!-- dark 模式切换 -->
+        <el-icon :size="24" @click="handleToggleDarkMode"> <Tools /> </el-icon>
+        <!-- 用户头像 -->
         <el-dropdown trigger="click" @command="handleUserCommand">
-          <span class="flex items-center space-x-2 cursor-pointer dropdown-link">
+          <span
+            class="dropdown-link outline-none py-2 px-3 rounded transition-colors duration-200 flex items-center space-x-2 cursor-pointer text-t-primary hover:bg-primary-light-5"
+          >
             <el-avatar :size="32">
               <span class="font-semibold text-t-primary">A</span>
             </el-avatar>
@@ -47,27 +47,29 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-const route = useRoute()
+import { useDark, useToggle } from '@vueuse/core'
+
 const router = useRouter()
+const isDark = useDark()
+const toggleDarkMode = useToggle(isDark)
 
 // Emits
 const emit = defineEmits<{
   'toggle-sidebar': []
 }>()
 
-// 获取当前路由标题
-const currentRouteTitle = computed(() => {
-  return (route.meta?.title as string) || '仪表板'
-})
-
 // 处理切换侧边栏
 const handleToggleSidebar = () => {
   emit('toggle-sidebar')
+}
+
+// 处理切换暗黑模式
+const handleToggleDarkMode = () => {
+  toggleDarkMode()
 }
 
 // 处理用户菜单命令
@@ -98,28 +100,56 @@ const handleUserCommand = async (command: string) => {
 </script>
 
 <style scoped>
-.el-header {
-  padding: 0;
-  height: 4rem;
+/* 用户菜单样式 */
+.user-dropdown {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #e4e7ed;
+  cursor: pointer;
 }
-.dropdown-link:hover {
-  background-color: var(--el-color-primary-light-5);
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
 }
+
+.username {
+  color: var(--color-t-primary);
+  margin-right: 8px;
+}
+
 .dropdown-link {
   outline: none;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 4px;
-  transition: background-color 0.2s;
+}
+
+.dropdown-link:hover {
+  background-color: var(--color-fill-light);
+}
+
+/* 折叠按钮样式 */
+.collapse-btn {
+  cursor: pointer;
+  color: var(--color-t-secondary);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.collapse-btn:hover {
+  background-color: var(--color-fill-light);
+  color: var(--color-primary);
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .el-header {
-    padding-left: 16px;
-    padding-right: 16px;
+  .topbar-header {
+    padding: 0 8px;
+  }
+
+  .username {
+    display: none;
   }
 }
 </style>

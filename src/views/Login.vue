@@ -378,9 +378,13 @@ const handleLogin = async () => {
 
     // 跳转到仪表板
     router.push('/')
-  } catch (err: any) {
+  } catch (err: unknown) {
     // 登录失败
-    error.value = err.message || '登录失败，请稍后重试'
+    if (err instanceof Error) {
+      error.value = err.message || '登录失败，请稍后重试'
+    } else {
+      error.value = '登录失败，请稍后重试'
+    }
     failedAttempts.value++
     checkCaptchaRequirement()
   } finally {

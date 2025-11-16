@@ -14,17 +14,8 @@ export default defineConfig([
     ignores: ['dist/**', 'node_modules/**'],
   },
   {
-    files: ['src/**/*.{js,mjs,cjs,ts}'],
-    languageOptions: {
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-        ...globals.es2021,
-      },
-    },
-  },
-  {
-    files: ['src/**/*.{js,mjs,cjs,ts}'],
+    files: ['**/*.ts', '**/*.tsx'],
+    ignores: ['**/*.d.ts'],
     languageOptions: {
       parser: parser,
       ecmaVersion: 'latest',
@@ -38,6 +29,31 @@ export default defineConfig([
       ...typescript.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    files: ['**/*.d.ts'],
+    languageOptions: {
+      parser: parser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+    },
+    plugins: {
+      '@typescript-eslint': typescript,
+    },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
+  {
+    files: ['src/**/*.{js,mjs,cjs,ts,vue}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+      },
     },
   },
   vue.configs['flat/recommended'],

@@ -12,7 +12,7 @@ import type {
 const createApiService = (): ApiServiceInstance => {
   // 创建axios实例
   const apiService = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+    baseURL: (import.meta.env.VITE_API_BASE_URL as string) || '/api',
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const createApiService = (): ApiServiceInstance => {
 
   // 统一错误处理函数
   const handleError = (error: any, options: ErrorHandlerOptions = {}) => {
-    const { showError = true, customHandler } = options
+    const { showError, customHandler } = options
     let errorMessage = '网络请求失败，请稍后重试'
     let errorCode = 500
 
@@ -81,7 +81,7 @@ const createApiService = (): ApiServiceInstance => {
       const res = response.data
 
       // 根据业务需求自定义响应处理逻辑
-      if (res.code !== 200) {
+      if (res.code && res.code !== 200) {
         return handleError(new Error(res.message || '未知错误'), {
           code: res.code,
           message: res.message,

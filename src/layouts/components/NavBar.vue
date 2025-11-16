@@ -5,7 +5,7 @@
         v-for="item in navItems"
         :key="item.key"
         :ref="(el) => setNavItemRef(el, item.key)"
-        class="nav-item relative flex items-center rounded-lg transition-all duration-300 p-1.5 cursor-pointer whitespace-nowrap bg-fill-lighter text-t-regular border border-border-light hover:bg-fill-light hover:text-primary"
+        class="nav-item relative flex items-center rounded-lg transition-all duration-300 px-2 py-1 cursor-pointer whitespace-nowrap bg-fill-lighter text-t-regular border border-border-light hover:bg-fill-light hover:text-primary"
         :class="{
           'active-nav bg-primary-light-9 text-primary font-medium border-primary-light-7':
             activeNav === item.key,
@@ -163,48 +163,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 导航栏基础样式 */
-.navbar-container {
-  display: flex;
-  align-items: center;
-  background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-border-light);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  height: 48px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-/* 滚动容器样式 */
-.nav-scroll-container {
-  flex: 1;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-/* 导航列表样式 */
-.nav-list {
-  display: flex;
-  white-space: nowrap;
-}
-
-/* 导航项样式 */
-.nav-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 8px 16px;
-  margin: 0 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: color 0.2s;
-  border-radius: 6px;
-}
-
-.nav-item:hover {
-  background-color: var(--color-fill-light);
-}
-
 /* 激活的导航项样式 */
 .active-nav {
   background-color: var(--color-primary-light-9);

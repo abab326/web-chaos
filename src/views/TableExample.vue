@@ -169,7 +169,6 @@ const handleDetail = (row: User) => {
 <style scoped>
 .table-example-container {
   height: 100%;
-  padding: 20px;
   box-sizing: border-box;
 }
 

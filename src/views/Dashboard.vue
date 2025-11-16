@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 md:p-6 h-full overflow-auto">
+  <div>
     <!-- 页面标题 -->
     <div class="mb-6 animate-fade-in-down">
       <h1 class="text-xl md:text-2xl font-bold text-gray-900">仪表板</h1>

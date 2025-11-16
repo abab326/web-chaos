@@ -1,5 +1,5 @@
 <template>
-  <el-main class="page-content p-3 flex-1 overflow-y-auto">
+  <el-main class="p-3! flex-1 overflow-y-auto">
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component" />
@@ -11,13 +11,6 @@
 <script setup lang="ts"></script>
 
 <style scoped>
-/* 页面内容基础样式 */
-.page-content {
-  padding: 12px;
-  flex: 1;
-  overflow-y: auto;
-}
-
 /* 淡入淡出过渡动画 */
 .fade-enter-active,
 .fade-leave-active {

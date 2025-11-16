@@ -16,7 +16,7 @@
         <!-- 用户头像 -->
         <el-dropdown trigger="click" @command="handleUserCommand">
           <span
-            class="dropdown-link outline-none py-2 px-3 rounded transition-colors duration-200 flex items-center space-x-2 cursor-pointer text-t-primary hover:bg-primary-light-5"
+            class="outline-none py-2 px-3 rounded transition-colors duration-200 flex items-center space-x-2 cursor-pointer text-t-primary hover:bg-primary-light-5"
           >
             <el-avatar :size="32">
               <span class="font-semibold text-t-primary">A</span>
@@ -99,57 +99,4 @@ const handleUserCommand = async (command: string) => {
 }
 </script>
 
-<style scoped>
-/* 用户菜单样式 */
-.user-dropdown {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.username {
-  color: var(--color-t-primary);
-  margin-right: 8px;
-}
-
-.dropdown-link {
-  outline: none;
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.dropdown-link:hover {
-  background-color: var(--color-fill-light);
-}
-
-/* 折叠按钮样式 */
-.collapse-btn {
-  cursor: pointer;
-  color: var(--color-t-secondary);
-  padding: 8px;
-  border-radius: 4px;
-}
-
-.collapse-btn:hover {
-  background-color: var(--color-fill-light);
-  color: var(--color-primary);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .topbar-header {
-    padding: 0 8px;
-  }
-
-  .username {
-    display: none;
-  }
-}
-</style>
+<style scoped></style>

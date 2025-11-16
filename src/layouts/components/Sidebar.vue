@@ -15,7 +15,7 @@
       }"
       :width="isExpanded ? '220px' : isMobile ? '0' : '64px'"
     >
-      <div class="h-16 px-5 flex items-center justify-between">
+      <div class="h-16 px-5 flex items-center justify-between border-b border-solid border-border">
         <div class="flex items-center gap-4">
           <el-icon :size="24" class="text-primary!"><ElementPlus /></el-icon>
           <span v-if="isExpanded" class="text-primary text-xl">Web Chaos</span>

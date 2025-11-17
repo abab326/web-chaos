@@ -19,12 +19,16 @@
     "dayjs": "^1.11.19",
     "element-plus": "^2.11.7",
     "lodash-es": "^4.17.21",
+    "lucide-vue-next": "^0.554.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@iconify/json": "^2.2.408",
+    "@iconify/tailwind4": "^1.1.0",
+    "@iconify/vue": "^5.0.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/lodash-es": "^4.17.12",

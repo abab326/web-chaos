@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@plugin "@iconify/tailwind4";
 
 @theme {
   /** 定义变量适配element-plus  **/

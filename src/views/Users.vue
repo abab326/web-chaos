@@ -162,6 +162,14 @@
         </div>
       </div>
     </div>
+
+    <!-- 图标示例 -->
+    <div class="flex items-center justify-center">
+      <span class="icon-[mdi-light--home]"></span>
+      <span :class="`icon-[${iconName}]`"></span>
+      <Icon icon="mdi-light:home" class="w-6 h-6 text-gray-500"></Icon>
+      <Icon :icon="iconName" class="w-6 h-6 text-gray-500"></Icon>
+    </div>
     <!-- 分页组件 -->
     <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="100" />
   </div>
@@ -169,7 +177,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
+import { Icon } from '@iconify/vue'
 interface User {
   id: number
   name: string
@@ -179,6 +187,8 @@ interface User {
   status: 'active' | 'inactive'
   createdAt: string
 }
+
+const iconName = ref('tdesign:arrow-up-down-circle-filled')
 
 const users = ref<User[]>([
   {

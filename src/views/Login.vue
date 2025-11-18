@@ -119,7 +119,6 @@
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { login } from '@/api/user'
 import { Lock, Message, Key } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -358,17 +357,10 @@ const handleLogin = async () => {
 
     loading.value = true
     error.value = ''
-
-    // 实际登录逻辑
-    const response = await login({
-      username: form.email,
-      password: form.password,
-    })
-
-    // 登录成功
-    userStore.setToken(response.token)
-    userStore.setUserInfo(response.user)
-
+    const result = await userStore.login({ username: form.email, password: form.password })
+    if (!result) {
+      return
+    }
     // 如果选择了记住我，保存到localStorage
     if (form.rememberMe) {
       localStorage.setItem('rememberMe', 'true')

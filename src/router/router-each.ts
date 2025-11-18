@@ -19,9 +19,9 @@ const beforeEach: NavigationGuardWithThis<undefined> = (to, from, next) => {
     return
   }
   const userStore = useUserStore()
-  const token = userStore.getToken()
+  console.log('userStore.isLoggedIn', userStore.isLoggedIn)
   // 用户未登录，重定向到登录页
-  if (!token) {
+  if (!userStore.isLoggedIn) {
     navToLogin(next)
     return
   }

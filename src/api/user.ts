@@ -17,7 +17,7 @@ export interface LoginResponse {
  * 用户登录
  * @param data 登录信息
  */
-export const login = (data: LoginRequest) => {
+const loginByUserName = (data: LoginRequest) => {
   const result: LoginResponse = {
     token: '123456',
     user: {
@@ -27,21 +27,21 @@ export const login = (data: LoginRequest) => {
       id: '123456',
     },
   }
-  return Promise.resolve(result)
+  return Promise.resolve<[any, LoginResponse]>([null, result])
   // return apiService.post<LoginResponse>('/auth/login', data)
 }
 
 /**
  * 获取用户信息
  */
-export const getUserInfo = () => {
+const getUserInfo = () => {
   return apiService.get<UserInfo>('/auth/userInfo')
 }
 
 /**
  * 退出登录
  */
-export const logout = () => {
+const logout = () => {
   return apiService.post<string>('/auth/logout')
 }
 
@@ -49,9 +49,16 @@ export const logout = () => {
  * 获取用户列表
  * @param params 查询参数
  */
-export const getUserList = (params?: { page?: number; pageSize?: number; keyword?: string }) => {
+const getUserList = (params?: { page?: number; pageSize?: number; keyword?: string }) => {
   return apiService.get<{
     list: UserInfo[]
     total: number
   }>('/users', { params })
+}
+
+export const userApi = {
+  loginByUserName,
+  getUserInfo,
+  logout,
+  getUserList,
 }

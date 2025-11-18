@@ -54,6 +54,7 @@ import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/i
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 import { useDark, useToggle } from '@vueuse/core'
+import { useUserStore } from '@/store/user'
 
 const router = useRouter()
 const isDark = useDark()
@@ -91,7 +92,8 @@ const handleUserCommand = async (command: string) => {
           type: 'warning',
         })
         ElMessage.success('退出登录成功')
-        // 这里可以添加退出登录的逻辑
+        const userStore = useUserStore()
+        await userStore.logout()
         router.push('/login')
       } catch {
         // 用户取消操作

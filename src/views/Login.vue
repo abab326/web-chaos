@@ -118,10 +118,12 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store/user'
+
 import { login } from '@/api/user'
 import { Lock, Message, Key } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
+
+import { useUserStore } from '@/store/user'
 
 const router = useRouter()
 const userStore = useUserStore()

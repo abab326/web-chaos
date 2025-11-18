@@ -23,9 +23,10 @@ const createApiService = (): ApiServiceInstance => {
   apiService.interceptors.request.use(
     (config) => {
       const userStore = useUserStore()
+      const token = userStore.getToken()
       // 如果有token则添加到请求头
-      if (userStore.token) {
-        config.headers.Authorization = `Bearer ${userStore.token}`
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
       }
       return config
     },

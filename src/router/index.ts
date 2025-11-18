@@ -1,55 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-
-const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    component: () => import('@/layouts/MainLayout.vue'),
-    redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/Dashboard.vue'),
-        meta: { title: '仪表板', icon: 'DataAnalysis' },
-      },
-      {
-        path: 'users',
-        name: 'Users',
-        component: () => import('@/views/Users.vue'),
-        meta: { title: '用户管理', icon: 'Camera' },
-      },
-      {
-        path: 'settings',
-        name: 'Settings',
-        component: () => import('@/views/Settings.vue'),
-        meta: { title: '系统设置', icon: 'Monitor' },
-      },
-      {
-        path: 'table-example',
-        name: 'TableExample',
-        component: () => import('@/views/TableExample.vue'),
-        meta: { title: '表格示例', icon: 'Tickets' },
-      },
-    ],
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login.vue'),
-    meta: { title: '登录' },
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'NotFound',
-    component: () => import('@/views/NotFound.vue'),
-    meta: { title: '页面不存在' },
-  },
-]
+// 静态路由
+import { moduleRoutes } from './modules'
+import { registerRouterEach } from './router-each'
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: [...moduleRoutes],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -58,5 +14,7 @@ const router = createRouter({
     }
   },
 })
+// 注册路由守卫
+registerRouterEach(router)
 
 export default router

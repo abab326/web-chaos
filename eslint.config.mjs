@@ -8,7 +8,6 @@ import prettierConfig from 'eslint-config-prettier/flat'
 import pluginPrettier from 'eslint-plugin-prettier'
 import globals from 'globals'
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
 export default defineConfig([
   {
     ignores: ['dist/**', 'node_modules/**'],

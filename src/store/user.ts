@@ -19,6 +19,9 @@ export const useUserStore = defineStore('user', () => {
     token.value = newToken
     localStorage.setItem('token', newToken)
   }
+  function getToken() {
+    return token.value
+  }
 
   function logout() {
     userInfo.value = null
@@ -39,9 +42,9 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     userInfo,
-    token,
     isLoggedIn,
     setUserInfo,
+    getToken,
     setToken,
     logout,
     loadTokenFromStorage,

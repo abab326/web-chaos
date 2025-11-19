@@ -76,21 +76,12 @@ const setNavItemRef = (el: Element | ComponentPublicInstance | null, key: string
 const handleNavClick = (key: string) => {
   emit('nav-click', key)
 
-  // 检查是否已经存在该路由
-  const isRouteExists = navItems.value.some((item) => item.key === key)
-
-  if (isRouteExists) {
-    // 如果路由已存在，则滚动到该位置
-    scrollToNavItem(key)
-  }
-
   // 根据导航键路由到相应页面
   const targetRoute = navItems.value.find((item) => item.key === key)
   if (targetRoute) {
+    // 如果路由已存在，则滚动到该位置
+    scrollToNavItem(key)
     router.push({ name: key })
-
-    // 显示提示信息
-    console.log(`切换到${targetRoute.label}`)
   }
 }
 

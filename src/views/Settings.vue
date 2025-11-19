@@ -168,12 +168,7 @@
           >
             重置
           </button>
-          <button
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            @click="saveSettings"
-          >
-            保存设置
-          </button>
+          <button class="common-button" @click="saveSettings">保存设置</button>
         </div>
       </div>
     </div>
@@ -267,6 +262,4 @@ const resetSettings = () => {
 }
 </script>
 
-<style scoped>
-/* 自定义样式 */
-</style>
+<style scoped></style>

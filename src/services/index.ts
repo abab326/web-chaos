@@ -1,5 +1,7 @@
 import axios from 'axios'
 import type { AxiosError, AxiosResponse } from 'axios'
+
+import { eventBus } from '@/plugins/eventBus'
 import { useUserStore } from '@/store/user'
 import { saveFileBlob } from '@/utils/file'
 import type {
@@ -26,9 +28,11 @@ const createApiService = (): ApiServiceInstance => {
       const userStore = useUserStore()
       const token = userStore.getToken()
       // 如果有token则添加到请求头
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+      if (!token) {
+        eventBus.emit('user:logout', null)
+        return Promise.reject(new Error('No token provided'))
       }
+      config.headers.Authorization = `Bearer ${token}`
       return config
     },
     (error) => {

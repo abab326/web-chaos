@@ -56,9 +56,6 @@
                 <component :is="item.icon" />
               </el-icon>
               <span class="menu-item-text submenu-title">{{ item.title }}</span>
-              <el-icon class="submenu-arrow">
-                <ArrowDown />
-              </el-icon>
             </template>
             <el-menu-item
               v-for="child in item.children"
@@ -83,7 +80,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ArrowDown, Close } from '@element-plus/icons-vue'
+import { Close } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
 defineProps<{
   isExpanded: boolean
@@ -153,22 +150,22 @@ const activeMenu = computed(() => {
 // 格式化菜单项数据
 const menuItems = computed(() => {
   return menuRoutes.value.map((route) => {
-    const meta = route.meta || {}
+    const meta = route.meta
     return {
       index: (route.name as string) || route.path.replace('/', ''),
-      title: meta.title || route.path,
-      icon: meta.icon || 'Fold',
+      title: meta?.title || route.path,
+      icon: meta?.icon || 'Fold',
       children:
         route.children
           ?.filter((child) => child.meta?.title)
           .map((child) => {
-            const childMeta = child.meta || {}
+            const childMeta = child.meta
             return {
               index:
                 (child.name as string) ||
                 `${(route.name as string) || route.path.replace('/', '')}-${child.path}`,
-              title: childMeta.title || child.path,
-              icon: childMeta.icon || 'document',
+              title: childMeta?.title || child.path,
+              icon: childMeta?.icon || 'document',
             }
           }) || [],
     }

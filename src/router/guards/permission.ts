@@ -9,7 +9,8 @@ export const permissionGuard: NavigationGuardWithThis<undefined> = (to, from, ne
   const { path, meta } = to
   // 检查路由是否在菜单列表中，且是否有权限
   const isInMenu = menuList.some((item) => item.path === path)
-  if (meta?.permission && !isInMenu) {
+  // 是否需要权限认证
+  if (meta?.isAuth && !isInMenu) {
     next({ name: '404' })
   } else {
     next()

@@ -19,8 +19,11 @@ const router = createRouter({
 // 注册路由守卫
 registerRouterGuards(router)
 
-eventBus.on('user:logout', ({ redirect = '/' }) => {
-  router.replace({ name: 'login', query: { redirect } })
+eventBus.on('user:logout', (redirect) => {
+  const currentPath = router.currentRoute.value.fullPath
+  if (!currentPath.startsWith('/login')) {
+    router.replace({ name: 'login', query: { redirect: redirect || currentPath } })
+  }
 })
 
 export default router

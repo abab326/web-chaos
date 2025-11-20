@@ -7,5 +7,5 @@ import { pageInfoGuard } from './pageInfo'
 export const registerRouterGuards = (router: Router) => {
   router.beforeEach(authGuard)
   router.beforeEach(permissionGuard)
-  router.afterEach(pageInfoGuard)
+  router.beforeEach(pageInfoGuard)
 }

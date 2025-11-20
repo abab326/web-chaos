@@ -5,7 +5,6 @@ import { useUserStore } from '@/store/user'
 export const authGuard: NavigationGuardWithThis<undefined> = (to, from, next) => {
   console.log('authGuard', to, from)
   const userStore = useUserStore()
-  to.meta.aa = ''
   if (to.meta.isAuth && !userStore.isLoggedIn) {
     next({ name: 'Login', query: { redirect: to.fullPath } })
     return

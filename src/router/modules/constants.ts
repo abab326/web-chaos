@@ -10,7 +10,7 @@ const constantRoutes: RouteRecordRaw[] = [
   },
   {
     path: '/:pathMatch(.*)*',
-    name: 'NotFound',
+    name: '404',
     component: () => import('@/views/NotFound.vue'),
     meta: { title: '页面不存在', isAuth: false },
   },

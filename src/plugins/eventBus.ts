@@ -4,7 +4,6 @@ import type { Emitter } from 'mitt'
 // 事件类型定义
 export interface Events extends Record<string | symbol, any> {
   // 通用事件
-  'global:loading': boolean
   'user:logout': { redirect: string }
 }
 

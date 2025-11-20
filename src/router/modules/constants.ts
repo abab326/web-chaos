@@ -6,13 +6,13 @@ const constantRoutes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
-    meta: { title: '登录' },
+    meta: { title: '登录', isAuth: false },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue'),
-    meta: { title: '页面不存在' },
+    meta: { title: '页面不存在', isAuth: false },
   },
 ]
 

@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 // 静态路由
 import { moduleRoutes } from './modules'
-import { registerRouterEach } from './router-each'
+import { registerRouterGuards } from './guards'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +15,6 @@ const router = createRouter({
   },
 })
 // 注册路由守卫
-registerRouterEach(router)
+registerRouterGuards(router)
 
 export default router

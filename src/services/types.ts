@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { AxiosRequestConfig } from 'axios'
 
 // 基础响应数据结构
 export interface BaseResponse<T = any> {
@@ -18,13 +18,20 @@ export interface ApiRequestConfig<T = any> extends AxiosRequestConfig<T> {
 }
 
 // API服务实例类型
-export interface ApiServiceInstance extends AxiosInstance {
-  <T = any>(config: ApiRequestConfig): Promise<T>
-  get<T = any>(url: string, config?: ApiRequestConfig): Promise<T>
-  post<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<T>
-  put<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<T>
-  delete<T = any>(url: string, config?: ApiRequestConfig): Promise<T>
-  patch<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<T>
+export interface ApiServiceInstance {
+  get<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
+  post<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
+  put<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
+  delete<T = any>(
+    url: string,
+    data?: any,
+    config?: ApiRequestConfig
+  ): Promise<[any | null, T | null]>
+  patch<T = any>(
+    url: string,
+    data?: any,
+    config?: ApiRequestConfig
+  ): Promise<[any | null, T | null]>
   // 下载文件方法
   download(url: string, params?: any, config?: ApiRequestConfig): Promise<Blob>
   // 上传文件方法

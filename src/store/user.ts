@@ -1,52 +1,60 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-
+import { computed, ref } from 'vue'
+import { userApi } from '@/api/user'
 import type { UserInfo } from '@/types/user'
 
-export const useUserStore = defineStore('user', () => {
-  // 状态
-  const userInfo = ref<UserInfo | null>(null)
-  const token = ref<string>('')
-  const isLoggedIn = ref<boolean>(false)
-
-  // 方法
-  function setUserInfo(info: UserInfo) {
-    userInfo.value = info
-    isLoggedIn.value = true
-  }
-
-  function setToken(newToken: string) {
-    token.value = newToken
-    localStorage.setItem('token', newToken)
-  }
-  function getToken() {
-    return token.value
-  }
-
-  function logout() {
-    userInfo.value = null
-    token.value = ''
-    isLoggedIn.value = false
-    localStorage.removeItem('token')
-  }
-
-  function loadTokenFromStorage() {
-    const storedToken = localStorage.getItem('token')
-    if (storedToken) {
-      token.value = storedToken
+export const useUserStore = defineStore(
+  'user',
+  () => {
+    // 用户信息
+    const userInfo = ref<UserInfo | null>(null)
+    // 登录状态的token
+    const userToken = ref<string>('')
+    // 计算属性，根据token是否存在判断是否登录
+    const isLoggedIn = computed(() => !!userToken.value)
+    // 获取token
+    const getToken = () => {
+      return userToken.value
     }
-  }
+    // 清空token
+    const clearToken = () => {
+      userToken.value = ''
+      localStorage.removeItem('token')
+    }
+    // 用户登录
+    const login = async (data: { username: string; password: string }) => {
+      const [error, res] = await userApi.loginByUserName(data)
+      if (error) {
+        return false
+      }
+      userToken.value = res.token
+      userInfo.value = res.user
+      // 登录成功后，将token保存到localStorage
+      localStorage.setItem('token', userToken.value)
+      return true
+    }
+    // 退出登录
+    const logout = async () => {
+      const [error] = await userApi.logout()
+      if (error) {
+        return false
+      }
+      clearToken()
+      return true
+    }
 
-  // 初始化时加载token
-  loadTokenFromStorage()
-
-  return {
-    userInfo,
-    isLoggedIn,
-    setUserInfo,
-    getToken,
-    setToken,
-    logout,
-    loadTokenFromStorage,
+    return {
+      userToken,
+      userInfo,
+      isLoggedIn,
+      getToken,
+      logout,
+      login,
+    }
+  },
+  {
+    persist: {
+      pick: ['userInfo', 'userToken'],
+    },
   }
-})
+)

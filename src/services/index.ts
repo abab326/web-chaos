@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { AxiosError, AxiosResponse } from 'axios'
 import { useUserStore } from '@/store/user'
+import { saveFileBlob } from '@/utils/file'
 import type {
   ApiServiceInstance,
   ApiRequestConfig,
@@ -11,16 +12,16 @@ import type {
 // 创建axios实例
 const createApiService = (): ApiServiceInstance => {
   // 创建axios实例
-  const apiService = axios.create({
+  const axiosInstance = axios.create({
     baseURL: (import.meta.env.VITE_API_BASE_URL as string) || '/api',
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
     },
-  }) as ApiServiceInstance
+  })
 
   // 请求拦截器
-  apiService.interceptors.request.use(
+  axiosInstance.interceptors.request.use(
     (config) => {
       const userStore = useUserStore()
       const token = userStore.getToken()
@@ -34,7 +35,25 @@ const createApiService = (): ApiServiceInstance => {
       return Promise.reject(error)
     }
   )
+  // 响应拦截器
+  axiosInstance.interceptors.response.use(
+    (response: AxiosResponse<BaseResponse>) => {
+      const res = response.data
 
+      // 根据业务需求自定义响应处理逻辑
+      if (res.code && res.code !== 200) {
+        return handleError(new Error(res.message || '未知错误'), {
+          code: res.code,
+          message: res.message,
+        }) as any
+      }
+
+      return response
+    },
+    (error: AxiosError) => {
+      return handleError(error)
+    }
+  )
   // 统一错误处理函数
   const handleError = (error: any, options: ErrorHandlerOptions = {}) => {
     const { showError, customHandler } = options
@@ -76,29 +95,13 @@ const createApiService = (): ApiServiceInstance => {
     return Promise.reject(new Error(errorMessage))
   }
 
-  // 响应拦截器
-  apiService.interceptors.response.use(
-    (response: AxiosResponse<BaseResponse>) => {
-      const res = response.data
-
-      // 根据业务需求自定义响应处理逻辑
-      if (res.code && res.code !== 200) {
-        return handleError(new Error(res.message || '未知错误'), {
-          code: res.code,
-          message: res.message,
-        }) as any
-      }
-
-      return response
-    },
-    (error: AxiosError) => {
-      return handleError(error)
-    }
-  )
-
   // 封装便捷的请求方法
   const createRequestMethod = (method: string) => {
-    return async <T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<T> => {
+    return async <T = any>(
+      url: string,
+      data?: any,
+      config?: ApiRequestConfig
+    ): Promise<[any | null, T | null]> => {
       const requestConfig: ApiRequestConfig = {
         url,
         method,
@@ -111,25 +114,19 @@ const createApiService = (): ApiServiceInstance => {
         requestConfig.data = data
       }
 
-      return apiService(requestConfig).then(
-        (response: AxiosResponse<BaseResponse<T>>) => response.data.data as T
-      )
+      return new Promise((resolve) => {
+        axiosInstance(requestConfig)
+          .then((response: AxiosResponse<BaseResponse<T>>) => {
+            resolve([null, response.data.data as T])
+          })
+          .catch((error) => {
+            resolve([error, null])
+          })
+      })
     }
   }
-
-  // 暴露便捷的请求方法
-  apiService.get = createRequestMethod('get')
-  apiService.post = createRequestMethod('post')
-  apiService.put = createRequestMethod('put')
-  apiService.delete = createRequestMethod('delete')
-  apiService.patch = createRequestMethod('patch')
-
-  // 下载文件方法
-  apiService.download = async (
-    url: string,
-    params?: any,
-    config?: ApiRequestConfig
-  ): Promise<Blob> => {
+  // 下载
+  const download = async (url: string, params?: any, config?: ApiRequestConfig): Promise<Blob> => {
     const requestConfig: ApiRequestConfig = {
       url,
       method: 'get',
@@ -141,41 +138,17 @@ const createApiService = (): ApiServiceInstance => {
       requestConfig.params = params
     }
 
-    return apiService(requestConfig)
-      .then((response: any) => {
-        // 从响应头获取文件名
-        const contentDisposition = response.headers?.['content-disposition']
-        let filename = 'download'
-        if (contentDisposition) {
-          const matches = /filename=([^;]+)/gi.exec(contentDisposition)
-          if (matches && matches.length > 1) {
-            filename = decodeURIComponent(matches[1]!.replace(/"/g, ''))
-          }
-        }
-
-        // 创建Blob对象
-        const blob = new Blob([response.data])
-
-        // 创建下载链接并触发下载
-        const link = document.createElement('a')
-        link.href = URL.createObjectURL(blob)
-        link.download = filename
-        document.body.appendChild(link)
-        link.click()
-
-        // 清理
-        document.body.removeChild(link)
-        URL.revokeObjectURL(link.href)
-
-        return blob
+    return axiosInstance(requestConfig)
+      .then((response: AxiosResponse<Blob>) => {
+        saveFileBlob(response)
+        return response.data
       })
       .catch((error) => {
         return handleError(error)
       })
   }
-
-  // 上传文件方法
-  apiService.upload = async <T = any>(
+  // 上传
+  const upload = async <T = any>(
     url: string,
     data: FormData,
     config?: ApiRequestConfig
@@ -190,11 +163,22 @@ const createApiService = (): ApiServiceInstance => {
       ...config,
     }
 
-    return apiService(requestConfig)
+    return axiosInstance(requestConfig)
       .then((response: AxiosResponse<BaseResponse<T>>) => response.data.data as T)
       .catch((error) => {
         return handleError(error)
       })
+  }
+
+  const apiService: ApiServiceInstance = {
+    // 暴露便捷的请求方法
+    get: createRequestMethod('get'),
+    post: createRequestMethod('post'),
+    put: createRequestMethod('put'),
+    delete: createRequestMethod('delete'),
+    patch: createRequestMethod('patch'),
+    download: download,
+    upload: upload,
   }
 
   return apiService

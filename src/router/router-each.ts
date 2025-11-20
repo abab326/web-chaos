@@ -5,6 +5,7 @@ import type {
   Router,
 } from 'vue-router'
 import { useUserStore } from '@/store/user'
+// 白名单，不需要登录即可访问的路由
 const WHITE_LIST = ['/login', '/404', '/401']
 
 const navToLogin = (next: NavigationGuardNext) => {
@@ -19,9 +20,9 @@ const beforeEach: NavigationGuardWithThis<undefined> = (to, from, next) => {
     return
   }
   const userStore = useUserStore()
-  const token = userStore.getToken()
+  console.log('userStore.isLoggedIn', userStore.isLoggedIn)
   // 用户未登录，重定向到登录页
-  if (!token) {
+  if (!userStore.isLoggedIn) {
     navToLogin(next)
     return
   }

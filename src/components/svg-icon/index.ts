@@ -1,5 +1,3 @@
-import { addIcon, Icon } from '@iconify/vue'
+import SvgIcon from './svg-icon.vue'
 
-export const registerIcon = addIcon
-
-export { Icon as IconifyIcon }
+export default SvgIcon

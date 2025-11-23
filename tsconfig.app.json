@@ -18,6 +18,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["element-plus/global", "vue", "pinia"]
+    "types": ["element-plus/global", "vue"]
   }
 }

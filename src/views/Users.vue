@@ -1,167 +1,89 @@
 <template>
-  <div class="space-y-6 h-full flex flex-col">
+  <el-card class="h-full flex flex-col">
     <!-- 页面标题和操作栏 -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center mb-6">
       <div>
         <h1 class="text-2xl font-bold text-gray-900">用户管理</h1>
         <p class="text-gray-600 mt-1">管理系统用户和权限</p>
       </div>
-      <button
-        class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-      >
-        添加用户
-      </button>
+      <el-button type="primary"> 添加用户 </el-button>
     </div>
 
     <!-- 搜索和筛选 -->
-    <div class="bg-white rounded-lg shadow p-4">
+    <el-card class="mb-6">
       <div class="flex flex-col sm:flex-row gap-4">
         <div class="flex-1">
-          <input
-            type="text"
-            placeholder="搜索用户..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <el-input placeholder="搜索用户..." clearable />
         </div>
-        <select
-          class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option>全部状态</option>
-          <option>启用</option>
-          <option>禁用</option>
-        </select>
-        <select
-          class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option>全部角色</option>
-          <option>管理员</option>
-          <option>编辑</option>
-          <option>用户</option>
-        </select>
+        <el-select placeholder="全部状态" style="width: 150px">
+          <el-option label="全部状态" value="" />
+          <el-option label="启用" value="active" />
+          <el-option label="禁用" value="inactive" />
+        </el-select>
+        <el-select placeholder="全部角色" style="width: 150px">
+          <el-option label="全部角色" value="" />
+          <el-option label="管理员" value="管理员" />
+          <el-option label="编辑" value="编辑" />
+          <el-option label="用户" value="用户" />
+        </el-select>
       </div>
-    </div>
+    </el-card>
 
     <!-- 用户表格 -->
-    <div class="bg-white rounded-lg shadow overflow-hidden flex-1">
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+    <el-card class="flex-1 mb-6">
+      <el-table :data="users" class="w-full" stripe>
+        <el-table-column prop="name" label="用户" width="180">
+          <template #default="scope">
+            <div class="flex items-center">
+              <el-avatar :size="32">{{ scope.row.initials }}</el-avatar>
+              <span class="ml-3">{{ scope.row.name }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="email" label="邮箱" width="200" />
+        <el-table-column prop="role" label="角色" width="120">
+          <template #default="scope">
+            <el-tag :type="getRoleType(scope.row.role)">
+              {{ scope.row.role }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="状态" width="100">
+          <template #default="scope">
+            <el-tag :type="scope.row.status === 'active' ? 'success' : 'danger'">
+              {{ scope.row.status === 'active' ? '启用' : '禁用' }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createdAt" label="注册时间" width="120" />
+        <el-table-column label="操作" width="180" fixed="right">
+          <template #default="scope">
+            <div class="flex space-x-2">
+              <el-button type="primary" size="small" text>编辑</el-button>
+              <el-button size="small" text>查看</el-button>
+              <el-button
+                type="danger"
+                size="small"
+                text
+                :disabled="scope.row.id === 1"
+                @click="handleDelete(scope.row)"
               >
-                用户
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                邮箱
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                角色
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                状态
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                注册时间
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                操作
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                    <span class="text-white font-semibold">{{ user.initials }}</span>
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">{{ user.name }}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.email }}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                  :class="getRoleClass(user.role)"
-                >
-                  {{ user.role }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                  :class="
-                    user.status === 'active'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-red-100 text-red-800'
-                  "
-                >
-                  {{ user.status === 'active' ? '启用' : '禁用' }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ user.createdAt }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <div class="flex space-x-2">
-                  <button class="text-blue-600 hover:text-blue-900">编辑</button>
-                  <button class="text-gray-600 hover:text-gray-900">查看</button>
-                  <button
-                    class="text-red-600 hover:text-red-900"
-                    :class="{ 'text-gray-400 cursor-not-allowed': user.id === 1 }"
-                    :disabled="user.id === 1"
-                  >
-                    {{ user.id === 1 ? '不可删除' : '删除' }}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                {{ scope.row.id === 1 ? '不可删除' : '删除' }}
+              </el-button>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
 
       <!-- 分页 -->
-      <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-        <div class="flex items-center justify-between">
-          <div class="flex-1 flex justify-between items-center">
-            <div>
-              <p class="text-sm text-gray-700">
-                显示 <span class="font-medium">1</span> 到
-                <span class="font-medium">10</span> 条，共
-                <span class="font-medium">{{ users.length }}</span> 条结果
-              </p>
-            </div>
-            <div class="flex space-x-2">
-              <button
-                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                上一页
-              </button>
-              <button
-                class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                下一页
-              </button>
-            </div>
-          </div>
-        </div>
+      <div class="flex justify-between items-center">
+        <el-pagination
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="users.length"
+          :page-sizes="[10, 20, 30, 50]"
+        />
       </div>
-    </div>
+    </el-card>
 
     <!-- 图标示例 -->
     <div class="flex items-center justify-center">
@@ -170,14 +92,14 @@
       <Icon icon="mdi-light:home" class="w-6 h-6 text-gray-500"></Icon>
       <Icon :icon="iconName" class="w-6 h-6 text-gray-500"></Icon>
     </div>
-    <!-- 分页组件 -->
-    <el-pagination layout="total, sizes, prev, pager, next, jumper" :total="100" />
-  </div>
+  </el-card>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { ElMessage, ElMessageBox, ElTag } from 'element-plus'
+
 interface User {
   id: number
   name: string
@@ -231,13 +153,34 @@ const users = ref<User[]>([
   },
 ])
 
-const getRoleClass = (role: string) => {
-  const classes = {
-    管理员: 'bg-purple-100 text-purple-800',
-    编辑: 'bg-blue-100 text-blue-800',
-    用户: 'bg-gray-100 text-gray-800',
+const getRoleType = (role: string): 'success' | 'info' | 'warning' | 'danger' => {
+  const types: Record<string, 'success' | 'info' | 'warning' | 'danger'> = {
+    管理员: 'danger',
+    编辑: 'warning',
+    用户: 'info',
   }
-  return classes[role as keyof typeof classes] || 'bg-gray-100 text-gray-800'
+  return types[role] || 'info'
+}
+
+const handleDelete = (user: User) => {
+  if (user.id === 1) {
+    ElMessage.warning('不能删除管理员账户')
+    return
+  }
+
+  ElMessageBox.confirm(`确定要删除用户 "${user.name}" 吗？`, '确认删除', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      // 这里应该调用API删除用户
+      users.value = users.value.filter((item) => item.id !== user.id)
+      ElMessage.success('删除成功')
+    })
+    .catch(() => {
+      // 用户取消删除
+    })
 }
 </script>
 

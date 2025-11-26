@@ -7,176 +7,103 @@
     </div>
 
     <!-- 设置选项卡 -->
-    <div class="bg-white rounded-lg shadow">
-      <div class="border-b border-gray-200">
-        <nav class="flex px-6 -mb-px space-x-8">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            class="px-1 py-4 text-sm font-medium border-b-2"
-            :class="
-              activeTab === tab.id
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            "
-            @click="activeTab = tab.id"
-          >
-            {{ tab.name }}
-          </button>
-        </nav>
-      </div>
+    <el-card>
+      <el-tabs v-model="activeTab" class="mt-4">
+        <el-tab-pane v-for="tab in tabs" :key="tab.id" :label="tab.name" :name="tab.id">
+          <div class="p-2">
+            <!-- 基本设置 -->
+            <div v-if="activeTab === 'general'">
+              <h3 class="mb-4 text-lg font-semibold text-gray-900">基本设置</h3>
+              <el-form :model="settings.general" label-width="120px">
+                <el-row :gutter="20">
+                  <el-col :span="12">
+                    <el-form-item label="系统名称">
+                      <el-input v-model="settings.general.siteName" />
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="系统版本">
+                      <el-input v-model="settings.general.version" disabled />
+                    </el-form-item>
+                  </el-col>
+                </el-row>
 
-      <div class="p-6">
-        <!-- 基本设置 -->
-        <div v-if="activeTab === 'general'">
-          <h3 class="mb-4 text-lg font-semibold text-gray-900">基本设置</h3>
-          <div class="space-y-6">
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">系统名称</label>
-                <input
-                  v-model="settings.general.siteName"
-                  type="text"
-                  class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label class="block mb-2 text-sm font-medium text-gray-700">系统版本</label>
-                <input
-                  v-model="settings.general.version"
-                  type="text"
-                  class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  readonly
-                />
-              </div>
+                <el-form-item label="系统描述">
+                  <el-input v-model="settings.general.description" type="textarea" :rows="3" />
+                </el-form-item>
+
+                <el-form-item label="维护模式">
+                  <el-switch v-model="settings.general.maintenanceMode" />
+                </el-form-item>
+              </el-form>
             </div>
 
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-700">系统描述</label>
-              <textarea
-                v-model="settings.general.description"
-                rows="3"
-                class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <!-- 安全设置 -->
+            <div v-if="activeTab === 'security'">
+              <h3 class="mb-4 text-lg font-semibold text-gray-900">安全设置</h3>
+              <el-form :model="settings.security" label-width="120px">
+                <el-form-item label="密码策略">
+                  <el-select v-model="settings.security.passwordPolicy">
+                    <el-option label="低强度" value="low" />
+                    <el-option label="中强度" value="medium" />
+                    <el-option label="高强度" value="high" />
+                  </el-select>
+                </el-form-item>
+
+                <el-form-item label="启用双因素认证">
+                  <el-switch v-model="settings.security.twoFactorAuth" />
+                </el-form-item>
+
+                <el-form-item label="限制登录尝试次数">
+                  <el-switch v-model="settings.security.loginAttempts" />
+                </el-form-item>
+
+                <el-form-item v-if="settings.security.loginAttempts" label="最大登录尝试次数">
+                  <el-input-number
+                    v-model="settings.security.maxLoginAttempts"
+                    :min="1"
+                    :max="10"
+                  />
+                </el-form-item>
+              </el-form>
             </div>
 
-            <div class="flex items-center">
-              <input
-                v-model="settings.general.maintenanceMode"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-              <label class="block ml-2 text-sm text-gray-900">维护模式</label>
-            </div>
-          </div>
-        </div>
+            <!-- 通知设置 -->
+            <div v-if="activeTab === 'notifications'">
+              <h3 class="mb-4 text-lg font-semibold text-gray-900">通知设置</h3>
+              <el-form :model="settings.notifications" label-width="120px">
+                <el-form-item label="邮件通知">
+                  <el-switch v-model="settings.notifications.email" />
+                  <div class="text-sm text-gray-500 ml-2">接收系统邮件通知</div>
+                </el-form-item>
 
-        <!-- 安全设置 -->
-        <div v-if="activeTab === 'security'">
-          <h3 class="mb-4 text-lg font-semibold text-gray-900">安全设置</h3>
-          <div class="space-y-6">
-            <div>
-              <label class="block mb-2 text-sm font-medium text-gray-700">密码策略</label>
-              <select
-                v-model="settings.security.passwordPolicy"
-                class="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="low">低强度</option>
-                <option value="medium">中强度</option>
-                <option value="high">高强度</option>
-              </select>
+                <el-form-item label="系统消息">
+                  <el-switch v-model="settings.notifications.system" />
+                  <div class="text-sm text-gray-500 ml-2">接收系统内部消息</div>
+                </el-form-item>
+
+                <el-form-item label="安全警报">
+                  <el-switch v-model="settings.notifications.security" />
+                  <div class="text-sm text-gray-500 ml-2">接收安全相关警报</div>
+                </el-form-item>
+              </el-form>
             </div>
 
-            <div class="flex items-center">
-              <input
-                v-model="settings.security.twoFactorAuth"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-              <label class="block ml-2 text-sm text-gray-900">启用双因素认证</label>
-            </div>
-
-            <div class="flex items-center">
-              <input
-                v-model="settings.security.loginAttempts"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-              <label class="block ml-2 text-sm text-gray-900">限制登录尝试次数</label>
-            </div>
-
-            <div v-if="settings.security.loginAttempts">
-              <label class="block mb-2 text-sm font-medium text-gray-700">最大登录尝试次数</label>
-              <input
-                v-model="settings.security.maxLoginAttempts"
-                type="number"
-                min="1"
-                max="10"
-                class="px-3 py-2 w-32 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <!-- 操作按钮 -->
+            <div class="flex justify-end mt-6 space-x-3">
+              <el-button @click="resetSettings">重置</el-button>
+              <el-button type="primary" @click="saveSettings">保存设置</el-button>
             </div>
           </div>
-        </div>
-
-        <!-- 通知设置 -->
-        <div v-if="activeTab === 'notifications'">
-          <h3 class="mb-4 text-lg font-semibold text-gray-900">通知设置</h3>
-          <div class="space-y-6">
-            <div class="flex justify-between items-center">
-              <div>
-                <label class="block text-sm font-medium text-gray-900">邮件通知</label>
-                <p class="text-sm text-gray-500">接收系统邮件通知</p>
-              </div>
-              <input
-                v-model="settings.notifications.email"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-            </div>
-
-            <div class="flex justify-between items-center">
-              <div>
-                <label class="block text-sm font-medium text-gray-900">系统消息</label>
-                <p class="text-sm text-gray-500">接收系统内部消息</p>
-              </div>
-              <input
-                v-model="settings.notifications.system"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-            </div>
-
-            <div class="flex justify-between items-center">
-              <div>
-                <label class="block text-sm font-medium text-gray-900">安全警报</label>
-                <p class="text-sm text-gray-500">接收安全相关警报</p>
-              </div>
-              <input
-                v-model="settings.notifications.security"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- 操作按钮 -->
-        <div class="flex justify-end mt-6 space-x-3">
-          <button
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md border border-gray-300 hover:bg-gray-50"
-            @click="resetSettings"
-          >
-            重置
-          </button>
-          <button class="common-button" @click="saveSettings">保存设置</button>
-        </div>
-      </div>
-    </div>
+        </el-tab-pane>
+      </el-tabs>
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 
 interface Tab {
   id: string
@@ -236,7 +163,7 @@ const settings = reactive<Settings>({
 const saveSettings = () => {
   // 这里应该调用 API 保存设置
   console.log('保存设置:', settings)
-  alert('设置已保存')
+  ElMessage.success('设置已保存')
 }
 
 const resetSettings = () => {
@@ -260,7 +187,7 @@ const resetSettings = () => {
       security: true,
     },
   })
-  alert('设置已重置')
+  ElMessage.info('设置已重置')
 }
 </script>
 

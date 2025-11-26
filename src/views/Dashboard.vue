@@ -8,13 +8,7 @@
 
     <!-- 统计卡片 -->
     <el-row :gutter="12" class="mb-6 animate-staggered-fade-in">
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="6"
-        class="mb-4 md:mb-0 animate-fade-in-up"
-        style="animation-delay: 0.1s"
-      >
+      <el-col :xs="24" :sm="12" :md="6" class="animate-fade-in-up" style="animation-delay: 0.1s">
         <el-card
           shadow="hover"
           class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
@@ -31,13 +25,7 @@
         </el-card>
       </el-col>
 
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="6"
-        class="mb-4 md:mb-0 animate-fade-in-up"
-        style="animation-delay: 0.2s"
-      >
+      <el-col :xs="24" :sm="12" :md="6" class="animate-fade-in-up" style="animation-delay: 0.2s">
         <el-card
           shadow="hover"
           class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
@@ -54,13 +42,7 @@
         </el-card>
       </el-col>
 
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="6"
-        class="mb-4 md:mb-0 animate-fade-in-up"
-        style="animation-delay: 0.3s"
-      >
+      <el-col :xs="24" :sm="12" :md="6" class="animate-fade-in-up" style="animation-delay: 0.3s">
         <el-card
           shadow="hover"
           class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"
@@ -77,13 +59,7 @@
         </el-card>
       </el-col>
 
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="6"
-        class="mb-4 md:mb-0 animate-fade-in-up"
-        style="animation-delay: 0.4s"
-      >
+      <el-col :xs="24" :sm="12" :md="6" class="animate-fade-in-up" style="animation-delay: 0.4s">
         <el-card
           shadow="hover"
           class="rounded-lg border-0 h-full transition-all duration-300 hover:shadow-lg"

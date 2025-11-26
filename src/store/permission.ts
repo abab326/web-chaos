@@ -43,7 +43,7 @@ const mockMenus: MenuItem[] = [
       {
         id: 6,
         name: '路由子页面子页面',
-        path: 'child',
+        path: '/child',
         component: 'router-child/child',
         icon: 'Monitor',
       },
@@ -72,7 +72,10 @@ export const usePermissionStore = defineStore('permission', () => {
       const route: RouteRecordRaw = {
         path: menu.path,
         name: menu.name.replace(/\s+/g, ''),
-        component: () => import(`@/views/${menu.component}.vue`),
+        component:
+          menu.component === 'router-child/index'
+            ? () => import('@/views/router-child/index.vue')
+            : () => import(`@/views/${menu.component}.vue`),
         meta: {
           title: menu.name,
           isAuth: true,
@@ -83,7 +86,20 @@ export const usePermissionStore = defineStore('permission', () => {
       }
 
       if (menu.children && menu.children.length > 0) {
-        route.children = generateDynamicRoutesByMenus(menu.children)
+        route.children = menu.children.map((child) => ({
+          path: child.path,
+          name: child.name.replace(/\s+/g, ''),
+          component:
+            child.component === 'router-child/child'
+              ? () => import('@/views/router-child/child.vue')
+              : () => import(`@/views/${child.component}.vue`),
+          meta: {
+            title: child.name,
+            isAuth: true,
+            icon: child.icon,
+            isKeepAlive: true,
+          },
+        }))
       }
 
       return route

@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
@@ -32,6 +32,14 @@ const router = useRouter()
 
 // 侧边栏展开状态
 const isSidebarOpen = ref(true)
+
+// 关闭侧边栏事件监听
+
+onMounted(() => {
+  window.addEventListener('close-sidebar', () => {
+    isSidebarOpen.value = false
+  })
+})
 
 // 切换侧边栏
 const toggleSidebar = () => {

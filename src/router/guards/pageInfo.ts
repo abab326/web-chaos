@@ -1,8 +1,7 @@
 import type { NavigationGuardWithThis } from 'vue-router'
 
 // 页面信息守卫
-export const pageInfoGuard: NavigationGuardWithThis<undefined> = (to, from, next) => {
-  console.log('pageInfoGuard', to)
+export const pageInfoGuard: NavigationGuardWithThis<undefined> = (to, _from, next) => {
   const { meta } = to
   if (meta.title) {
     document.title = meta.title

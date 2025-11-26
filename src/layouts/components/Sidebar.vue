@@ -36,38 +36,38 @@
         :default-active="activeMenu"
         @select="handleSelect"
       >
-        <template v-for="item in menuItems" :key="item.index">
+        <template v-for="item in menuRoutes" :key="item.path">
           <el-menu-item
             v-if="!item.children || item.children.length === 0"
-            :index="item.index"
+            :index="item.path"
             class="menu-item"
           >
             <el-icon>
               <component :is="item.icon" />
             </el-icon>
             <template #title>
-              <span class="menu-item-text">{{ item.title }}</span>
+              <span class="menu-item-text">{{ item.name }}</span>
             </template>
           </el-menu-item>
 
-          <el-sub-menu v-else :index="item.index" class="submenu-item">
+          <el-sub-menu v-else :index="item.path" class="submenu-item">
             <template #title>
               <el-icon>
                 <component :is="item.icon" />
               </el-icon>
-              <span class="menu-item-text submenu-title">{{ item.title }}</span>
+              <span class="menu-item-text submenu-title">{{ item.name }}</span>
             </template>
             <el-menu-item
               v-for="child in item.children"
-              :key="child.index"
-              :index="child.index"
+              :key="child.path"
+              :index="child.path"
               class="menu-item"
             >
               <el-icon>
                 <component :is="child.icon" />
               </el-icon>
               <template #title>
-                <span class="menu-item-text">{{ child.title }}</span>
+                <span class="menu-item-text">{{ child.name }}</span>
               </template>
             </el-menu-item>
           </el-sub-menu>
@@ -82,6 +82,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Close } from '@element-plus/icons-vue'
 import { useWindowSize } from '@vueuse/core'
+import { usePermissionStore } from '@/store/permission'
 defineProps<{
   isExpanded: boolean
 }>()
@@ -94,29 +95,23 @@ const emit = defineEmits<{
 const route = useRoute()
 const router = useRouter()
 
+// 获取权限存储实例
+const permissionStore = usePermissionStore()
+
 // 获取窗口尺寸信息
 const { width } = useWindowSize()
 const isMobile = computed(() => width.value <= 768)
 
 // 获取菜单路由
 const menuRoutes = computed(() => {
-  return (
-    router.options.routes.find((r) => r.path === '/')?.children?.filter((r) => r.meta?.title) || []
-  )
+  return permissionStore.dynamicMenus
 })
 
 // 处理菜单项点击
 const handleSelect = (index: string) => {
   // 根据菜单项索引导航到相应路由
   console.log('handleSelect', index)
-  const routePath = `/${index}`
-  if (router.hasRoute(index)) {
-    router.push({ name: index })
-  } else if (router.getRoutes().some((route) => route.path === routePath)) {
-    router.push(routePath)
-  } else {
-    console.warn(`Route for ${index} not found`)
-  }
+  router.push({ path: index })
 
   // 在移动端点击菜单项后关闭侧边栏
   if (isMobile.value) {
@@ -146,31 +141,6 @@ const activeMenu = computed(() => {
   }
 
   return 'dashboard'
-})
-
-// 格式化菜单项数据
-const menuItems = computed(() => {
-  return menuRoutes.value.map((route) => {
-    const meta = route.meta
-    return {
-      index: (route.name as string) || route.path.replace('/', ''),
-      title: meta?.title || route.path,
-      icon: meta?.icon || 'Fold',
-      children:
-        route.children
-          ?.filter((child) => child.meta?.title)
-          .map((child) => {
-            const childMeta = child.meta
-            return {
-              index:
-                (child.name as string) ||
-                `${(route.name as string) || route.path.replace('/', '')}-${child.path}`,
-              title: childMeta?.title || child.path,
-              icon: childMeta?.icon || 'document',
-            }
-          }) || [],
-    }
-  })
 })
 </script>
 

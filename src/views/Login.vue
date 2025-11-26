@@ -124,6 +124,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 import { useUserStore } from '@/store/user'
 
+defineOptions({ name: 'Login' })
 const router = useRouter()
 const userStore = useUserStore()
 

@@ -203,6 +203,8 @@ interface Settings {
   }
 }
 
+defineOptions({ name: 'Settings' })
+
 const tabs = ref<Tab[]>([
   { id: 'general', name: '基本设置' },
   { id: 'security', name: '安全设置' },

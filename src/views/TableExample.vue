@@ -69,6 +69,8 @@ import { useSearchTable, type SearchParams } from '@/hooks/useSearchTable'
 import type { PaginationParams, PaginatedResponse } from '@/types'
 import type { UserBean } from '@/types/user'
 
+defineOptions({ name: 'TableExample' })
+
 // 初始搜索参数
 const initialSearchParams: SearchParams = {
   username: '',

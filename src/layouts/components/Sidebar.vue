@@ -108,6 +108,7 @@ const menuRoutes = computed(() => {
 // 处理菜单项点击
 const handleSelect = (index: string) => {
   // 根据菜单项索引导航到相应路由
+  console.log('handleSelect', index)
   const routePath = `/${index}`
   if (router.hasRoute(index)) {
     router.push({ name: index })

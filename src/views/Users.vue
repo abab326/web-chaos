@@ -188,6 +188,8 @@ interface User {
   createdAt: string
 }
 
+defineOptions({ name: 'Users' })
+
 const iconName = ref('tdesign:arrow-up-down-circle-filled')
 
 const users = ref<User[]>([

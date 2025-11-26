@@ -65,6 +65,8 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 
+defineOptions({ name: 'NotFound' })
+
 const router = useRouter()
 
 const goBack = () => {

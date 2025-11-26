@@ -9,19 +9,19 @@ const homeRoute: RouteRecordRaw = {
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/Dashboard.vue'),
-      meta: { title: '仪表板', isAuth: true, icon: 'DataAnalysis' },
+      meta: { title: '仪表板', isAuth: true, icon: 'DataAnalysis', isKeepAlive: true },
     },
     {
       path: 'users',
       name: 'Users',
       component: () => import('@/views/Users.vue'),
-      meta: { title: '用户管理', isAuth: true, icon: 'Camera' },
+      meta: { title: '用户管理', isAuth: true, icon: 'Camera', isKeepAlive: true },
     },
     {
       path: 'settings',
       name: 'Settings',
       component: () => import('@/views/Settings.vue'),
-      meta: { title: '系统设置', isAuth: true, icon: 'Monitor' },
+      meta: { title: '系统设置', isAuth: true, icon: 'Monitor', isKeepAlive: false },
     },
     {
       path: 'table-example',
@@ -33,7 +33,7 @@ const homeRoute: RouteRecordRaw = {
       path: 'router-child',
       name: 'RouterChild',
       component: () => import('@/views/router-child/index.vue'),
-      meta: { title: '路由子页面', isAuth: true, icon: 'Monitor' },
+      meta: { title: '路由子页面', isAuth: true, icon: 'Monitor', isKeepAlive: true },
       children: [
         {
           path: 'child',

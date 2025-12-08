@@ -1,11 +1,13 @@
 import type { AxiosRequestConfig } from 'axios'
-
-// 基础响应数据结构
+// 基础响应接口
 export interface BaseResponse<T = any> {
   code: number
   message: string
   data: T
 }
+
+// 统一网络请求返回
+export type BaseResult<T = any> = [any, T]
 
 // API请求配置扩展
 export interface ApiRequestConfig<T = any> extends AxiosRequestConfig<T> {
@@ -19,19 +21,11 @@ export interface ApiRequestConfig<T = any> extends AxiosRequestConfig<T> {
 
 // API服务实例类型
 export interface ApiServiceInstance {
-  get<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
-  post<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
-  put<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<[any | null, T | null]>
-  delete<T = any>(
-    url: string,
-    data?: any,
-    config?: ApiRequestConfig
-  ): Promise<[any | null, T | null]>
-  patch<T = any>(
-    url: string,
-    data?: any,
-    config?: ApiRequestConfig
-  ): Promise<[any | null, T | null]>
+  get<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<BaseResult<T>>
+  post<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<BaseResult<T>>
+  put<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<BaseResult<T>>
+  delete<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<BaseResult<T>>
+  patch<T = any>(url: string, data?: any, config?: ApiRequestConfig): Promise<BaseResult<T>>
   // 下载文件方法
   download(url: string, params?: any, config?: ApiRequestConfig): Promise<Blob>
   // 上传文件方法

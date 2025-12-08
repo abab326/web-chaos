@@ -52,6 +52,9 @@ const createApiService = (): ApiServiceInstance => {
   // 响应拦截器
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse<BaseResponse>) => {
+      // kv 解构赋值
+      const { status } = response
+
       const res = response.data
 
       // 根据业务需求自定义响应处理逻辑
@@ -150,7 +153,7 @@ const createApiService = (): ApiServiceInstance => {
       url: string,
       data?: any,
       config?: ApiRequestConfig
-    ): Promise<[any | null, T | null]> => {
+    ): Promise<[any, T]> => {
       const requestConfig: ApiRequestConfig = {
         url,
         method,
@@ -169,7 +172,7 @@ const createApiService = (): ApiServiceInstance => {
             resolve([null, response.data.data as T])
           })
           .catch((error) => {
-            resolve([error, null])
+            resolve([error, null as T])
           })
       })
     }

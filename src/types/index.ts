@@ -1,7 +1,3 @@
-/**
- * 全局类型定义
- */
-
 // 分页参数接口
 export interface PaginationParams {
   page: number
@@ -14,13 +10,6 @@ export interface PaginatedResponse<T> {
   total: number
   page: number
   pageSize: number
-}
-
-// 基础响应接口
-export interface BaseResponse<T = any> {
-  code: number
-  message: string
-  data: T
 }
 
 // 通用ID类型

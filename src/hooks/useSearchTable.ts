@@ -8,16 +8,16 @@ export type FetchDataFn<T> = (
   params: SearchParams & PaginationParams
 ) => Promise<PaginatedResponse<T> | T[]>
 
-export interface UseSearchTableOptions<T> {
+export interface UseSearchTableOptions<T, S extends SearchParams> {
   url?: string
   method?: 'GET' | 'POST'
   fetchData?: FetchDataFn<T>
   convertData?: (data: T[]) => T[]
-  initialSearchParams?: SearchParams
+  initialSearchParams?: S
   initialPagination?: Partial<PaginationParams>
 }
 
-export const useSearchTable = <T>(options: UseSearchTableOptions<T>) => {
+export const useSearchTable = <T, S extends SearchParams>(options: UseSearchTableOptions<T, S>) => {
   const { url, method, fetchData, convertData, initialSearchParams, initialPagination } = options
   if (!url && !fetchData) {
     throw new Error('url、fetchData 必须提供一个')
@@ -121,7 +121,6 @@ export const useSearchTable = <T>(options: UseSearchTableOptions<T>) => {
     selectedItems,
 
     // 方法
-    fetchTableData,
     handlePaginationChange,
     search,
     resetSearch,

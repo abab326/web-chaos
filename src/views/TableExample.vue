@@ -65,16 +65,20 @@
 <script setup lang="ts">
 import { BasePagination } from '@/components/base-pagination'
 import { BaseSearchTable } from '@/components/base-search-table'
-import { useSearchTable, type SearchParams } from '@/hooks/useSearchTable'
+import { useSearchTable } from '@/hooks/useSearchTable'
 import type { PaginationParams, PaginatedResponse } from '@/types'
 import type { UserBean } from '@/types/user'
 
 defineOptions({ name: 'TableExample' })
-
+interface ExampleSearchParams {
+  username?: string
+  status?: number
+  createTime?: Date[]
+}
 // 初始搜索参数
-const initialSearchParams: SearchParams = {
+const initialSearchParams: ExampleSearchParams = {
   username: '',
-  status: '',
+  status: 0,
   createTime: [],
 }
 // 模拟数据
@@ -99,7 +103,7 @@ const mockData = () => {
 
 // 模拟API请求
 const fetchData = async (
-  params: SearchParams & PaginationParams
+  params: ExampleSearchParams & PaginationParams
 ): Promise<PaginatedResponse<UserBean>> => {
   console.log('fetchData', params)
   // 模拟API请求延迟
@@ -135,11 +139,13 @@ const fetchData = async (
 }
 
 // 使用搜索表格hook
-const { tableData, selectedItems, pagination, total, handlePaginationChange } =
-  useSearchTable<UserBean>({
-    fetchData,
-    initialSearchParams,
-  })
+const { tableData, selectedItems, pagination, total, handlePaginationChange } = useSearchTable<
+  UserBean,
+  ExampleSearchParams
+>({
+  fetchData,
+  initialSearchParams,
+})
 
 // 编辑
 const handleEdit = (row: UserBean) => {

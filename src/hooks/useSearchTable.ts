@@ -2,13 +2,11 @@ import { onMounted, ref } from 'vue'
 import type { PaginatedResponse, PaginationParams } from '@/types'
 import { apiService } from '@/services/index'
 
-export type SearchParams = Record<string, any>
-
 export type FetchDataFn<T> = (
-  params: SearchParams & PaginationParams
+  params: Record<string, any> & PaginationParams
 ) => Promise<PaginatedResponse<T> | T[]>
 
-export interface UseSearchTableOptions<T, S extends SearchParams> {
+export interface UseSearchTableOptions<T, S = Record<string, any>> {
   url?: string
   method?: 'GET' | 'POST'
   fetchData?: FetchDataFn<T>
@@ -17,7 +15,7 @@ export interface UseSearchTableOptions<T, S extends SearchParams> {
   initialPagination?: Partial<PaginationParams>
 }
 
-export const useSearchTable = <T, S extends SearchParams>(options: UseSearchTableOptions<T, S>) => {
+export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
   const { url, method, fetchData, convertData, initialSearchParams, initialPagination } = options
   if (!url && !fetchData) {
     throw new Error('url、fetchData 必须提供一个')
@@ -27,7 +25,7 @@ export const useSearchTable = <T, S extends SearchParams>(options: UseSearchTabl
   const finalPagination = { ...defaultPagination, ...initialPagination }
   const pagination = ref<PaginationParams>(finalPagination)
   // 搜索参数
-  const searchParams = ref<SearchParams>({ ...initialSearchParams })
+  const searchParams = ref<S>({ ...(initialSearchParams || {}) } as S)
 
   const tableData = ref<T[]>([])
   const total = ref<number>(0)
@@ -55,11 +53,13 @@ export const useSearchTable = <T, S extends SearchParams>(options: UseSearchTabl
 
   /**
    * 根据URL获取数据
-   *
+   * @param url 请求URL
+   * @param params 请求参数
+   * @param method 请求方法，默认GET
    */
   const getDataByUrl = async (
     url: string,
-    params: SearchParams & PaginationParams,
+    params: S & PaginationParams,
     method?: 'GET' | 'POST'
   ) => {
     if (method && method === 'POST') {
@@ -86,7 +86,7 @@ export const useSearchTable = <T, S extends SearchParams>(options: UseSearchTabl
    * 处理搜索参数变化
    *
    */
-  const search = (newSearchParams: SearchParams) => {
+  const search = (newSearchParams: S) => {
     searchParams.value = newSearchParams
     pagination.value = { ...finalPagination, page: 1 }
     fetchTableData()

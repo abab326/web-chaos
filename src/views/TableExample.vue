@@ -127,14 +127,12 @@ const fetchData = async (
   })
 
   // 模拟数据分页
-  const startIndex = (params.page - 1) * params.pageSize
-  const endIndex = startIndex + params.pageSize
+  const startIndex = (params.page - 1) * params.page
+  const endIndex = startIndex + params.page
 
   return {
     list: filteredData.slice(startIndex, endIndex),
     total: filteredData.length,
-    page: params.page,
-    pageSize: params.pageSize,
   }
 }
 

@@ -2,16 +2,17 @@ import { onMounted, ref } from 'vue'
 import type { PaginatedResponse, PaginationParams } from '@/types'
 import { apiService } from '@/services/index'
 
-export type FetchDataFn<T> = (
-  params: Record<string, any> & PaginationParams
+export type FetchDataFn<T, S> = (
+  params: S & PaginationParams
 ) => Promise<PaginatedResponse<T> | T[]>
 
 export interface UseSearchTableOptions<T, S = Record<string, any>> {
   url?: string
   method?: 'GET' | 'POST'
-  fetchData?: FetchDataFn<T>
+  autoLoad?: boolean
+  fetchData?: FetchDataFn<T, S>
   convertData?: (data: T[]) => T[]
-  initialSearchParams?: S
+  initialSearchParams?: { [K in keyof S]?: S[K] }
   initialPagination?: Partial<PaginationParams>
 }
 
@@ -21,7 +22,7 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
     throw new Error('url、fetchData 必须提供一个')
   }
   // 分页参数
-  const defaultPagination: PaginationParams = { page: 1, pageSize: 30 }
+  const defaultPagination: PaginationParams = { page: 1, size: 20 }
   const finalPagination = { ...defaultPagination, ...initialPagination }
   const pagination = ref<PaginationParams>(finalPagination)
   // 搜索参数
@@ -30,13 +31,19 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
   const tableData = ref<T[]>([])
   const total = ref<number>(0)
   const selectedItems = ref<T[]>([])
-
+  // 挂载是否加载数
+  const autoLoad = ref<boolean>(options.autoLoad ?? true)
   // 获取数据
   const fetchTableData = async () => {
     const params = { ...searchParams.value, ...pagination.value }
     let result: PaginatedResponse<T> | T[] = []
     if (url) {
-      result = await getDataByUrl(url, params, method)
+      const [error, data] = await getDataByUrl(url, params, method)
+      if (error) {
+        result = []
+        return
+      }
+      result = data
     } else {
       result = await fetchData!(params)
     }
@@ -44,7 +51,7 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
     if (Array.isArray(result)) {
       originalResult.push(...result)
     } else {
-      originalResult.push(...(result.list || []))
+      originalResult.push(...(result.elements || result.list || []))
       total.value = result.total || 0
     }
 
@@ -65,7 +72,7 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
     if (method && method === 'POST') {
       return apiService.post<PaginatedResponse<T> | T[]>(url, params)
     } else {
-      return apiService.get<PaginatedResponse<T> | T[]>(url, { params })
+      return apiService.get<PaginatedResponse<T> | T[]>(url, params)
     }
   }
 
@@ -73,21 +80,27 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
    * 处理分页变化
    *
    */
-  const handlePaginationChange = ({ page, pageSize }: Partial<PaginationParams>) => {
-    console.log('handlePaginationChange', { page, pageSize })
+  const handlePaginationChange = ({ page, size }: Partial<PaginationParams>) => {
+    console.log('handlePaginationChange', { page, size })
     pagination.value = {
       page: page || pagination.value.page,
-      pageSize: pageSize || pagination.value.pageSize,
+      size: size || pagination.value.size,
     }
     fetchTableData()
   }
 
+  const handleSizeChange = (size: number) => {
+    handlePaginationChange({ size })
+  }
+
+  const handleCurrentChange = (page: number) => {
+    handlePaginationChange({ page })
+  }
   /**
    * 处理搜索参数变化
    *
    */
-  const search = (newSearchParams: S) => {
-    searchParams.value = newSearchParams
+  const search = () => {
     pagination.value = { ...finalPagination, page: 1 }
     fetchTableData()
   }
@@ -109,7 +122,9 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
   }
 
   onMounted(() => {
-    fetchTableData()
+    if (autoLoad.value) {
+      fetchTableData()
+    }
   })
 
   return {
@@ -121,6 +136,8 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
     selectedItems,
 
     // 方法
+    handleSizeChange,
+    handleCurrentChange,
     handlePaginationChange,
     search,
     resetSearch,

@@ -1,15 +1,14 @@
 // 分页参数接口
 export interface PaginationParams {
   page: number
-  pageSize: number
+  size: number
 }
 
 // 分页响应接口
 export interface PaginatedResponse<T> {
-  list: T[]
+  list?: T[]
+  elements?: T[]
   total: number
-  page: number
-  pageSize: number
 }
 
 // 通用ID类型

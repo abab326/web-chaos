@@ -1,5 +1,9 @@
 @import 'tailwindcss';
-@plugin "@iconify/tailwind4";
+@plugin "@iconify/tailwind4" {
+  prefix: 'i';
+  square: true;
+  icon-sets: from-folder('icon', './src/icons');
+}
 
 @theme {
   /** 定义变量适配element-plus  **/

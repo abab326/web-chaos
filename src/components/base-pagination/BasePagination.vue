@@ -2,7 +2,7 @@
   <div class="w-full flex justify-end min-w-fit overflow-x-auto">
     <el-pagination
       v-model:current-page="modelValue.page"
-      v-model:page-size="modelValue.pageSize"
+      v-model:page-size="modelValue.page"
       :page-sizes="pageSizes || defaultPageSizes"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"

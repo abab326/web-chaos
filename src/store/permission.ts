@@ -35,13 +35,36 @@ const mockMenus: MenuItem[] = [
   },
   {
     id: 5,
+    name: '表单示例',
+    path: '/form',
+    component: 'router-child/index',
+    icon: 'Document',
+    children: [
+      {
+        id: 8,
+        name: '基础表单',
+        path: '/form/example',
+        component: 'FormExample',
+        icon: 'Document',
+      },
+      {
+        id: 9,
+        name: '动态表单',
+        path: '/form/dynamic-example',
+        component: 'DynamicFormExample',
+        icon: 'Document',
+      },
+    ],
+  },
+  {
+    id: 6,
     name: '路由子页面',
     path: '/router-child',
     component: 'router-child/index',
     icon: 'Monitor',
     children: [
       {
-        id: 6,
+        id: 7,
         name: '路由子页面子页面',
         path: '/child',
         component: 'router-child/child',

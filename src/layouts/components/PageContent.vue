@@ -1,5 +1,5 @@
 <template>
-  <el-main class="p-3! flex-1 overflow-y-auto">
+  <el-main class="p-3! flex-1">
     <router-view v-slot="{ Component, route }">
       <transition name="fade" mode="out-in">
         <keep-alive :include="cachedList">

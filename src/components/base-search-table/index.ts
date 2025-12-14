@@ -1,10 +1,4 @@
-import type { App } from 'vue'
-import BaseSearchTable from './BaseSearchTable.vue'
+import BaseSearchTable from './src/BaseSearchTable.vue'
 
-import type { BaseSearchTableComponentType } from './type'
-
-export { BaseSearchTable }
-
-export const install = (app: App) => {
-  app.component('BaseSearchTable', BaseSearchTable as BaseSearchTableComponentType)
-}
+export * from './src/type'
+export default BaseSearchTable

@@ -66,7 +66,9 @@ import { useElementSize } from '@vueuse/core'
 
 // 定义props
 export interface Props {
+  // 每个滚动步骤的像素数
   scrollStep?: number
+  // 自动滚动速度（单位：次/秒）
   autoScrollSpeed?: number
 }
 

@@ -5,13 +5,12 @@
       <slot name="search"></slot>
     </div>
 
-    <!-- 功能区 -->
-    <div v-if="slots.action" class="shrink-0 mt-2">
-      <slot name="action"></slot>
-    </div>
-
     <!-- 表格区 -->
-    <div ref="tableAreaRef" class="flex-1 overflow-hidden mt-2">
+    <div ref="tableAreaRef" class="flex-1 overflow-hidden">
+      <!-- 功能区 -->
+      <div v-if="slots.action" ref="actionAreaRef" class="shrink-0">
+        <slot name="action"></slot>
+      </div>
       <slot :table-height="tableHeight"></slot>
 
       <!-- 分页区 -->
@@ -34,6 +33,8 @@ defineOptions({ name: 'BaseSearchTable' })
 const tableAreaRef = useTemplateRef<HTMLDivElement>('tableAreaRef')
 // 分页容器元素引用
 const paginationAreaRef = useTemplateRef<HTMLDivElement>('paginationAreaRef')
+// 功能区容器元素引用
+const actionAreaRef = useTemplateRef<HTMLDivElement>('actionAreaRef')
 
 // 表格容器元素尺寸
 const { height: tableAreaHeight } = useElementSize(tableAreaRef)
@@ -43,12 +44,20 @@ const { height: paginationAreaHeight } = useElementSize(
   { width: 0, height: 0 },
   { box: 'border-box' }
 )
+// 功能区容器元素尺寸
+const { height: actionAreaHeight } = useElementSize(
+  actionAreaRef,
+  { width: 0, height: 0 },
+  { box: 'border-box' }
+)
 
 /**
  * 计算表格可用高度
- * 表格高度 = 表格容器高度 - 分页容器高度
+ * 表格高度 = 表格容器高度 - 分页容器高度 - 功能区容器高度
  */
-const tableHeight = computed(() => tableAreaHeight.value - paginationAreaHeight.value)
+const tableHeight = computed(
+  () => tableAreaHeight.value - paginationAreaHeight.value - actionAreaHeight.value
+)
 
 // 定义插槽类型
 const slots = defineSlots<BaseSearchTableSlots>()

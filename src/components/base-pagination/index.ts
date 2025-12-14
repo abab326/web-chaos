@@ -1,8 +1,5 @@
-import type { App } from 'vue'
-import BasePagination from './BasePagination.vue'
+import BasePagination from './src/BasePagination.vue'
 
-export { BasePagination }
+export * from './src/type'
 
-export const install = (app: App) => {
-  app.component('BasePagination', BasePagination)
-}
+export default BasePagination

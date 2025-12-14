@@ -1,6 +1,6 @@
 <template>
   <nav class="border-b border-border-light py-2 px-3">
-    <CustomTab ref="customTabRef" @scroll="handleTabScroll">
+    <BaseTab ref="baseTabRef" @scroll="handleTabScroll">
       <div
         v-for="item in navItems"
         :key="item.key"
@@ -30,22 +30,29 @@
           </svg>
         </span>
       </div>
-    </CustomTab>
+    </BaseTab>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, nextTick, type ComponentPublicInstance } from 'vue'
+import {
+  ref,
+  onMounted,
+  computed,
+  nextTick,
+  type ComponentPublicInstance,
+  useTemplateRef,
+} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useNavHistoryStore } from '@/store/navHistory'
-import CustomTab from '@/components/custom-tab/CustomTab.vue'
+import BaseTab from '@/components/base-tab'
 
 const route = useRoute()
 const router = useRouter()
 const navHistoryStore = useNavHistoryStore()
 
 // DOM引用
-const customTabRef = ref<InstanceType<typeof CustomTab> | null>(null)
+const baseTabRef = useTemplateRef<typeof BaseTab>('baseTabRef')
 const navItemRefs = ref<Record<string, HTMLElement | null>>({})
 
 // Emits
@@ -89,9 +96,9 @@ const handleNavClick = (key: string) => {
 const scrollToNavItem = (key: string) => {
   nextTick(() => {
     const targetItem = navItemRefs.value[key]
-    if (customTabRef.value && targetItem) {
+    if (baseTabRef.value && targetItem) {
       // 获取目标元素相对于容器的位置
-      const container = customTabRef.value.$el.querySelector('.tab-content-container')
+      const container = baseTabRef.value.$el.querySelector('.tab-content-container')
       if (container) {
         const containerRect = container.getBoundingClientRect()
         const itemRect = targetItem.getBoundingClientRect()
@@ -100,11 +107,11 @@ const scrollToNavItem = (key: string) => {
         const scrollOffset =
           itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2
 
-        // 使用CustomTab的滚动方法
+        // 使用BaseTab的滚动方法
         if (scrollOffset > 0) {
-          customTabRef.value.scrollRight()
+          baseTabRef.value.scrollRight()
         } else {
-          customTabRef.value.scrollLeft()
+          baseTabRef.value.scrollLeft()
         }
       }
     }

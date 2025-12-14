@@ -2,7 +2,9 @@
   <div class="h-full">
     <base-search-table>
       <!-- 搜索区 -->
-      <template #search></template>
+      <template #search>
+        <div>搜索区</div>
+      </template>
       <!-- 功能区 -->
       <template #action>
         <el-button type="primary" icon="Plus">新增</el-button>
@@ -51,8 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import { BasePagination } from '@/components/base-pagination'
-import { BaseSearchTable } from '@/components/base-search-table'
+import BasePagination from '@/components/base-pagination'
+import BaseSearchTable from '@/components/base-search-table'
 import BaseTable, { type TableColumn } from '@/components/base-table'
 
 import { useSearchTable } from '@/hooks/useSearchTable'

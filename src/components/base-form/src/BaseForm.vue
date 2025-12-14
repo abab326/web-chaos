@@ -2,10 +2,10 @@
   <div class="base-form">
     <el-form
       ref="formRef"
-      class="grid grid-cols-12 gap-4"
+      class="grid grid-cols-12 gap-x-3"
       :model="formData"
       :rules="mergedRules"
-      :label-width="formConfig.labelWidth || '100px'"
+      :label-width="formConfig.labelWidth || '80px'"
       :label-position="formConfig.labelPosition || 'right'"
       :size="formConfig.size || 'default'"
       v-bind="formConfig.formProps"
@@ -14,7 +14,7 @@
       <BaseFormItem
         v-for="item in formItems"
         :key="item.prop"
-        class="col-span-12"
+        :class="getSpanClass(item)"
         :item="item"
         :form-data="formData"
         :handle-change="handleChange"
@@ -38,7 +38,7 @@ import { ref, computed, reactive, onMounted, watch } from 'vue'
 import { ElForm, type FormRules } from 'element-plus'
 import BaseFormItem from './BaseFormItem'
 import type { FormConfig, FormItem } from './type'
-
+import { spanClassMaps } from './utils'
 // 组件属性定义
 interface Props {
   // 表单项配置
@@ -58,7 +58,7 @@ interface Emits {
   (e: 'update:modelValue', value: Record<string, any>): void
   (e: 'submit', formData: Record<string, any>): void
   (e: 'reset'): void
-  (e: 'field-change', prop: string, value: any): void
+  (e: 'field-change', item: FormItem, value: any): void
 }
 
 defineOptions({ name: 'BaseForm' })
@@ -148,13 +148,41 @@ watch(
   { deep: true }
 )
 
+const getSpanClass = (item: FormItem) => {
+  const spanClass = []
+  if (item.span && typeof item.span === 'object') {
+    const defaultSpan = item.span.default || 12
+    spanClass.push(spanClassMaps['default'][defaultSpan])
+
+    if (item.span.sm) {
+      spanClass.push(spanClassMaps['sm'][item.span.sm])
+    }
+    if (item.span.md) {
+      spanClass.push(spanClassMaps['md'][item.span.md])
+    }
+    if (item.span.lg) {
+      spanClass.push(spanClassMaps['lg'][item.span.lg])
+    }
+    if (item.span.xl) {
+      spanClass.push(spanClassMaps['xl'][item.span.xl])
+    }
+    if (item.span.xxl) {
+      spanClass.push(spanClassMaps['xxl'][item.span.xxl])
+    }
+  } else {
+    spanClass.push(spanClassMaps['default'][item.span || 12])
+  }
+
+  return spanClass.join(' ')
+}
 // 处理字段变化
 const handleChange = (item: FormItem, value: any) => {
   console.log('字段变化:', item.prop, value)
   // 更新表单数据
   formData[item.prop] = value
+
   // 触发字段变化事件
-  emit('field-change', item.prop, value)
+  emit('field-change', item, value)
 }
 
 // 提交表单
@@ -204,4 +232,12 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.base-form {
+  :deep(.el-form) {
+    .el-form-item__content {
+      align-items: flex-start;
+    }
+  }
+}
+</style>

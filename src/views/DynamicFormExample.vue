@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import BaseForm from '@/components/base-form'
 import type { FormItem, FormConfig } from '@/components/base-form'
 import type { FormRules } from 'element-plus'
 
 // 表单数据
-const formData = reactive<Record<string, any>>({
+const formData = ref<Record<string, any>>({
   name: '',
   email: '',
   age: null,
@@ -61,7 +61,7 @@ const formItems = ref<FormItem[]>([
     prop: 'age',
     label: '年龄',
     type: 'input-number',
-    attrs: {
+    itemComponentProps: {
       min: 0,
       max: 120,
     },
@@ -101,7 +101,7 @@ const formItems = ref<FormItem[]>([
     prop: 'startDate',
     label: '入职日期',
     type: 'date-picker',
-    attrs: {
+    itemComponentProps: {
       type: 'date',
       placeholder: '请选择日期',
     },
@@ -110,11 +110,11 @@ const formItems = ref<FormItem[]>([
     prop: 'salary',
     label: '期望薪资',
     type: 'input-number',
-    attrs: {
+    itemComponentProps: {
       min: 0,
       controlsPosition: 'right',
     },
-    itemProps: {
+    formItemProps: {
       'label-width': '120px',
     },
   },
@@ -122,7 +122,6 @@ const formItems = ref<FormItem[]>([
     prop: 'customField',
     label: '自定义字段',
     type: 'slot',
-    slotName: 'custom-slot',
   },
 ])
 
@@ -166,7 +165,8 @@ const handleReset = () => {
 }
 
 // 处理字段变化
-const handleFieldChange = (item: any, value: any) => {
+const handleFieldChange = (item: FormItem, value: any) => {
+  console.log('handleFieldChange', formData.value)
   console.log(`字段 ${item.prop} 发生变化:`, value)
 }
 </script>

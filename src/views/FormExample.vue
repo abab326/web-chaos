@@ -68,9 +68,10 @@ const formItems: FormItem[] = [
     label: '用户名',
     type: 'input',
     placeholder: '请输入用户名',
+    span: 6,
     required: true,
     defaultValue: '',
-    itemProps: {
+    itemComponentProps: {
       clearable: true,
       maxlength: 20,
     },
@@ -82,7 +83,15 @@ const formItems: FormItem[] = [
     placeholder: '请输入邮箱',
     required: true,
     defaultValue: '',
-    itemProps: {
+    span: {
+      default: 6,
+      sm: 6,
+      md: 6,
+      lg: 8,
+      xl: 10,
+      xxl: 12,
+    },
+    itemComponentProps: {
       clearable: true,
     },
   },
@@ -92,7 +101,7 @@ const formItems: FormItem[] = [
     type: 'input',
     placeholder: '请输入手机号',
     defaultValue: '',
-    itemProps: {
+    itemComponentProps: {
       clearable: true,
     },
   },
@@ -131,7 +140,7 @@ const formItems: FormItem[] = [
     type: 'date-picker',
     placeholder: '请选择生日',
     defaultValue: '',
-    itemProps: {
+    itemComponentProps: {
       type: 'date',
       format: 'YYYY-MM-DD',
       valueFormat: 'YYYY-MM-DD',
@@ -147,7 +156,7 @@ const formItems: FormItem[] = [
     label: '区域',
     type: 'select',
     defaultValue: '',
-    itemProps: {
+    itemComponentProps: {
       options: [
         { label: '区域1', value: 'area1' },
         { label: '区域2', value: 'area2' },
@@ -160,7 +169,7 @@ const formItems: FormItem[] = [
     type: 'input',
     placeholder: '请输入个人简介',
     defaultValue: '',
-    itemProps: {
+    itemComponentProps: {
       type: 'textarea',
       rows: 4,
       maxlength: 200,
@@ -171,7 +180,7 @@ const formItems: FormItem[] = [
 
 // 表单配置
 const formConfig = reactive<FormConfig>({
-  labelWidth: '120px',
+  labelWidth: '80px',
   labelPosition: 'right' as const,
   size: 'default',
   showActionButtons: true,
@@ -210,8 +219,9 @@ const handleReset = () => {
 }
 
 // 处理字段变化
-const handleFieldChange = (prop: string, value: any) => {
-  console.log(`字段 ${prop} 发生变化:`, value)
+const handleFieldChange = (item: FormItem, value: any) => {
+  console.log('handleFieldChange', formData.value)
+  console.log(`字段 ${item.prop} 发生变化:`, value)
 }
 </script>
 

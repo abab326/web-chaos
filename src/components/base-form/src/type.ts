@@ -1,5 +1,28 @@
 import type { FormItemRule } from 'element-plus'
 
+export type FormItemSpan =
+  | number
+  | {
+      default: number
+      sm?: number
+      md?: number
+      lg?: number
+      xl?: number
+      xxl?: number
+    }
+export type FormItemComponent =
+  | 'input'
+  | 'textarea'
+  | 'input-number'
+  | 'select'
+  | 'radio'
+  | 'checkbox'
+  | 'switch'
+  | 'date-picker'
+  | 'time-picker'
+  | 'slider'
+  | 'slot'
+
 // 定义表单项类型
 export interface FormItem {
   // 字段名
@@ -7,35 +30,21 @@ export interface FormItem {
   // 标签文本
   label?: string
   // 表单组件类型
-  type?:
-    | 'input'
-    | 'textarea'
-    | 'input-number'
-    | 'select'
-    | 'radio'
-    | 'checkbox'
-    | 'switch'
-    | 'date-picker'
-    | 'time-picker'
-    | 'slider'
-    | 'slot'
-    | string
+  type?: FormItemComponent
   // 占位符
   placeholder?: string
   // 是否必填
   required?: boolean
   // 是否隐藏
   hidden?: boolean
+  // 列数（用于网格布局）
+  span?: FormItemSpan
   // 选项列表（用于select、radio、checkbox）
   options?: Array<{ label: string; value: any }>
   // formItem 组件属性
-  attrs?: Record<string, any>
-  // 表单项属性
-  itemProps?: Record<string, any>
-  // 插槽名称（type为slot时使用）
-  slotName?: string
-  // 自定义组件（type为自定义组件名时使用）
-  component?: any
+  formItemProps?: Record<string, any>
+  // 表单项组件属性
+  itemComponentProps?: Record<string, any>
   // 默认值
   defaultValue?: any
   // 规则

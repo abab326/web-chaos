@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import BaseForm from '@/components/base-form'
+import BaseForm, { type FormItem } from '@/components/base-form'
 
 // 表单数据
 const formData = reactive({
@@ -23,7 +23,7 @@ const formData = reactive({
 })
 
 // 表单配置项
-const formItems = ref([
+const formItems = ref<FormItem[]>([
   {
     prop: 'name',
     label: '姓名',
@@ -45,7 +45,7 @@ const formItems = ref([
 ])
 
 // 处理字段变化
-const handleFieldChange = (prop: string, value: any) => {
-  console.log(`字段 ${prop} 发生变化:`, value)
+const handleFieldChange = (item: FormItem, value: any) => {
+  console.log(`字段 ${item.prop} 发生变化:`, value)
 }
 </script>

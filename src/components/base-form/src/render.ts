@@ -29,7 +29,7 @@ const renderSelectOptions = (item: FormItem) => {
     const optionComponentItem = h(resolveComponent('ElOption'), {
       label: option.label,
       value: option.value,
-      ...item.attrs,
+      ...item.itemComponentProps,
     })
     optionComponent.push(optionComponentItem)
   })
@@ -48,7 +48,7 @@ const renderRadioOptions = (item: FormItem) => {
     const radioComponentItem = h(resolveComponent('ElRadio'), {
       label: option.label,
       value: option.value,
-      ...item.attrs,
+      ...item.itemComponentProps,
     })
     radioComponents.push(radioComponentItem)
   })
@@ -68,7 +68,7 @@ const renderCheckboxOptions = (item: FormItem) => {
     const checkboxComponentItem = h(resolveComponent('ElCheckbox'), {
       label: option.label,
       value: option.value,
-      ...item.attrs,
+      ...item.itemComponentProps,
     })
     checkboxComponents.push(checkboxComponentItem)
   })
@@ -112,7 +112,7 @@ export const renderControl = (
   // 根据不同的组件类型设置不同的事件处理
   const componentProps: Record<string, any> = {
     modelValue: formData[item.prop],
-    ...item.itemProps,
+    ...item.itemComponentProps,
   }
 
   // 为不同类型的组件设置不同的事件处理函数
@@ -181,7 +181,7 @@ export const renderFormItem = (
       label: item.label,
       prop: item.prop,
       required: item.required,
-      ...item.attrs,
+      ...item.formItemProps,
     },
     {
       default: () => childComponent,

@@ -27,6 +27,14 @@
                 {{ row.status === 1 ? '启用' : '禁用' }}
               </el-tag>
             </template>
+
+            <template v-if="column.prop === 'roleName'">
+              {{ 'slot' + row.roleName }}
+            </template>
+
+            <template v-if="column.prop === 'roleCode'">
+              {{ 'slot' + row.roleCode }}
+            </template>
           </template>
         </base-table>
       </template>
@@ -68,7 +76,14 @@ const tableColumns: TableColumn<UserBean>[] = [
   { prop: 'email', label: '邮箱' },
   { prop: 'phone', label: '手机号' },
   { prop: 'status', label: '状态' },
-  { prop: 'role', label: '角色' },
+  {
+    prop: 'role',
+    label: '角色',
+    children: [
+      { prop: 'roleName', label: '角色名称' },
+      { prop: 'roleCode', label: '角色编码' },
+    ],
+  },
   { prop: 'createTime', label: '创建时间' },
 ]
 // 模拟数据
@@ -83,6 +98,8 @@ const mockData = () => {
       phone: `1380013800${i}`,
       status: i % 2 === 0 ? 1 : 0,
       role: i % 3 === 0 ? '管理员' : i % 3 === 1 ? '编辑' : '普通用户',
+      roleName: i % 3 === 0 ? '管理员' : i % 3 === 1 ? '编辑' : '普通用户',
+      roleCode: i % 3 === 0 ? 'ADMIN' : i % 3 === 1 ? 'EDITOR' : 'USER',
       createTime: `2023-0${(i % 9) + 1}-0${(i % 9) + 1} 10:00:00`,
       lastLoginTime: `2023-0${(i % 9) + 1}-1${(i % 9) + 1} 15:00:00`,
     })

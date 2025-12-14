@@ -1,22 +1,22 @@
 <template>
   <el-table :data="tableData" style="width: 100%">
     <slot name="default"></slot>
-    <el-table-column
+    <base-table-column
       v-for="item in tableColumns"
-      :key="String(item.prop)"
-      :prop="String(item.prop)"
-      :label="item.label"
+      :key="item.prop ? String(item.prop) : item.label"
+      :column="item"
     >
-      <template #default="scope">
-        <slot name="cell" :row="scope.row" :column="item" :value="scope.row[item.prop]">
-          {{ scope.row[item.prop] }}
+      <template #cell="scope">
+        <slot name="cell" v-bind="scope">
+          {{ scope.value }}
         </slot>
       </template>
-    </el-table-column>
+    </base-table-column>
   </el-table>
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
+import BaseTableColumn from './BaseTableColumn.vue'
 import type { TableColumn } from './type'
 
 // 定义组件属性

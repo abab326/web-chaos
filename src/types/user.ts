@@ -6,7 +6,9 @@ export interface UserBean {
   phone: string
   avatar?: string
   status: number
-  role: string
+  role?: string
+  roleName: string
+  roleCode: string
   createTime: string
   lastLoginTime: string
 }

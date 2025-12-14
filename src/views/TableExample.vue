@@ -16,39 +16,19 @@
       </template>
       <!-- 表格区 -->
       <template #default="{ tableHeight }">
-        <el-table :data="tableData" border stripe :max-height="tableHeight">
-          <el-table-column type="index" width="50" />
-          <!-- 表格列 -->
-          <el-table-column prop="id" label="ID" width="80" sortable />
-          <el-table-column prop="username" label="用户名" min-width="150" />
-          <el-table-column prop="email" label="邮箱" width="200" />
-          <el-table-column prop="phone" label="手机号" width="150" />
-          <el-table-column prop="status" label="状态" width="100">
-            <template #default="scope">
-              <el-tag :type="scope.row.status === 1 ? 'success' : 'danger'">
-                {{ scope.row.status === 1 ? '启用' : '禁用' }}
+        <base-table :table-data="tableData" :table-columns="tableColumns" :height="tableHeight">
+          <template #cell="{ row, column }">
+            <template v-if="column.prop === 'createTime'">
+              <span>{{ formatDate(row.createTime) }}</span>
+            </template>
+
+            <template v-if="column.prop === 'status'">
+              <el-tag :type="row.status === 1 ? 'success' : 'danger'">
+                {{ row.status === 1 ? '启用' : '禁用' }}
               </el-tag>
             </template>
-          </el-table-column>
-          <el-table-column prop="role" label="角色" width="120">
-            <template #default="scope">
-              <el-tag type="info">{{ scope.row.role }}</el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" width="180" sortable />
-          <el-table-column prop="lastLoginTime" label="最后登录" width="180" />
-          <el-table-column label="操作" width="200" fixed="right">
-            <template #default="scope">
-              <el-button size="small" type="primary" @click="handleEdit(scope.row)">编辑</el-button>
-              <el-button size="small" type="danger" @click="handleDelete(scope.row)">
-                删除
-              </el-button>
-              <el-button size="small" type="warning" @click="handleDetail(scope.row)">
-                详情
-              </el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+          </template>
+        </base-table>
       </template>
       <!-- 分页区 -->
       <template #pagination>
@@ -65,6 +45,8 @@
 <script setup lang="ts">
 import { BasePagination } from '@/components/base-pagination'
 import { BaseSearchTable } from '@/components/base-search-table'
+import BaseTable, { type TableColumn } from '@/components/base-table'
+
 import { useSearchTable } from '@/hooks/useSearchTable'
 import type { PaginationParams, PaginatedResponse } from '@/types'
 import type { UserBean } from '@/types/user'
@@ -81,6 +63,14 @@ const initialSearchParams: ExampleSearchParams = {
   status: 0,
   createTime: [],
 }
+const tableColumns: TableColumn<UserBean>[] = [
+  { prop: 'username', label: '用户名' },
+  { prop: 'email', label: '邮箱' },
+  { prop: 'phone', label: '手机号' },
+  { prop: 'status', label: '状态' },
+  { prop: 'role', label: '角色' },
+  { prop: 'createTime', label: '创建时间' },
+]
 // 模拟数据
 const mockData = () => {
   const data: UserBean[] = []
@@ -145,19 +135,17 @@ const { tableData, selectedItems, pagination, total, handlePaginationChange } = 
   initialSearchParams,
 })
 
-// 编辑
-const handleEdit = (row: UserBean) => {
-  console.log('编辑:', row)
-}
-
-// 删除
-const handleDelete = (row: UserBean) => {
-  console.log('删除:', row)
-}
-
-// 详情
-const handleDetail = (row: UserBean) => {
-  console.log('详情:', row)
+// 格式化日期
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
 }
 </script>
 

@@ -126,21 +126,10 @@ const toggleExpand = () => {
 
 // 获取活动菜单项
 const activeMenu = computed(() => {
-  // 根据当前路由确定活动菜单项
-  const routeName = route.name as string
-  if (routeName) {
-    return routeName
-  }
-
   // 如果没有匹配的路由名称，则根据路径匹配
   const path = route.path
-  if (path) {
-    // 移除开头的斜杠并获取第一段作为菜单项索引
-    const pathParts = path.split('/').filter((part) => part)
-    return pathParts.length > 0 ? pathParts[0] : 'dashboard'
-  }
 
-  return 'dashboard'
+  return path || '/dashboard'
 })
 </script>
 
@@ -148,15 +137,6 @@ const activeMenu = computed(() => {
 /* 侧边栏基础样式 */
 .sidebar-aside {
   transition: all 0.3s ease-in-out;
-}
-
-/* 移动端侧边栏动画效果 */
-.sidebar-aside.fixed {
-  transform: translateX(0);
-}
-
-.sidebar-aside.fixed.hidden {
-  transform: translateX(-100%);
 }
 
 /* 遮罩层样式 */

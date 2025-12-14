@@ -4,6 +4,7 @@ const tableRoutes: RouteRecordRaw[] = [
   {
     path: '/table',
     name: 'Table',
+    component: () => import('@/layouts/MainLayout.vue'),
     redirect: '/table/example',
     meta: {
       title: '表格',
@@ -13,7 +14,7 @@ const tableRoutes: RouteRecordRaw[] = [
       {
         path: 'example',
         name: 'TableExample',
-        component: () => import('@/views/TableExample.vue'),
+        component: () => import('@/views/table/TableExample.vue'),
         meta: {
           title: '基础表格',
           isAuth: false,
@@ -22,7 +23,7 @@ const tableRoutes: RouteRecordRaw[] = [
       {
         path: 'multi-header',
         name: 'MultiHeaderTableExample',
-        component: () => import('@/views/MultiHeaderTableExample.vue'),
+        component: () => import('@/views/table/MultiHeaderTableExample.vue'),
         meta: {
           title: '多表头表格',
           isAuth: false,

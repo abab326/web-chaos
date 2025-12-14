@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, type Component } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { defineStore } from 'pinia'
 import type { MenuItem } from '@/types/menu'
@@ -7,68 +7,84 @@ import type { MenuItem } from '@/types/menu'
 const mockMenus: MenuItem[] = [
   {
     id: 1,
-    name: '仪表板',
+    name: '控制台',
     path: '/dashboard',
-    component: 'Dashboard',
+    component: 'system/Dashboard',
     icon: 'DataAnalysis',
   },
   {
     id: 2,
-    name: '用户管理',
-    path: '/users',
-    component: 'Users',
-    icon: 'Camera',
-  },
-  {
-    id: 3,
-    name: '系统设置',
-    path: '/settings',
-    component: 'Settings',
-    icon: 'Monitor',
-  },
-  {
-    id: 4,
-    name: '表格示例',
-    path: '/table-example',
-    component: 'TableExample',
-    icon: 'Tickets',
+    name: '系统管理',
+    path: '/system',
+    component: 'layout',
+    icon: 'Setting',
+    children: [
+      {
+        id: 3,
+        name: '用户管理',
+        path: '/system/users',
+        component: 'system/Users',
+        icon: 'Camera',
+      },
+      {
+        id: 4,
+        name: '系统设置',
+        path: '/system/settings',
+        component: 'system/Settings',
+        icon: 'Monitor',
+      },
+    ],
   },
   {
     id: 5,
-    name: '表单示例',
-    path: '/form',
-    component: 'router-child/index',
-    icon: 'Document',
+    name: '表格',
+    path: '/table',
+    component: 'layout',
+    icon: 'Tickets',
     children: [
       {
-        id: 8,
-        name: '基础表单',
-        path: '/form/example',
-        component: 'FormExample',
+        id: 6,
+        name: '基础表格',
+        path: '/table/example',
+        component: 'table/TableExample',
         icon: 'Document',
       },
       {
-        id: 9,
-        name: '动态表单',
-        path: '/form/dynamic-example',
-        component: 'DynamicFormExample',
+        id: 7,
+        name: '多表头表格',
+        path: '/table/multi-header',
+        component: 'table/MultiHeaderTableExample',
         icon: 'Document',
       },
     ],
   },
   {
-    id: 6,
-    name: '路由子页面',
-    path: '/router-child',
-    component: 'router-child/index',
-    icon: 'Monitor',
+    id: 8,
+    name: '表单',
+    path: '/form',
+    component: 'layout',
+    icon: 'Document',
     children: [
       {
-        id: 7,
-        name: '路由子页面子页面',
-        path: '/child',
-        component: 'router-child/child',
-        icon: 'Monitor',
+        id: 9,
+        name: '基础表单',
+        path: '/form/example',
+        component: 'form/FormExample',
+        icon: 'Document',
+      },
+      {
+        id: 10,
+        name: '动态表单',
+        path: '/form/dynamic-example',
+        component: 'form/DynamicFormExample',
+        icon: 'Document',
+      },
+      {
+        id: 11,
+        name: '表单测试',
+        path: '/form/test',
+        component: 'form/FormTest',
+        icon: 'Document',
       },
     ],
   },
@@ -81,6 +97,32 @@ export const usePermissionStore = defineStore('permission', () => {
   const dynamicMenus = ref<MenuItem[]>([])
   // 动态路由
   const dynamicRoutes = ref<RouteRecordRaw[]>([])
+
+  // 使用 import.meta.glob 动态导入所有视图组件
+  const modules = import.meta.glob('../views/**/*.vue')
+  console.log('modules', modules)
+  /**
+   * 动态导入组件
+   * @param componentPath 组件路径
+   * @returns 组件导入函数
+   */
+  const dynamicImport = (componentPath: string): Component | null => {
+    // 处理布局组件
+    if (componentPath === 'layout') {
+      return null
+    }
+
+    // 构造组件的完整路径
+    const fullPath = `../views/${componentPath}.vue`
+
+    // 检查组件是否存在
+    if (modules[fullPath]) {
+      return modules[fullPath]
+    }
+
+    // 如果找不到对应的组件，返回一个空的 Promise
+    return () => Promise.reject(new Error(`无法找到组件: ${fullPath}`))
+  }
 
   /**
    * 将菜单转换为路由
@@ -95,10 +137,7 @@ export const usePermissionStore = defineStore('permission', () => {
       const route: RouteRecordRaw = {
         path: menu.path,
         name: menu.name.replace(/\s+/g, ''),
-        component:
-          menu.component === 'router-child/index'
-            ? () => import('@/views/router-child/index.vue')
-            : () => import(`@/views/${menu.component}.vue`),
+        component: dynamicImport(menu.component),
         meta: {
           title: menu.name,
           isAuth: true,
@@ -112,16 +151,14 @@ export const usePermissionStore = defineStore('permission', () => {
         route.children = menu.children.map((child) => ({
           path: child.path,
           name: child.name.replace(/\s+/g, ''),
-          component:
-            child.component === 'router-child/child'
-              ? () => import('@/views/router-child/child.vue')
-              : () => import(`@/views/${child.component}.vue`),
+          component: dynamicImport(child.component),
           meta: {
             title: child.name,
             isAuth: true,
             icon: child.icon,
             isKeepAlive: true,
           },
+          children: [],
         }))
       }
 

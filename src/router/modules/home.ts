@@ -5,7 +5,14 @@ const homeRoute: RouteRecordRaw = {
   name: 'home',
   component: () => import('@/layouts/MainLayout.vue'),
   redirect: '/dashboard',
-  children: [],
+  children: [
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: () => import('@/views/system/Dashboard.vue'),
+      meta: { title: '控制台', isAuth: true },
+    },
+  ],
 }
 
 export default homeRoute

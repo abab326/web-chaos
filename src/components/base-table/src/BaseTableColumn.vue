@@ -1,5 +1,5 @@
 <template>
-  <el-table-column :label="column.label" :prop="column.prop ? String(column.prop) : undefined">
+  <el-table-column v-bind="columnProps">
     <template #default="{ row }">
       <template v-if="column.children && column.children.length > 0">
         <base-table-column
@@ -18,6 +18,7 @@
 </template>
 
 <script setup generic="T extends Record<string, any>" lang="ts">
+import { computed } from 'vue'
 import type { TableColumn } from './type'
 
 interface BaseTableColumnProps<T> {
@@ -29,9 +30,14 @@ interface BaseTableColumnSlots<T> {
   cell: (props: { row: T; column: TableColumn<T>; value: any }) => any
 }
 
-defineProps<BaseTableColumnProps<T>>()
-
 defineSlots<BaseTableColumnSlots<T>>()
+const props = defineProps<BaseTableColumnProps<T>>()
+
+const columnProps = computed(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { children, ...rest } = props.column.value
+  return rest
+})
 </script>
 
 <style scoped></style>

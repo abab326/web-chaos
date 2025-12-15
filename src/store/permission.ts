@@ -88,6 +88,22 @@ const mockMenus: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 12,
+    name: '媒体中心',
+    path: '/media',
+    component: 'layout',
+    icon: 'VideoCamera',
+    children: [
+      {
+        id: 13,
+        name: '视频播放',
+        path: '/media/video',
+        component: 'media/index',
+        icon: 'VideoPlay',
+      },
+    ],
+  },
 ]
 
 export const usePermissionStore = defineStore('permission', () => {

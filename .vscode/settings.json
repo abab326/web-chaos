@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/vscode/main/extensions/configuration-editing/schemas/extensions-schema.json",
+  // Vue 特定配置
+  "vetur.validation.template": false,
+  "vetur.format.enable": false,
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": false,
+  // Vue 文件格式化配置
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.fixAll.stylelint": "explicit"
+    }
+  },
+  // TypeScript 配置
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.suggest.showKeywords": false
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // JavaScript 配置
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // JSON 配置
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // CSS/SCSS/Less 配置
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // HTML 配置
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // Markdown 配置
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": "on",
+      "strings": "on",
+      "comments": "on"
+    }
+  },
+  // 终端配置
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.fontFamily": "'Cascadia Code', 'Fira Code', Consolas",
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.cursorBlinking": true,
+  // Git 配置
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  // 路径智能提示
+  "path-intellisense.mappings": {
+    "@": "${workspaceFolder}/src",
+    "~": "${workspaceFolder}/src"
+  },
+
+  // 自动导入
+  "auto-import.autoComplete": true,
+  "auto-import.doubleQuotes": false,
+  "auto-import.useSemi": false
+}

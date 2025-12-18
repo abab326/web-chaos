@@ -1,20 +1,20 @@
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
-import router from './router'
-import { setupStore } from './store'
-import { setupElementPlus } from './plugins/element'
-import { registerDirectives } from './directives'
-import './styles/global.css'
+import router from './router';
+import { setupStore } from './store';
+import { setupElementPlus } from './plugins/element';
+import { registerDirectives } from './directives';
+import './styles/global.css';
 
-import App from './App.vue'
-const app = createApp(App)
+import App from './App.vue';
+const app = createApp(App);
 
 // 注册插件
-setupStore(app)
-setupElementPlus(app)
-app.use(router)
+setupStore(app);
+setupElementPlus(app);
+app.use(router);
 // 注册自定义指令
-registerDirectives(app)
+registerDirectives(app);
 
 // 挂载应用
-app.mount('#app')
+app.mount('#app');

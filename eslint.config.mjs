@@ -1,12 +1,12 @@
-import { defineConfig } from 'eslint/config'
-import js from '@eslint/js'
-import vue from 'eslint-plugin-vue'
-import typescript from '@typescript-eslint/eslint-plugin'
-import parser from '@typescript-eslint/parser'
-import vueParser from 'vue-eslint-parser'
-import prettierConfig from 'eslint-config-prettier/flat'
-import pluginPrettier from 'eslint-plugin-prettier'
-import globals from 'globals'
+import { defineConfig } from 'eslint/config';
+import js from '@eslint/js';
+import vue from 'eslint-plugin-vue';
+import typescript from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
+import vueParser from 'vue-eslint-parser';
+import prettierConfig from 'eslint-config-prettier/flat';
+import pluginPrettier from 'eslint-plugin-prettier';
+import globals from 'globals';
 
 export default defineConfig([
   {
@@ -88,7 +88,7 @@ export default defineConfig([
       prettier: pluginPrettier,
     },
     rules: {
-      'prettier/prettier': 'error',
+      'prettier/prettier': ['error', { semi: true }],
     },
   },
-])
+]);

@@ -1,7 +1,7 @@
-import BaseForm from './src/BaseForm.vue'
+import BaseForm from './src/BaseForm.vue';
 
-export * from './src/type'
+export * from './src/type';
 
-export { BaseForm }
+export { BaseForm };
 
-export default BaseForm
+export default BaseForm;

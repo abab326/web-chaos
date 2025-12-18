@@ -96,23 +96,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Icon } from '@iconify/vue'
-import { ElMessage, ElMessageBox, ElTag } from 'element-plus'
+import { ref } from 'vue';
+import { Icon } from '@iconify/vue';
+import { ElMessage, ElMessageBox, ElTag } from 'element-plus';
 
 interface User {
-  id: number
-  name: string
-  initials: string
-  email: string
-  role: string
-  status: 'active' | 'inactive'
-  createdAt: string
+  id: number;
+  name: string;
+  initials: string;
+  email: string;
+  role: string;
+  status: 'active' | 'inactive';
+  createdAt: string;
 }
 
-defineOptions({ name: 'Users' })
+defineOptions({ name: 'Users' });
 
-const iconName = ref('tdesign:arrow-up-down-circle-filled')
+const iconName = ref('tdesign:arrow-up-down-circle-filled');
 
 const users = ref<User[]>([
   {
@@ -151,21 +151,21 @@ const users = ref<User[]>([
     status: 'inactive',
     createdAt: '2024-02-15',
   },
-])
+]);
 
 const getRoleType = (role: string): 'success' | 'info' | 'warning' | 'danger' => {
   const types: Record<string, 'success' | 'info' | 'warning' | 'danger'> = {
     管理员: 'danger',
     编辑: 'warning',
     用户: 'info',
-  }
-  return types[role] || 'info'
-}
+  };
+  return types[role] || 'info';
+};
 
 const handleDelete = (user: User) => {
   if (user.id === 1) {
-    ElMessage.warning('不能删除管理员账户')
-    return
+    ElMessage.warning('不能删除管理员账户');
+    return;
   }
 
   ElMessageBox.confirm(`确定要删除用户 "${user.name}" 吗？`, '确认删除', {
@@ -175,13 +175,13 @@ const handleDelete = (user: User) => {
   })
     .then(() => {
       // 这里应该调用API删除用户
-      users.value = users.value.filter((item) => item.id !== user.id)
-      ElMessage.success('删除成功')
+      users.value = users.value.filter((item) => item.id !== user.id);
+      ElMessage.success('删除成功');
     })
     .catch(() => {
       // 用户取消删除
-    })
-}
+    });
+};
 </script>
 
 <style scoped>

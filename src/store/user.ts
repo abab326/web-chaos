@@ -1,54 +1,54 @@
-import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
-import { userApi } from '@/api/user'
-import type { UserInfo } from '@/types/user'
-import type { MenuItem } from '@/types/menu'
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { userApi } from '@/api/user';
+import type { UserInfo } from '@/types/user';
+import type { MenuItem } from '@/types/menu';
 
 export const useUserStore = defineStore(
   'user',
   () => {
     // 用户信息
-    const userInfo = ref<UserInfo | null>(null)
+    const userInfo = ref<UserInfo | null>(null);
     // 登录状态的token
-    const userToken = ref<string>('')
+    const userToken = ref<string>('');
     // 计算属性，根据token是否存在判断是否登录
-    const isLoggedIn = computed(() => !!userToken.value)
+    const isLoggedIn = computed(() => !!userToken.value);
     // 登录用户 菜单列表
-    const menuList = ref<MenuItem[]>([])
+    const menuList = ref<MenuItem[]>([]);
     // 获取token
     const getToken = () => {
-      return userToken.value
-    }
+      return userToken.value;
+    };
     // 获取菜单列表
     const getMenuList = () => {
-      return menuList.value
-    }
+      return menuList.value;
+    };
     // 清空token
     const clearToken = () => {
-      userToken.value = ''
-      localStorage.removeItem('token')
-    }
+      userToken.value = '';
+      localStorage.removeItem('token');
+    };
     // 用户登录
     const login = async (data: { username: string; password: string }) => {
-      const [error, res] = await userApi.loginByUserName(data)
+      const [error, res] = await userApi.loginByUserName(data);
       if (error) {
-        return false
+        return false;
       }
-      userToken.value = res.token
-      userInfo.value = res.user
+      userToken.value = res.token;
+      userInfo.value = res.user;
       // 登录成功后，将token保存到localStorage
-      localStorage.setItem('token', userToken.value)
-      return true
-    }
+      localStorage.setItem('token', userToken.value);
+      return true;
+    };
     // 退出登录
     const logout = async () => {
-      const [error] = await userApi.logout()
+      const [error] = await userApi.logout();
       if (error) {
-        return false
+        return false;
       }
-      clearToken()
-      return true
-    }
+      clearToken();
+      return true;
+    };
 
     return {
       userToken,
@@ -58,11 +58,11 @@ export const useUserStore = defineStore(
       getMenuList,
       logout,
       login,
-    }
+    };
   },
   {
     persist: {
       pick: ['userInfo', 'userToken'],
     },
   }
-)
+);

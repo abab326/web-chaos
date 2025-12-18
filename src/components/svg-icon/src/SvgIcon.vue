@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: 'SvgIcon' })
+defineOptions({ name: 'SvgIcon' });
 </script>
 
 <style scoped></style>

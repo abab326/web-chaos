@@ -111,49 +111,49 @@
 
 ```typescript
 // main.ts
-import { createApp } from 'vue'
-import { createPermissionDirective } from './directives'
+import { createApp } from 'vue';
+import { createPermissionDirective } from './directives';
 
-const app = createApp(App)
+const app = createApp(App);
 
 // 自定义权限检查函数
 const checkPermission = (requiredPermissions: string[], mode: 'any' | 'all') => {
   // 从状态管理中获取用户权限
-  const userPermissions = ['user:view', 'user:edit']
+  const userPermissions = ['user:view', 'user:edit'];
 
   if (mode === 'all') {
     // 检查所有权限是否都存在
-    return requiredPermissions.every((perm) => userPermissions.includes(perm))
+    return requiredPermissions.every((perm) => userPermissions.includes(perm));
   } else {
     // 检查是否有任何一个权限存在
-    return requiredPermissions.some((perm) => userPermissions.includes(perm))
+    return requiredPermissions.some((perm) => userPermissions.includes(perm));
   }
-}
+};
 
 // 注册自定义权限指令
-app.directive('permission', createPermissionDirective(checkPermission))
+app.directive('permission', createPermissionDirective(checkPermission));
 
-app.mount('#app')
+app.mount('#app');
 ```
 
 ### 类型定义
 
 ```typescript
 // 权限检查函数类型
-export type PermissionChecker = (requiredPermissions: string[], mode: 'any' | 'all') => boolean
+export type PermissionChecker = (requiredPermissions: string[], mode: 'any' | 'all') => boolean;
 
 // 创建权限指令的工厂函数
-export function createPermissionDirective(checker?: PermissionChecker): Directive
+export function createPermissionDirective(checker?: PermissionChecker): Directive;
 ```
 
 ## 注册所有指令
 
 ```typescript
 // main.ts
-import { createApp } from 'vue'
-import { registerDirectives } from './directives'
+import { createApp } from 'vue';
+import { registerDirectives } from './directives';
 
-const app = createApp(App)
-registerDirectives(app)
-app.mount('#app')
+const app = createApp(App);
+registerDirectives(app);
+app.mount('#app');
 ```

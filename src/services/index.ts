@@ -1,14 +1,14 @@
-import axios from 'axios'
-import type { AxiosError, AxiosResponse } from 'axios'
+import axios from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
 
-import { useUserStore } from '@/store/user'
-import { saveFileBlob } from '@/utils/file'
+import { useUserStore } from '@/store/user';
+import { saveFileBlob } from '@/utils/file';
 import type {
   ApiServiceInstance,
   ApiRequestConfig,
   BaseResponse,
   ErrorHandlerOptions,
-} from './types'
+} from './types';
 
 // 创建axios实例
 const createApiService = (): ApiServiceInstance => {
@@ -19,43 +19,43 @@ const createApiService = (): ApiServiceInstance => {
     headers: {
       'Content-Type': 'application/json',
     },
-  })
+  });
 
   // 请求拦截器
   axiosInstance.interceptors.request.use(
     (config) => {
-      const userStore = useUserStore()
-      const token = userStore.getToken()
+      const userStore = useUserStore();
+      const token = userStore.getToken();
 
       // 检查请求是否需要认证（默认需要）
-      const isAuthRequired = config.headers?.['X-No-Auth'] !== true
+      const isAuthRequired = config.headers?.['X-No-Auth'] !== true;
 
       if (isAuthRequired) {
         // 如果需要认证且有token则添加到请求头
         if (token) {
-          config.headers.Authorization = `Bearer ${token}`
+          config.headers.Authorization = `Bearer ${token}`;
         } else {
           // 不需要立即登出，让响应拦截器处理401错误
-          return config
+          return config;
         }
       } else {
         // 如果不需要认证，移除Authorization头
-        delete config.headers.Authorization
+        delete config.headers.Authorization;
       }
 
-      return config
+      return config;
     },
     (error) => {
-      return Promise.reject(error)
+      return Promise.reject(error);
     }
-  )
+  );
   // 响应拦截器
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse<BaseResponse>) => {
       // kv 解构赋值
-      const { status } = response
+      const { status } = response;
 
-      const res = response.data
+      const res = response.data;
 
       // 根据业务需求自定义响应处理逻辑
       if (res.code && res.code !== 200) {
@@ -63,69 +63,69 @@ const createApiService = (): ApiServiceInstance => {
           code: res.code,
           message: res.message,
           showError: true,
-        }) as any
+        }) as any;
       }
 
-      return response
+      return response;
     },
     (error: AxiosError) => {
-      return handleError(error, { showError: true })
+      return handleError(error, { showError: true });
     }
-  )
+  );
   // 统一错误处理函数
   const handleError = (error: any, options: ErrorHandlerOptions = {}) => {
-    const { showError = true, customHandler } = options
-    let errorMessage = '网络请求失败，请稍后重试'
-    let errorCode = 500
+    const { showError = true, customHandler } = options;
+    let errorMessage = '网络请求失败，请稍后重试';
+    let errorCode = 500;
 
     if (error.response) {
       // 服务器返回了错误响应
-      const { data, status, statusText } = error.response
-      errorCode = data.code || status
-      const userStore = useUserStore()
+      const { data, status, statusText } = error.response;
+      errorCode = data.code || status;
+      const userStore = useUserStore();
       // 根据不同状态码提供更友好的错误信息
       switch (status) {
         case 400:
-          errorMessage = data.message || '请求参数错误'
-          break
+          errorMessage = data.message || '请求参数错误';
+          break;
         case 401:
-          errorMessage = '登录已过期，请重新登录'
+          errorMessage = '登录已过期，请重新登录';
 
-          userStore.logout()
-          break
+          userStore.logout();
+          break;
         case 403:
-          errorMessage = data.message || '没有权限访问该资源'
-          break
+          errorMessage = data.message || '没有权限访问该资源';
+          break;
         case 404:
-          errorMessage = '请求的资源不存在'
-          break
+          errorMessage = '请求的资源不存在';
+          break;
         case 405:
-          errorMessage = '请求方法不允许'
-          break
+          errorMessage = '请求方法不允许';
+          break;
         case 429:
-          errorMessage = '请求过于频繁，请稍后重试'
-          break
+          errorMessage = '请求过于频繁，请稍后重试';
+          break;
         case 500:
-          errorMessage = data.message || '服务器内部错误'
-          break
+          errorMessage = data.message || '服务器内部错误';
+          break;
         case 502:
-          errorMessage = '网关错误'
-          break
+          errorMessage = '网关错误';
+          break;
         case 503:
-          errorMessage = '服务器维护中，请稍后重试'
-          break
+          errorMessage = '服务器维护中，请稍后重试';
+          break;
         case 504:
-          errorMessage = '服务器超时，请稍后重试'
-          break
+          errorMessage = '服务器超时，请稍后重试';
+          break;
         default:
-          errorMessage = data.message || statusText || `请求失败 (${status})`
+          errorMessage = data.message || statusText || `请求失败 (${status})`;
       }
     } else if (error.request) {
       // 请求已发出，但没有收到响应
-      errorMessage = '服务器无响应，请检查网络连接'
+      errorMessage = '服务器无响应，请检查网络连接';
     } else {
       // 请求配置出错
-      errorMessage = error.message || '请求配置错误'
+      errorMessage = error.message || '请求配置错误';
     }
 
     // 如果需要显示错误提示
@@ -135,17 +135,17 @@ const createApiService = (): ApiServiceInstance => {
         message: errorMessage,
         url: error.config?.url,
         method: error.config?.method,
-      })
+      });
       // 这里可以替换为UI库的提示组件，如ElMessage.error(errorMessage)
     }
 
     // 如果有自定义错误处理函数
     if (customHandler) {
-      customHandler(error)
+      customHandler(error);
     }
 
-    return Promise.reject(new Error(errorMessage))
-  }
+    return Promise.reject(new Error(errorMessage));
+  };
 
   // 封装便捷的请求方法
   const createRequestMethod = (method: string) => {
@@ -158,25 +158,25 @@ const createApiService = (): ApiServiceInstance => {
         url,
         method,
         ...config,
-      }
+      };
 
       if (method === 'get' || method === 'delete') {
-        requestConfig.params = data
+        requestConfig.params = data;
       } else {
-        requestConfig.data = data
+        requestConfig.data = data;
       }
 
       return new Promise((resolve) => {
         axiosInstance(requestConfig)
           .then((response: AxiosResponse<BaseResponse<T>>) => {
-            resolve([null, response.data.data as T])
+            resolve([null, response.data.data as T]);
           })
           .catch((error) => {
-            resolve([error, null as T])
-          })
-      })
-    }
-  }
+            resolve([error, null as T]);
+          });
+      });
+    };
+  };
   // 下载
   const download = async (url: string, params?: any, config?: ApiRequestConfig): Promise<Blob> => {
     const requestConfig: ApiRequestConfig = {
@@ -184,21 +184,21 @@ const createApiService = (): ApiServiceInstance => {
       method: 'get',
       responseType: 'blob', // 设置响应类型为blob
       ...config,
-    }
+    };
 
     if (params) {
-      requestConfig.params = params
+      requestConfig.params = params;
     }
 
     return axiosInstance(requestConfig)
       .then((response: AxiosResponse<Blob>) => {
-        saveFileBlob(response)
-        return response.data
+        saveFileBlob(response);
+        return response.data;
       })
       .catch((error) => {
-        return handleError(error)
-      })
-  }
+        return handleError(error);
+      });
+  };
   // 上传
   const upload = async <T = any>(
     url: string,
@@ -213,14 +213,14 @@ const createApiService = (): ApiServiceInstance => {
       },
       data,
       ...config,
-    }
+    };
 
     return axiosInstance(requestConfig)
       .then((response: AxiosResponse<BaseResponse<T>>) => response.data.data as T)
       .catch((error) => {
-        return handleError(error)
-      })
-  }
+        return handleError(error);
+      });
+  };
 
   const apiService: ApiServiceInstance = {
     // 暴露便捷的请求方法
@@ -231,13 +231,13 @@ const createApiService = (): ApiServiceInstance => {
     patch: createRequestMethod('patch'),
     download: download,
     upload: upload,
-  }
+  };
 
-  return apiService
-}
+  return apiService;
+};
 
 // 创建并导出API服务实例
-export const apiService = createApiService()
+export const apiService = createApiService();
 
 // 导出类型
-export type { BaseResponse, ApiRequestConfig }
+export type { BaseResponse, ApiRequestConfig };

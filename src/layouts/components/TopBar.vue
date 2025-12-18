@@ -49,58 +49,58 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router';
+import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-import { useDark, useToggle } from '@vueuse/core'
-import { useUserStore } from '@/store/user'
+import { useDark, useToggle } from '@vueuse/core';
+import { useUserStore } from '@/store/user';
 
-const router = useRouter()
-const isDark = useDark()
-const toggleDarkMode = useToggle(isDark)
+const router = useRouter();
+const isDark = useDark();
+const toggleDarkMode = useToggle(isDark);
 
 // Emits
 const emit = defineEmits<{
-  'toggle-sidebar': []
-}>()
+  'toggle-sidebar': [];
+}>();
 
 // 处理切换侧边栏
 const handleToggleSidebar = () => {
-  emit('toggle-sidebar')
-}
+  emit('toggle-sidebar');
+};
 
 // 处理切换暗黑模式
 const handleToggleDarkMode = () => {
-  toggleDarkMode()
-}
+  toggleDarkMode();
+};
 
 // 处理用户菜单命令
 const handleUserCommand = async (command: string) => {
   switch (command) {
     case 'profile':
-      ElMessage.info('打开个人设置')
-      break
+      ElMessage.info('打开个人设置');
+      break;
     case 'password':
-      ElMessage.info('打开修改密码')
-      break
+      ElMessage.info('打开修改密码');
+      break;
     case 'logout':
       try {
         await ElMessageBox.confirm('确定要退出登录吗？', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
-        })
-        ElMessage.success('退出登录成功')
-        const userStore = useUserStore()
-        await userStore.logout()
-        router.push('/login')
+        });
+        ElMessage.success('退出登录成功');
+        const userStore = useUserStore();
+        await userStore.logout();
+        router.push('/login');
       } catch {
         // 用户取消操作
       }
-      break
+      break;
   }
-}
+};
 </script>
 
 <style scoped></style>

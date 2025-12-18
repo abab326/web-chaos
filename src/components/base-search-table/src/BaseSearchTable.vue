@@ -22,34 +22,34 @@
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { computed, useTemplateRef } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { computed, useTemplateRef } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
-import type { BaseSearchTableSlots } from './type'
+import type { BaseSearchTableSlots } from './type';
 
-defineOptions({ name: 'BaseSearchTable' })
+defineOptions({ name: 'BaseSearchTable' });
 
 // 表格容器元素引用
-const tableAreaRef = useTemplateRef<HTMLDivElement>('tableAreaRef')
+const tableAreaRef = useTemplateRef<HTMLDivElement>('tableAreaRef');
 // 分页容器元素引用
-const paginationAreaRef = useTemplateRef<HTMLDivElement>('paginationAreaRef')
+const paginationAreaRef = useTemplateRef<HTMLDivElement>('paginationAreaRef');
 // 功能区容器元素引用
-const actionAreaRef = useTemplateRef<HTMLDivElement>('actionAreaRef')
+const actionAreaRef = useTemplateRef<HTMLDivElement>('actionAreaRef');
 
 // 表格容器元素尺寸
-const { height: tableAreaHeight } = useElementSize(tableAreaRef)
+const { height: tableAreaHeight } = useElementSize(tableAreaRef);
 // 分页容器元素尺寸
 const { height: paginationAreaHeight } = useElementSize(
   paginationAreaRef,
   { width: 0, height: 0 },
   { box: 'border-box' }
-)
+);
 // 功能区容器元素尺寸
 const { height: actionAreaHeight } = useElementSize(
   actionAreaRef,
   { width: 0, height: 0 },
   { box: 'border-box' }
-)
+);
 
 /**
  * 计算表格可用高度
@@ -57,8 +57,8 @@ const { height: actionAreaHeight } = useElementSize(
  */
 const tableHeight = computed(
   () => tableAreaHeight.value - paginationAreaHeight.value - actionAreaHeight.value
-)
+);
 
 // 定义插槽类型
-const slots = defineSlots<BaseSearchTableSlots>()
+const slots = defineSlots<BaseSearchTableSlots>();
 </script>

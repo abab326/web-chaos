@@ -1,17 +1,17 @@
-import type { DefineComponent } from 'vue'
-import type { PaginationParams } from '@/types'
+import type { DefineComponent } from 'vue';
+import type { PaginationParams } from '@/types';
 
-export type { PaginationParams }
+export type { PaginationParams };
 
 export type BasePaginationProps = {
-  total: number
-  pageSizes?: number[]
-  disabled?: boolean
-}
+  total: number;
+  pageSizes?: number[];
+  disabled?: boolean;
+};
 
 export type BasePaginationEmits = {
-  (e: 'pagination-change', params: PaginationParams): void
-}
+  (e: 'pagination-change', params: PaginationParams): void;
+};
 
 // 为组件提供类型定义
 export type BasePaginationComponent = DefineComponent<
@@ -38,4 +38,4 @@ export type BasePaginationComponent = DefineComponent<
   any,
   // EmitsOptions
   BasePaginationEmits
->
+>;

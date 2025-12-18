@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 
 const tableRoutes: RouteRecordRaw[] = [
   {
@@ -31,6 +31,6 @@ const tableRoutes: RouteRecordRaw[] = [
       },
     ],
   },
-]
+];
 
-export default tableRoutes
+export default tableRoutes;

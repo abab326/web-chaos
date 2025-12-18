@@ -116,53 +116,53 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { Lock, Message, Key } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { Lock, Message, Key } from '@element-plus/icons-vue';
+import type { FormInstance, FormRules } from 'element-plus';
 
-import { useUserStore } from '@/store/user'
+import { useUserStore } from '@/store/user';
 
-defineOptions({ name: 'Login' })
-const router = useRouter()
-const userStore = useUserStore()
+defineOptions({ name: 'Login' });
+const router = useRouter();
+const userStore = useUserStore();
 
 // 粒子动画相关引用
-const particlesContainer = ref<HTMLCanvasElement | null>(null)
-let animationFrameId: number | null = null
-let particles: Particle[] = []
+const particlesContainer = ref<HTMLCanvasElement | null>(null);
+let animationFrameId: number | null = null;
+let particles: Particle[] = [];
 
 interface Particle {
-  x: number
-  y: number
-  size: number
-  speedX: number
-  speedY: number
-  opacity: number
-  color: string
+  x: number;
+  y: number;
+  size: number;
+  speedX: number;
+  speedY: number;
+  opacity: number;
+  color: string;
 }
 
 interface LoginForm {
-  email: string
-  password: string
-  rememberMe: boolean
-  captcha?: string
+  email: string;
+  password: string;
+  rememberMe: boolean;
+  captcha?: string;
 }
 
 const form = reactive<LoginForm>({
   email: '',
   password: '',
   rememberMe: false,
-})
+});
 
-const loading = ref(false)
-const error = ref('')
-const formRef = ref<FormInstance>()
-const emailError = ref('')
-const failedAttempts = ref(0)
-const showCaptcha = ref(false)
-const captchaText = ref('')
+const loading = ref(false);
+const error = ref('');
+const formRef = ref<FormInstance>();
+const emailError = ref('');
+const failedAttempts = ref(0);
+const showCaptcha = ref(false);
+const captchaText = ref('');
 
 // 表单验证规则
 const rules = reactive<FormRules<LoginForm>>({
@@ -175,17 +175,17 @@ const rules = reactive<FormRules<LoginForm>>({
     { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
   ],
   captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-})
+});
 
 // 初始化粒子动画
 const initParticles = () => {
-  if (!particlesContainer.value) return
+  if (!particlesContainer.value) return;
 
-  const container = particlesContainer.value
-  const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 5000)
+  const container = particlesContainer.value;
+  const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 5000);
 
   // 清空现有粒子
-  particles = []
+  particles = [];
 
   // 创建粒子
   for (let i = 0; i < particleCount; i++) {
@@ -197,206 +197,206 @@ const initParticles = () => {
       speedY: (Math.random() - 0.5) * 0.5,
       opacity: Math.random() * 0.5 + 0.1,
       color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 155)}, 255, ${Math.random() * 0.5 + 0.2})`,
-    })
+    });
   }
 
   // 开始动画循环
-  animateParticles()
-}
+  animateParticles();
+};
 
 // 粒子动画循环
 const animateParticles = () => {
-  if (!particlesContainer.value) return
+  if (!particlesContainer.value) return;
 
-  const container = particlesContainer.value
-  const ctx = container.getContext('2d')
-  if (!ctx) return
+  const container = particlesContainer.value;
+  const ctx = container.getContext('2d');
+  if (!ctx) return;
 
   // 清空画布
-  ctx.clearRect(0, 0, container.width, container.height)
+  ctx.clearRect(0, 0, container.width, container.height);
 
   // 更新和绘制粒子
   particles.forEach((particle) => {
     // 更新位置
-    particle.x += particle.speedX
-    particle.y += particle.speedY
+    particle.x += particle.speedX;
+    particle.y += particle.speedY;
 
     // 边界检查
-    if (particle.x < 0 || particle.x > container.width) particle.speedX *= -1
-    if (particle.y < 0 || particle.y > container.height) particle.speedY *= -1
+    if (particle.x < 0 || particle.x > container.width) particle.speedX *= -1;
+    if (particle.y < 0 || particle.y > container.height) particle.speedY *= -1;
 
     // 绘制粒子
-    ctx.beginPath()
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-    ctx.fillStyle = particle.color
-    ctx.globalAlpha = particle.opacity
-    ctx.fill()
-  })
+    ctx.beginPath();
+    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+    ctx.fillStyle = particle.color;
+    ctx.globalAlpha = particle.opacity;
+    ctx.fill();
+  });
 
   // 绘制连接线
-  drawParticleConnections(ctx)
+  drawParticleConnections(ctx);
 
   // 继续动画循环
-  animationFrameId = requestAnimationFrame(animateParticles)
-}
+  animationFrameId = requestAnimationFrame(animateParticles);
+};
 
 // 绘制粒子间连接线
 const drawParticleConnections = (ctx: CanvasRenderingContext2D) => {
-  const maxDistance = 100
+  const maxDistance = 100;
 
   for (let i = 0; i < particles.length; i++) {
-    const particleI = particles[i]!
+    const particleI = particles[i]!;
     for (let j = i + 1; j < particles.length; j++) {
-      const particleJ = particles[j]!
-      const dx = particleI.x - particleJ.x
-      const dy = particleI.y - particleJ.y
-      const distance = Math.sqrt(dx * dx + dy * dy)
+      const particleJ = particles[j]!;
+      const dx = particleI.x - particleJ.x;
+      const dy = particleI.y - particleJ.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
 
       if (distance < maxDistance) {
-        const opacity = 1 - distance / maxDistance
-        ctx.beginPath()
-        ctx.moveTo(particleI.x, particleI.y)
-        ctx.lineTo(particleJ.x, particleJ.y)
-        ctx.strokeStyle = `rgba(100, 150, 255, ${opacity * 0.3})`
-        ctx.lineWidth = 0.5
-        ctx.stroke()
+        const opacity = 1 - distance / maxDistance;
+        ctx.beginPath();
+        ctx.moveTo(particleI.x, particleI.y);
+        ctx.lineTo(particleJ.x, particleJ.y);
+        ctx.strokeStyle = `rgba(100, 150, 255, ${opacity * 0.3})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
       }
     }
   }
-}
+};
 
 // 调整画布大小
 const resizeCanvas = () => {
-  if (!particlesContainer.value) return
+  if (!particlesContainer.value) return;
 
-  const container = particlesContainer.value
-  container.width = window.innerWidth
-  container.height = window.innerHeight
-  initParticles()
-}
+  const container = particlesContainer.value;
+  container.width = window.innerWidth;
+  container.height = window.innerHeight;
+  initParticles();
+};
 
 // 页面加载时初始化
 onMounted(() => {
   // 创建canvas元素
   if (particlesContainer.value) {
-    const canvas = document.createElement('canvas')
-    canvas.className = 'particles-canvas'
-    particlesContainer.value.appendChild(canvas)
-    particlesContainer.value = canvas
+    const canvas = document.createElement('canvas');
+    canvas.className = 'particles-canvas';
+    particlesContainer.value.appendChild(canvas);
+    particlesContainer.value = canvas;
 
     // 初始化画布大小
-    resizeCanvas()
+    resizeCanvas();
 
     // 监听窗口大小变化
-    window.addEventListener('resize', resizeCanvas)
+    window.addEventListener('resize', resizeCanvas);
   }
-})
+});
 
 // 组件卸载前清理资源
 onBeforeUnmount(() => {
   if (animationFrameId) {
-    cancelAnimationFrame(animationFrameId)
+    cancelAnimationFrame(animationFrameId);
   }
-  window.removeEventListener('resize', resizeCanvas)
-})
+  window.removeEventListener('resize', resizeCanvas);
+});
 
 // 表单是否无效
 const isFormInvalid = computed(() => {
-  return !form.email || !form.password || (showCaptcha.value && !form.captcha)
-})
+  return !form.email || !form.password || (showCaptcha.value && !form.captcha);
+});
 
 // 处理邮箱输入
 const handleEmailInput = () => {
   // 简单的邮箱格式验证
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (form.email && !emailRegex.test(form.email)) {
-    emailError.value = '请输入有效的邮箱地址'
+    emailError.value = '请输入有效的邮箱地址';
   } else {
-    emailError.value = ''
+    emailError.value = '';
   }
-}
+};
 
 // 处理密码输入
 const handlePasswordInput = () => {
   // 密码强度实时反馈已经在computed中处理
-}
+};
 
 // 生成随机验证码
 const generateCaptcha = () => {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
-  let result = ''
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let result = '';
   for (let i = 0; i < 4; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length))
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  captchaText.value = result
-}
+  captchaText.value = result;
+};
 
 // 刷新验证码
 const refreshCaptcha = () => {
-  generateCaptcha()
-}
+  generateCaptcha();
+};
 
 // 检查是否需要显示验证码
 const checkCaptchaRequirement = () => {
-  showCaptcha.value = failedAttempts.value >= 2
+  showCaptcha.value = failedAttempts.value >= 2;
   if (showCaptcha.value) {
-    generateCaptcha()
+    generateCaptcha();
   }
-}
+};
 
 const handleLogin = async () => {
-  if (!formRef.value) return
+  if (!formRef.value) return;
 
   try {
     // 如果需要验证码，验证验证码
     if (showCaptcha.value && form.captcha !== captchaText.value) {
-      error.value = '验证码错误'
-      failedAttempts.value++
-      checkCaptchaRequirement()
-      return
+      error.value = '验证码错误';
+      failedAttempts.value++;
+      checkCaptchaRequirement();
+      return;
     }
 
-    loading.value = true
-    error.value = ''
-    const result = await userStore.login({ username: form.email, password: form.password })
+    loading.value = true;
+    error.value = '';
+    const result = await userStore.login({ username: form.email, password: form.password });
     if (!result) {
-      return
+      return;
     }
     // 如果选择了记住我，保存到localStorage
     if (form.rememberMe) {
-      localStorage.setItem('rememberMe', 'true')
-      localStorage.setItem('email', form.email)
+      localStorage.setItem('rememberMe', 'true');
+      localStorage.setItem('email', form.email);
     } else {
-      localStorage.removeItem('rememberMe')
-      localStorage.removeItem('email')
+      localStorage.removeItem('rememberMe');
+      localStorage.removeItem('email');
     }
 
     // 跳转到仪表板
-    router.push('/')
+    router.push('/');
   } catch (err: unknown) {
     // 登录失败
     if (err instanceof Error) {
-      error.value = err.message || '登录失败，请稍后重试'
+      error.value = err.message || '登录失败，请稍后重试';
     } else {
-      error.value = '登录失败，请稍后重试'
+      error.value = '登录失败，请稍后重试';
     }
-    failedAttempts.value++
-    checkCaptchaRequirement()
+    failedAttempts.value++;
+    checkCaptchaRequirement();
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 页面加载时检查是否记住我
 onMounted(() => {
-  const rememberMe = localStorage.getItem('rememberMe')
-  const email = localStorage.getItem('email')
+  const rememberMe = localStorage.getItem('rememberMe');
+  const email = localStorage.getItem('email');
 
   if (rememberMe === 'true' && email) {
-    form.email = email
-    form.rememberMe = true
+    form.email = email;
+    form.rememberMe = true;
   }
-})
+});
 </script>
 
 <style scoped>

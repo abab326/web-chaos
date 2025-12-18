@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 
 const homeRoute: RouteRecordRaw = {
   path: '/',
@@ -13,6 +13,6 @@ const homeRoute: RouteRecordRaw = {
       meta: { title: '控制台', isAuth: true },
     },
   ],
-}
+};
 
-export default homeRoute
+export default homeRoute;

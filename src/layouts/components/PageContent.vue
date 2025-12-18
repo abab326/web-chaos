@@ -11,17 +11,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { computed } from 'vue';
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 
 // 计算缓存的组件列表
-import { useKeepAliveStore } from '@/store/keepalive'
-const cachedList = computed(() => useKeepAliveStore().cachedList)
+import { useKeepAliveStore } from '@/store/keepalive';
+const cachedList = computed(() => useKeepAliveStore().cachedList);
 
 // 动态生成组件 key
 const getKey = (route: RouteLocationNormalizedLoadedGeneric) => {
-  return route.fullPath
-}
+  return route.fullPath;
+};
 </script>
 
 <style scoped>

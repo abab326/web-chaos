@@ -42,122 +42,122 @@ import {
   nextTick,
   type ComponentPublicInstance,
   useTemplateRef,
-} from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useNavHistoryStore } from '@/store/navHistory'
-import BaseTab from '@/components/base-tab'
+} from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useNavHistoryStore } from '@/store/navHistory';
+import BaseTab from '@/components/base-tab';
 
-const route = useRoute()
-const router = useRouter()
-const navHistoryStore = useNavHistoryStore()
+const route = useRoute();
+const router = useRouter();
+const navHistoryStore = useNavHistoryStore();
 
 // DOM引用
-const baseTabRef = useTemplateRef<typeof BaseTab>('baseTabRef')
-const navItemRefs = ref<Record<string, HTMLElement | null>>({})
+const baseTabRef = useTemplateRef<typeof BaseTab>('baseTabRef');
+const navItemRefs = ref<Record<string, HTMLElement | null>>({});
 
 // Emits
 const emit = defineEmits<{
-  'nav-click': [key: string]
-  'add-nav': []
-}>()
+  'nav-click': [key: string];
+  'add-nav': [];
+}>();
 
 // 使用访问历史中的页面作为导航项
 const navItems = computed(() => {
-  return navHistoryStore.visitedPages
-})
+  return navHistoryStore.visitedPages;
+});
 
 // 当前激活的导航项
 const activeNav = computed(() => {
   // 根据当前路由名称确定激活项
-  return (route.name as string) || ''
-})
+  return (route.name as string) || '';
+});
 
 // 设置导航项引用
 const setNavItemRef = (el: Element | ComponentPublicInstance | null, key: string) => {
   if (el) {
-    navItemRefs.value[key] = el as HTMLElement
+    navItemRefs.value[key] = el as HTMLElement;
   }
-}
+};
 
 // 处理导航点击
 const handleNavClick = (key: string) => {
-  emit('nav-click', key)
+  emit('nav-click', key);
 
   // 根据导航键路由到相应页面
-  const targetRoute = navItems.value.find((item) => item.key === key)
+  const targetRoute = navItems.value.find((item) => item.key === key);
   if (targetRoute) {
     // 如果路由已存在，则滚动到该位置
-    scrollToNavItem(key)
-    router.push({ name: key })
+    scrollToNavItem(key);
+    router.push({ name: key });
   }
-}
+};
 
 // 滚动到指定的导航项
 const scrollToNavItem = (key: string) => {
   nextTick(() => {
-    const targetItem = navItemRefs.value[key]
+    const targetItem = navItemRefs.value[key];
     if (baseTabRef.value && targetItem) {
       // 获取目标元素相对于容器的位置
-      const container = baseTabRef.value.$el.querySelector('.tab-content-container')
+      const container = baseTabRef.value.$el.querySelector('.tab-content-container');
       if (container) {
-        const containerRect = container.getBoundingClientRect()
-        const itemRect = targetItem.getBoundingClientRect()
+        const containerRect = container.getBoundingClientRect();
+        const itemRect = targetItem.getBoundingClientRect();
 
         // 计算需要滚动的位置
         const scrollOffset =
-          itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2
+          itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2;
 
         // 使用BaseTab的滚动方法
         if (scrollOffset > 0) {
-          baseTabRef.value.scrollRight()
+          baseTabRef.value.scrollRight();
         } else {
-          baseTabRef.value.scrollLeft()
+          baseTabRef.value.scrollLeft();
         }
       }
     }
-  })
-}
+  });
+};
 
 // 处理Tab滚动事件
 const handleTabScroll = (position: number) => {
   // 可以在这里处理滚动事件
-  console.log('Tab scrolled to position:', position)
-}
+  console.log('Tab scrolled to position:', position);
+};
 
 // 移除导航项
 const removeNav = (key: string) => {
   // 阻止事件冒泡，避免触发导航点击
-  navHistoryStore.removeVisitedPage(key)
+  navHistoryStore.removeVisitedPage(key);
 
   // 如果关闭的是当前激活的页面，则导航到第一个页面或默认页面
   if (activeNav.value === key) {
     if (navItems.value.length > 0) {
-      const firstItem = navItems.value[0]
-      router.push({ name: firstItem!.key })
+      const firstItem = navItems.value[0];
+      router.push({ name: firstItem!.key });
     } else {
-      router.push({ name: 'Dashboard' })
+      router.push({ name: 'Dashboard' });
     }
   }
 
-  console.log('页面已关闭')
-}
+  console.log('页面已关闭');
+};
 
 // 监听路由变化，自动添加访问的页面到历史记录
 onMounted(() => {
   // 当组件挂载时，如果当前路由有标题，则添加到访问历史中
-  navHistoryStore.addVisitedPage(route)
+  navHistoryStore.addVisitedPage(route);
 
   // 监听路由变化
   router.afterEach((to) => {
-    navHistoryStore.addVisitedPage(to)
+    navHistoryStore.addVisitedPage(to);
     // 路由变化后滚动到激活的导航项
     if (to.name) {
       setTimeout(() => {
-        scrollToNavItem(to.name as string)
-      }, 100)
+        scrollToNavItem(to.name as string);
+      }, 100);
     }
-  })
-})
+  });
+});
 </script>
 
 <style scoped>

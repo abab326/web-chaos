@@ -1,5 +1,5 @@
-import BasePagination from './src/BasePagination.vue'
+import BasePagination from './src/BasePagination.vue';
 
-export * from './src/type'
+export * from './src/type';
 
-export default BasePagination
+export default BasePagination;

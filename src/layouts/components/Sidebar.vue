@@ -78,59 +78,59 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { Close } from '@element-plus/icons-vue'
-import { useWindowSize } from '@vueuse/core'
-import { usePermissionStore } from '@/store/permission'
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { Close } from '@element-plus/icons-vue';
+import { useWindowSize } from '@vueuse/core';
+import { usePermissionStore } from '@/store/permission';
 defineProps<{
-  isExpanded: boolean
-}>()
+  isExpanded: boolean;
+}>();
 
 const emit = defineEmits<{
-  (e: 'toggle-sidebar'): void
-}>()
+  (e: 'toggle-sidebar'): void;
+}>();
 
 // 获取路由实例
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 // 获取权限存储实例
-const permissionStore = usePermissionStore()
+const permissionStore = usePermissionStore();
 
 // 获取窗口尺寸信息
-const { width } = useWindowSize()
-const isMobile = computed(() => width.value <= 768)
+const { width } = useWindowSize();
+const isMobile = computed(() => width.value <= 768);
 
 // 获取菜单路由
 const menuRoutes = computed(() => {
-  return permissionStore.dynamicMenus
-})
+  return permissionStore.dynamicMenus;
+});
 
 // 处理菜单项点击
 const handleSelect = (index: string) => {
   // 根据菜单项索引导航到相应路由
-  console.log('handleSelect', index)
-  router.push({ path: index })
+  console.log('handleSelect', index);
+  router.push({ path: index });
 
   // 在移动端点击菜单项后关闭侧边栏
   if (isMobile.value) {
-    window.dispatchEvent(new CustomEvent('close-sidebar'))
+    window.dispatchEvent(new CustomEvent('close-sidebar'));
   }
-}
+};
 
 // 切换展开状态
 const toggleExpand = () => {
-  emit('toggle-sidebar')
-}
+  emit('toggle-sidebar');
+};
 
 // 获取活动菜单项
 const activeMenu = computed(() => {
   // 如果没有匹配的路由名称，则根据路径匹配
-  const path = route.path
+  const path = route.path;
 
-  return path || '/dashboard'
-})
+  return path || '/dashboard';
+});
 </script>
 
 <style scoped>

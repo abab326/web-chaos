@@ -149,7 +149,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, markRaw, type Component, onMounted, onActivated } from 'vue'
+import { ref, markRaw, type Component, onMounted, onActivated } from 'vue';
 import {
   User,
   TrendCharts,
@@ -159,26 +159,26 @@ import {
   Setting,
   Download,
   Monitor,
-} from '@element-plus/icons-vue'
+} from '@element-plus/icons-vue';
 
 interface Activity {
-  id: number
-  initials: string
-  message: string
-  time: string
-  detail: string
-  avatar?: string
-  icon: Component
-  type: 'primary' | 'success' | 'warning' | 'danger' | 'info'
+  id: number;
+  initials: string;
+  message: string;
+  time: string;
+  detail: string;
+  avatar?: string;
+  icon: Component;
+  type: 'primary' | 'success' | 'warning' | 'danger' | 'info';
 }
 
-defineOptions({ name: 'Dashboard' })
+defineOptions({ name: 'Dashboard' });
 onMounted(() => {
-  console.log('Dashboard 组件挂载')
-})
+  console.log('Dashboard 组件挂载');
+});
 onActivated(() => {
-  console.log('Dashboard 组件激活')
-})
+  console.log('Dashboard 组件激活');
+});
 const recentActivities = ref<Activity[]>([
   {
     id: 1,
@@ -216,7 +216,7 @@ const recentActivities = ref<Activity[]>([
     icon: markRaw(Monitor),
     type: 'primary',
   },
-])
+]);
 </script>
 
 <style scoped>

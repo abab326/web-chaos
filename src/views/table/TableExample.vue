@@ -53,26 +53,26 @@
 </template>
 
 <script setup lang="ts">
-import BasePagination from '@/components/base-pagination'
-import BaseSearchTable from '@/components/base-search-table'
-import BaseTable, { type TableColumn } from '@/components/base-table'
+import BasePagination from '@/components/base-pagination';
+import BaseSearchTable from '@/components/base-search-table';
+import BaseTable, { type TableColumn } from '@/components/base-table';
 
-import { useSearchTable } from '@/hooks/useSearchTable'
-import type { PaginationParams, PaginatedResponse } from '@/types'
-import type { UserBean } from '@/types/user'
+import { useSearchTable } from '@/hooks/useSearchTable';
+import type { PaginationParams, PaginatedResponse } from '@/types';
+import type { UserBean } from '@/types/user';
 
-defineOptions({ name: 'TableExample' })
+defineOptions({ name: 'TableExample' });
 interface ExampleSearchParams {
-  username?: string
-  status?: number
-  createTime?: Date[]
+  username?: string;
+  status?: number;
+  createTime?: Date[];
 }
 // 初始搜索参数
 const initialSearchParams: ExampleSearchParams = {
   username: '',
   status: 0,
   createTime: [],
-}
+};
 const tableColumns: TableColumn<UserBean>[] = [
   { prop: 'username', label: '用户名' },
   { prop: 'email', label: '邮箱' },
@@ -87,10 +87,10 @@ const tableColumns: TableColumn<UserBean>[] = [
     ],
   },
   { prop: 'createTime', label: '创建时间' },
-]
+];
 // 模拟数据
 const mockData = () => {
-  const data: UserBean[] = []
+  const data: UserBean[] = [];
 
   for (let i = 1; i <= 100; i++) {
     data.push({
@@ -104,46 +104,46 @@ const mockData = () => {
       roleCode: i % 3 === 0 ? 'ADMIN' : i % 3 === 1 ? 'EDITOR' : 'USER',
       createTime: `2023-0${(i % 9) + 1}-0${(i % 9) + 1} 10:00:00`,
       lastLoginTime: `2023-0${(i % 9) + 1}-1${(i % 9) + 1} 15:00:00`,
-    })
+    });
   }
 
-  return data
-}
+  return data;
+};
 
 // 模拟API请求
 const fetchData = async (
   params: ExampleSearchParams & PaginationParams
 ): Promise<PaginatedResponse<UserBean>> => {
-  console.log('fetchData', params)
+  console.log('fetchData', params);
   // 模拟API请求延迟
-  await new Promise((resolve) => setTimeout(resolve, 500))
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   // 模拟数据筛选
   const filteredData = mockData().filter((item) => {
     if (params.username && !item.username.includes(params.username)) {
-      return false
+      return false;
     }
     if (params.status && item.status !== Number(params.status)) {
-      return false
+      return false;
     }
     if (params.createTime && params.createTime.length === 2) {
-      const createTime = new Date(item.createTime)
+      const createTime = new Date(item.createTime);
       if (createTime < params.createTime[0]! || createTime > params.createTime[1]!) {
-        return false
+        return false;
       }
     }
-    return true
-  })
+    return true;
+  });
 
   // 模拟数据分页
-  const startIndex = (params.page - 1) * params.page
-  const endIndex = startIndex + params.page
+  const startIndex = (params.page - 1) * params.page;
+  const endIndex = startIndex + params.page;
 
   return {
     list: filteredData.slice(startIndex, endIndex),
     total: filteredData.length,
-  }
-}
+  };
+};
 
 // 使用搜索表格hook
 const { tableData, selectedItems, pagination, total, handlePaginationChange } = useSearchTable<
@@ -152,11 +152,11 @@ const { tableData, selectedItems, pagination, total, handlePaginationChange } = 
 >({
   fetchData,
   initialSearchParams,
-})
+});
 
 // 格式化日期
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
   return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: '2-digit',
@@ -164,8 +164,8 @@ const formatDate = (dateString: string) => {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-  })
-}
+  });
+};
 </script>
 
 <style scoped></style>

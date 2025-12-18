@@ -1,5 +1,5 @@
-import dayjs from 'dayjs'
-import type { ConfigType, QUnitType } from 'dayjs'
+import dayjs from 'dayjs';
+import type { ConfigType, QUnitType } from 'dayjs';
 /**
  * 格式化时间
  * @param date 时间
@@ -7,7 +7,7 @@ import type { ConfigType, QUnitType } from 'dayjs'
  * @returns 格式化后的时间字符串
  */
 export function formatDate(date: ConfigType, format = 'YYYY-MM-DD HH:mm:ss'): string {
-  return dayjs(date).format(format)
+  return dayjs(date).format(format);
 }
 
 /**
@@ -17,5 +17,5 @@ export function formatDate(date: ConfigType, format = 'YYYY-MM-DD HH:mm:ss'): st
  * @returns 时间差
  */
 export function calculateTimeDifference(date: ConfigType, unit: QUnitType = 'minute'): number {
-  return dayjs().diff(dayjs(date), unit)
+  return dayjs().diff(dayjs(date), unit);
 }

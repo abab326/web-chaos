@@ -22,10 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import BaseForm from '@/components/base-form'
-import type { FormItem, FormConfig } from '@/components/base-form'
-import type { FormRules } from 'element-plus'
+import { ref } from 'vue';
+import BaseForm from '@/components/base-form';
+import type { FormItem, FormConfig } from '@/components/base-form';
+import type { FormRules } from 'element-plus';
 
 // 表单数据
 const formData = ref<Record<string, any>>({
@@ -39,7 +39,7 @@ const formData = ref<Record<string, any>>({
   startDate: '',
   salary: null,
   customField: '',
-})
+});
 
 // 表单配置项
 const formItems = ref<FormItem[]>([
@@ -123,7 +123,7 @@ const formItems = ref<FormItem[]>([
     label: '自定义字段',
     type: 'slot',
   },
-])
+]);
 
 // 表单配置
 const formConfig = ref<FormConfig>({
@@ -134,7 +134,7 @@ const formConfig = ref<FormConfig>({
   submitText: '提交',
   showResetButton: true,
   resetText: '重置',
-})
+});
 
 // 表单验证规则
 const rules = ref<FormRules>({
@@ -142,33 +142,33 @@ const rules = ref<FormRules>({
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
   ],
-})
+});
 
 // 提交加载状态
-const submitLoading = ref(false)
+const submitLoading = ref(false);
 
 // 处理表单提交
 const handleSubmit = (data: Record<string, any>) => {
-  submitLoading.value = true
-  console.log('提交数据:', data)
+  submitLoading.value = true;
+  console.log('提交数据:', data);
 
   // 模拟提交过程
   setTimeout(() => {
-    submitLoading.value = false
-    alert('表单提交成功!')
-  }, 1000)
-}
+    submitLoading.value = false;
+    alert('表单提交成功!');
+  }, 1000);
+};
 
 // 处理表单重置
 const handleReset = () => {
-  console.log('表单已重置')
-}
+  console.log('表单已重置');
+};
 
 // 处理字段变化
 const handleFieldChange = (item: FormItem, value: any) => {
-  console.log('handleFieldChange', formData.value)
-  console.log(`字段 ${item.prop} 发生变化:`, value)
-}
+  console.log('handleFieldChange', formData.value);
+  console.log(`字段 ${item.prop} 发生变化:`, value);
+};
 </script>
 
 <style scoped>

@@ -63,23 +63,23 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
 
-defineOptions({ name: 'NotFound' })
+defineOptions({ name: 'NotFound' });
 
-const router = useRouter()
+const router = useRouter();
 
 const goBack = () => {
   if (window.history.length > 1) {
-    router.back()
+    router.back();
   } else {
-    router.push('/')
+    router.push('/');
   }
-}
+};
 
 const goHome = () => {
-  router.push('/')
-}
+  router.push('/');
+};
 </script>
 
 <style scoped>

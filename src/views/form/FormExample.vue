@@ -40,13 +40,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import type { FormItem, FormConfig } from '@/components/base-form'
-import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-import BaseForm from '@/components/base-form'
+import { ref, reactive } from 'vue';
+import type { FormItem, FormConfig } from '@/components/base-form';
+import { ElMessage } from 'element-plus';
+import { Plus } from '@element-plus/icons-vue';
+import BaseForm from '@/components/base-form';
 
-defineOptions({ name: 'FormExample' })
+defineOptions({ name: 'FormExample' });
 
 // 表单数据
 const formData = ref<Record<string, any>>({
@@ -59,7 +59,7 @@ const formData = ref<Record<string, any>>({
   birthday: '',
   description: '',
   avatar: '',
-})
+});
 
 // 表单项配置
 const formItems: FormItem[] = [
@@ -176,7 +176,7 @@ const formItems: FormItem[] = [
       showWordLimit: true,
     },
   },
-]
+];
 
 // 表单配置
 const formConfig = reactive<FormConfig>({
@@ -187,7 +187,7 @@ const formConfig = reactive<FormConfig>({
   submitText: '提交',
   showResetButton: true,
   resetText: '重置',
-})
+});
 
 // 表单规则
 const formRules = reactive({
@@ -196,33 +196,33 @@ const formRules = reactive({
     { type: 'email' as const, message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
   ],
   phone: [{ pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }],
-})
+});
 
 // 提交加载状态
-const submitLoading = ref(false)
+const submitLoading = ref(false);
 
 // 处理表单提交
 const handleSubmit = (data: Record<string, any>) => {
-  submitLoading.value = true
-  console.log('表单提交数据:', data)
+  submitLoading.value = true;
+  console.log('表单提交数据:', data);
 
   // 模拟提交过程
   setTimeout(() => {
-    submitLoading.value = false
-    ElMessage.success('表单提交成功!')
-  }, 1000)
-}
+    submitLoading.value = false;
+    ElMessage.success('表单提交成功!');
+  }, 1000);
+};
 
 // 处理表单重置
 const handleReset = () => {
-  ElMessage.info('表单已重置')
-}
+  ElMessage.info('表单已重置');
+};
 
 // 处理字段变化
 const handleFieldChange = (item: FormItem, value: any) => {
-  console.log('handleFieldChange', formData.value)
-  console.log(`字段 ${item.prop} 发生变化:`, value)
-}
+  console.log('handleFieldChange', formData.value);
+  console.log(`字段 ${item.prop} 发生变化:`, value);
+};
 </script>
 
 <style scoped>

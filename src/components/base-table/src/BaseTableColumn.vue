@@ -18,26 +18,26 @@
 </template>
 
 <script setup generic="T extends Record<string, any>" lang="ts">
-import { computed } from 'vue'
-import type { TableColumn } from './type'
+import { computed } from 'vue';
+import type { TableColumn } from './type';
 
 interface BaseTableColumnProps<T> {
-  column: TableColumn<T>
+  column: TableColumn<T>;
 }
 
 interface BaseTableColumnSlots<T> {
   // 自定义 cell slot，保持向后兼容
-  cell: (props: { row: T; column: TableColumn<T>; value: any }) => any
+  cell: (props: { row: T; column: TableColumn<T>; value: any }) => any;
 }
 
-defineSlots<BaseTableColumnSlots<T>>()
-const props = defineProps<BaseTableColumnProps<T>>()
+defineSlots<BaseTableColumnSlots<T>>();
+const props = defineProps<BaseTableColumnProps<T>>();
 
 const columnProps = computed(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { children, ...rest } = props.column.value
-  return rest
-})
+  const { children, ...rest } = props.column.value;
+  return rest;
+});
 </script>
 
 <style scoped></style>

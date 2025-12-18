@@ -6,21 +6,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import BaseTable from '@/components/base-table'
-import type { TableColumn } from '@/components/base-table'
+import { ref } from 'vue';
+import BaseTable from '@/components/base-table';
+import type { TableColumn } from '@/components/base-table';
 
 // 定义表格数据类型
 interface TableRow {
-  id: number
-  name: string
-  age: number
-  address: string
-  province: string
-  city: string
-  zip: string
-  email: string
-  phone: string
+  id: number;
+  name: string;
+  age: number;
+  address: string;
+  province: string;
+  city: string;
+  zip: string;
+  email: string;
+  phone: string;
 }
 
 // 表格列配置，包含嵌套表头
@@ -38,7 +38,7 @@ const tableColumns: TableColumn<TableRow>[] = [
   },
   { prop: 'email', label: '邮箱' },
   { prop: 'phone', label: '电话' },
-]
+];
 
 // 表格数据
 const tableData = ref<TableRow[]>([
@@ -64,5 +64,5 @@ const tableData = ref<TableRow[]>([
     email: 'lisi@example.com',
     phone: '13800138002',
   },
-])
+]);
 </script>

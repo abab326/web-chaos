@@ -1,10 +1,10 @@
-import type { NavigationGuardWithThis } from 'vue-router'
+import type { NavigationGuardWithThis } from 'vue-router';
 
 // 页面信息守卫
 export const pageInfoGuard: NavigationGuardWithThis<undefined> = (to, _from, next) => {
-  const { meta } = to
+  const { meta } = to;
   if (meta.title) {
-    document.title = meta.title
+    document.title = meta.title;
   }
-  next()
-}
+  next();
+};

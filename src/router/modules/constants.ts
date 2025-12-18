@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 
 // 常量路由
 const constantRoutes: RouteRecordRaw[] = [
@@ -14,6 +14,6 @@ const constantRoutes: RouteRecordRaw[] = [
     component: () => import('@/views/NotFound.vue'),
     meta: { title: '页面不存在', isAuth: false },
   },
-]
+];
 
-export default constantRoutes
+export default constantRoutes;

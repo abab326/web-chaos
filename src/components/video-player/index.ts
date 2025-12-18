@@ -1,3 +1,3 @@
-import VideoPlayer from './src/VideoPlayer.vue'
+import VideoPlayer from './src/VideoPlayer.vue';
 
-export default VideoPlayer
+export default VideoPlayer;

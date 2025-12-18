@@ -1,15 +1,15 @@
-import type { FormItemRule } from 'element-plus'
+import type { FormItemRule } from 'element-plus';
 
 export type FormItemSpan =
   | number
   | {
-      default: number
-      sm?: number
-      md?: number
-      lg?: number
-      xl?: number
-      xxl?: number
-    }
+      default: number;
+      sm?: number;
+      md?: number;
+      lg?: number;
+      xl?: number;
+      xxl?: number;
+    };
 export type FormItemComponent =
   | 'input'
   | 'textarea'
@@ -21,52 +21,52 @@ export type FormItemComponent =
   | 'date-picker'
   | 'time-picker'
   | 'slider'
-  | 'slot'
+  | 'slot';
 
 // 定义表单项类型
 export interface FormItem {
   // 字段名
-  prop: string
+  prop: string;
   // 标签文本
-  label?: string
+  label?: string;
   // 表单组件类型
-  type?: FormItemComponent
+  type?: FormItemComponent;
   // 占位符
-  placeholder?: string
+  placeholder?: string;
   // 是否必填
-  required?: boolean
+  required?: boolean;
   // 是否隐藏
-  hidden?: boolean
+  hidden?: boolean;
   // 列数（用于网格布局）
-  span?: FormItemSpan
+  span?: FormItemSpan;
   // 选项列表（用于select、radio、checkbox）
-  options?: Array<{ label: string; value: any }>
+  options?: Array<{ label: string; value: any }>;
   // formItem 组件属性
-  formItemProps?: Record<string, any>
+  formItemProps?: Record<string, any>;
   // 表单项组件属性
-  itemComponentProps?: Record<string, any>
+  itemComponentProps?: Record<string, any>;
   // 默认值
-  defaultValue?: any
+  defaultValue?: any;
   // 规则
-  rules?: FormItemRule[]
+  rules?: FormItemRule[];
 }
 
 // 表单配置
 export interface FormConfig {
   // 标签宽度
-  labelWidth?: string
+  labelWidth?: string;
   // 标签位置
-  labelPosition?: 'left' | 'right' | 'top'
+  labelPosition?: 'left' | 'right' | 'top';
   // 表单尺寸
-  size?: 'large' | 'default' | 'small'
+  size?: 'large' | 'default' | 'small';
   // 其他表单属性
-  formProps?: Record<string, any>
+  formProps?: Record<string, any>;
   // 是否显示操作按钮
-  showActionButtons?: boolean
+  showActionButtons?: boolean;
   // 提交按钮文本
-  submitText?: string
+  submitText?: string;
   // 是否显示重置按钮
-  showResetButton?: boolean
+  showResetButton?: boolean;
   // 重置按钮文本
-  resetText?: string
+  resetText?: string;
 }

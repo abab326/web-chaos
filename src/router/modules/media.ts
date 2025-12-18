@@ -1,5 +1,5 @@
-import { type RouteRecordRaw } from 'vue-router'
-import MainLayout from '@/layouts/MainLayout.vue'
+import { type RouteRecordRaw } from 'vue-router';
+import MainLayout from '@/layouts/MainLayout.vue';
 
 /**
  * 媒体路由模块
@@ -26,6 +26,6 @@ export const mediaRoutes: RouteRecordRaw[] = [
       },
     ],
   },
-]
+];
 
-export default mediaRoutes
+export default mediaRoutes;

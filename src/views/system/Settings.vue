@@ -102,43 +102,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ref, reactive } from 'vue';
+import { ElMessage } from 'element-plus';
 
 interface Tab {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 interface Settings {
   general: {
-    siteName: string
-    version: string
-    description: string
-    maintenanceMode: boolean
-  }
+    siteName: string;
+    version: string;
+    description: string;
+    maintenanceMode: boolean;
+  };
   security: {
-    passwordPolicy: string
-    twoFactorAuth: boolean
-    loginAttempts: boolean
-    maxLoginAttempts: number
-  }
+    passwordPolicy: string;
+    twoFactorAuth: boolean;
+    loginAttempts: boolean;
+    maxLoginAttempts: number;
+  };
   notifications: {
-    email: boolean
-    system: boolean
-    security: boolean
-  }
+    email: boolean;
+    system: boolean;
+    security: boolean;
+  };
 }
 
-defineOptions({ name: 'Settings' })
+defineOptions({ name: 'Settings' });
 
 const tabs = ref<Tab[]>([
   { id: 'general', name: '基本设置' },
   { id: 'security', name: '安全设置' },
   { id: 'notifications', name: '通知设置' },
-])
+]);
 
-const activeTab = ref('general')
+const activeTab = ref('general');
 
 const settings = reactive<Settings>({
   general: {
@@ -158,13 +158,13 @@ const settings = reactive<Settings>({
     system: true,
     security: true,
   },
-})
+});
 
 const saveSettings = () => {
   // 这里应该调用 API 保存设置
-  console.log('保存设置:', settings)
-  ElMessage.success('设置已保存')
-}
+  console.log('保存设置:', settings);
+  ElMessage.success('设置已保存');
+};
 
 const resetSettings = () => {
   // 重置为默认设置
@@ -186,9 +186,9 @@ const resetSettings = () => {
       system: true,
       security: true,
     },
-  })
-  ElMessage.info('设置已重置')
-}
+  });
+  ElMessage.info('设置已重置');
+};
 </script>
 
 <style scoped></style>

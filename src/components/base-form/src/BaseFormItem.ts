@@ -1,10 +1,10 @@
-import { defineComponent, type PropType } from 'vue'
+import { defineComponent, type PropType } from 'vue';
 
-import { renderFormItem } from './render'
-import type { FormItem } from './type'
+import { renderFormItem } from './render';
+import type { FormItem } from './type';
 
 // 定义 handleChange 函数的类型
-type HandleChangeFunction = (item: FormItem, value: any) => void
+type HandleChangeFunction = (item: FormItem, value: any) => void;
 
 export default defineComponent({
   name: 'BaseFormItem',
@@ -23,10 +23,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { item, formData, handleChange } = props
+    const { item, formData, handleChange } = props;
     return () => {
       // 渲染表单项
-      return renderFormItem(item, formData, handleChange, slots)
-    }
+      return renderFormItem(item, formData, handleChange, slots);
+    };
   },
-})
+});

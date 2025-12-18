@@ -1,15 +1,15 @@
-import type { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router';
 
-const modules = import.meta.glob(['./*.ts', '!./index.ts'], { eager: true })
-const moduleRoutes: RouteRecordRaw[] = []
+const modules = import.meta.glob(['./*.ts', '!./index.ts'], { eager: true });
+const moduleRoutes: RouteRecordRaw[] = [];
 for (const path in modules) {
-  const module = modules[path]
-  const defaultValue = (module as any).default
+  const module = modules[path];
+  const defaultValue = (module as any).default;
   if (Array.isArray(defaultValue)) {
-    moduleRoutes.push(...defaultValue)
+    moduleRoutes.push(...defaultValue);
   } else if (defaultValue && defaultValue.path) {
-    moduleRoutes.push(defaultValue)
+    moduleRoutes.push(defaultValue);
   }
 }
 
-export { moduleRoutes }
+export { moduleRoutes };

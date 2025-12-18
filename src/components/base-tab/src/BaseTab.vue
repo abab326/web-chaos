@@ -61,130 +61,130 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { useElementSize } from '@vueuse/core'
+import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { useElementSize } from '@vueuse/core';
 
 // 定义props
 export interface Props {
   // 每个滚动步骤的像素数
-  scrollStep?: number
+  scrollStep?: number;
   // 自动滚动速度（单位：次/秒）
-  autoScrollSpeed?: number
+  autoScrollSpeed?: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   scrollStep: 100,
   autoScrollSpeed: 5,
-})
+});
 
 // 定义emit
 const emit = defineEmits<{
-  (e: 'scroll', value: number): void
-}>()
+  (e: 'scroll', value: number): void;
+}>();
 
 // DOM引用
-const tabContainerRef = ref<HTMLElement | null>(null)
-const tabContentRef = ref<HTMLElement | null>(null)
+const tabContainerRef = ref<HTMLElement | null>(null);
+const tabContentRef = ref<HTMLElement | null>(null);
 
-const { width: containerWidth } = useElementSize(tabContainerRef)
-const { width: contentWidth } = useElementSize(tabContentRef)
+const { width: containerWidth } = useElementSize(tabContainerRef);
+const { width: contentWidth } = useElementSize(tabContentRef);
 
 // 状态变量
-const scrollPosition = ref(0)
+const scrollPosition = ref(0);
 
-const isScrolling = ref(false)
-const autoScrollTimer = ref<number | null>(null)
+const isScrolling = ref(false);
+const autoScrollTimer = ref<number | null>(null);
 
 // 计算属性
-const canScrollLeft = computed(() => scrollPosition.value < 0)
+const canScrollLeft = computed(() => scrollPosition.value < 0);
 const canScrollRight = computed(() => {
-  if (!containerWidth.value || !contentWidth.value) return false
-  return Math.abs(scrollPosition.value) < contentWidth.value - containerWidth.value
-})
+  if (!containerWidth.value || !contentWidth.value) return false;
+  return Math.abs(scrollPosition.value) < contentWidth.value - containerWidth.value;
+});
 
 const showArrow = computed(() => {
-  return contentWidth.value > containerWidth.value
-})
+  return contentWidth.value > containerWidth.value;
+});
 
 // 向左滚动
 const scrollLeft = () => {
-  if (!canScrollLeft.value || !tabContainerRef.value) return
+  if (!canScrollLeft.value || !tabContainerRef.value) return;
 
-  const newPosition = Math.min(0, scrollPosition.value + props.scrollStep)
-  scrollToPosition(newPosition)
-}
+  const newPosition = Math.min(0, scrollPosition.value + props.scrollStep);
+  scrollToPosition(newPosition);
+};
 
 // 向右滚动
 const scrollRight = () => {
-  if (!canScrollRight.value || !tabContainerRef.value || !tabContentRef.value) return
+  if (!canScrollRight.value || !tabContainerRef.value || !tabContentRef.value) return;
 
-  const maxScroll = containerWidth.value - contentWidth.value
-  const newPosition = Math.max(maxScroll, scrollPosition.value - props.scrollStep)
-  scrollToPosition(newPosition)
-}
+  const maxScroll = containerWidth.value - contentWidth.value;
+  const newPosition = Math.max(maxScroll, scrollPosition.value - props.scrollStep);
+  scrollToPosition(newPosition);
+};
 
 // 开始自动滚动
 const startAutoScroll = (direction: 'left' | 'right') => {
-  stopAutoScroll() // 确保没有其他定时器在运行
+  stopAutoScroll(); // 确保没有其他定时器在运行
 
   const scrollFn = () => {
     if (direction === 'left') {
-      scrollLeft()
+      scrollLeft();
     } else {
-      scrollRight()
+      scrollRight();
     }
 
     // 继续自动滚动
-    autoScrollTimer.value = window.setTimeout(scrollFn, 100 / props.autoScrollSpeed)
-  }
+    autoScrollTimer.value = window.setTimeout(scrollFn, 100 / props.autoScrollSpeed);
+  };
 
-  autoScrollTimer.value = window.setTimeout(scrollFn, 100 / props.autoScrollSpeed)
-}
+  autoScrollTimer.value = window.setTimeout(scrollFn, 100 / props.autoScrollSpeed);
+};
 
 // 停止自动滚动
 const stopAutoScroll = () => {
   if (autoScrollTimer.value) {
-    clearTimeout(autoScrollTimer.value)
-    autoScrollTimer.value = null
+    clearTimeout(autoScrollTimer.value);
+    autoScrollTimer.value = null;
   }
-}
+};
 
 // 滚动到指定位置
 const scrollToPosition = (position: number) => {
-  isScrolling.value = true
-  scrollPosition.value = position
-  emit('scroll', position)
+  isScrolling.value = true;
+  scrollPosition.value = position;
+  emit('scroll', position);
 
   // 动画结束后清除滚动状态
   setTimeout(() => {
-    isScrolling.value = false
-  }, 300)
-}
+    isScrolling.value = false;
+  }, 300);
+};
 
 // 处理鼠标滚轮事件
 const handleWheel = (event: WheelEvent) => {
-  if (!tabContainerRef.value || !tabContentRef.value) return
+  if (!tabContainerRef.value || !tabContentRef.value) return;
 
-  const delta = event.deltaY || event.deltaX
-  const maxScroll = containerWidth.value - contentWidth.value
-  const newPosition = Math.max(maxScroll, Math.min(0, scrollPosition.value - delta))
+  const delta = event.deltaY || event.deltaX;
+  const maxScroll = containerWidth.value - contentWidth.value;
+  const newPosition = Math.max(maxScroll, Math.min(0, scrollPosition.value - delta));
 
-  scrollToPosition(newPosition)
-}
+  scrollToPosition(newPosition);
+};
 
 // 初始化
-onMounted(() => {})
+onMounted(() => {});
 
 // 清理
 onUnmounted(() => {
-  stopAutoScroll()
-})
+  stopAutoScroll();
+});
 
 // 导出方法供父组件调用
 defineExpose({
   scrollLeft,
   scrollRight,
-})
+});
 </script>
 
 <style scoped>

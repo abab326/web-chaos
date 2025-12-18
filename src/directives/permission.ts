@@ -1,11 +1,11 @@
-import type { Directive, DirectiveBinding } from 'vue'
+import type { Directive, DirectiveBinding } from 'vue';
 
-import { usePermissionStore } from '@/store/permission'
+import { usePermissionStore } from '@/store/permission';
 
-type PermissionMode = 'any' | 'all'
-export type PermissionChecker = (requiredPermissions: string[], mode: PermissionMode) => boolean
+type PermissionMode = 'any' | 'all';
+export type PermissionChecker = (requiredPermissions: string[], mode: PermissionMode) => boolean;
 
-export type PermissionDirective = Directive<HTMLElement, string | string[]>
+export type PermissionDirective = Directive<HTMLElement, string | string[]>;
 
 /**
  * 默认权限检查函数
@@ -14,16 +14,16 @@ export type PermissionDirective = Directive<HTMLElement, string | string[]>
  * @returns 是否有权限
  */
 const defaultPermissionChecker: PermissionChecker = (requiredPermissions, mode) => {
-  const permissionStore = usePermissionStore()
-  const userPermissions = permissionStore.permissions
-  console.warn('v-permission: 未提供权限检查函数，默认使用全局权限检查函数。')
+  const permissionStore = usePermissionStore();
+  const userPermissions = permissionStore.permissions;
+  console.warn('v-permission: 未提供权限检查函数，默认使用全局权限检查函数。');
   if (mode === 'any') {
-    return requiredPermissions.some((permission: string) => userPermissions.includes(permission))
+    return requiredPermissions.some((permission: string) => userPermissions.includes(permission));
   } else if (mode === 'all') {
-    return requiredPermissions.every((permission: string) => userPermissions.includes(permission))
+    return requiredPermissions.every((permission: string) => userPermissions.includes(permission));
   }
-  return false
-}
+  return false;
+};
 /**
  * 权限指令工厂函数
  * @param checker 权限检查函数
@@ -31,38 +31,38 @@ const defaultPermissionChecker: PermissionChecker = (requiredPermissions, mode) 
  */
 export function createPermissionDirective(checker?: PermissionChecker): PermissionDirective {
   // 默认权限检查函数 (警告并允许访问)
-  const permissionChecker = checker || defaultPermissionChecker
+  const permissionChecker = checker || defaultPermissionChecker;
 
   const updatePermission = (el: HTMLElement, binding: DirectiveBinding<string | string[]>) => {
-    console.log('updatePermission', binding)
-    const mode = (binding.arg as PermissionMode) || 'any'
-    const requiredPermissions = Array.isArray(binding.value) ? binding.value : [binding.value]
-    const hasPermission = permissionChecker(requiredPermissions, mode)
+    console.log('updatePermission', binding);
+    const mode = (binding.arg as PermissionMode) || 'any';
+    const requiredPermissions = Array.isArray(binding.value) ? binding.value : [binding.value];
+    const hasPermission = permissionChecker(requiredPermissions, mode);
 
     if (!hasPermission) {
       // 默认模式：隐藏元素
-      el.style.display = 'none'
-      el.style.pointerEvents = 'none'
+      el.style.display = 'none';
+      el.style.pointerEvents = 'none';
     } else {
-      el.style.display = ''
-      el.style.pointerEvents = ''
+      el.style.display = '';
+      el.style.pointerEvents = '';
     }
-  }
+  };
 
   return {
     mounted(el, binding) {
-      updatePermission(el, binding)
+      updatePermission(el, binding);
     },
 
     updated(el, binding) {
-      updatePermission(el, binding)
+      updatePermission(el, binding);
     },
 
     unmounted(el) {
       // 清理类名
-      el.classList.remove('permission-disabled')
+      el.classList.remove('permission-disabled');
     },
-  }
+  };
 }
 
 /**
@@ -72,4 +72,4 @@ export function createPermissionDirective(checker?: PermissionChecker): Permissi
  * @param arg 'any' (默认) | 'all' - 检查模式
  * @param modifiers.disable 禁用模式 (替代隐藏)
  */
-export const permission = createPermissionDirective()
+export const permission = createPermissionDirective();

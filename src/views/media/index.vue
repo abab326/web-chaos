@@ -35,8 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { VideoCamera } from '@element-plus/icons-vue'
-import VideoPlayer from '@/components/video-player'
+import { VideoCamera } from '@element-plus/icons-vue';
+import VideoPlayer from '@/components/video-player';
 // 建议优先使用这些
 const testVideos = [
   // 1. 标准MP4（推荐）
@@ -53,11 +53,11 @@ const testVideos = [
 
   // 5. 备用地址
   'https://v-cdn.zjol.com.cn/123.mp4',
-]
+];
 // 定义组件名称
 defineOptions({
   name: 'VideoDemo',
-})
+});
 </script>
 
 <style scoped>

@@ -11,7 +11,7 @@ export const spanClassMap: Record<number, string> = {
   3: 'col-span-3',
   2: 'col-span-2',
   1: 'col-span-1',
-}
+};
 export const smSpanClassMap: Record<number, string> = {
   12: 'sm:col-span-12',
   11: 'sm:col-span-11',
@@ -25,7 +25,7 @@ export const smSpanClassMap: Record<number, string> = {
   3: 'sm:col-span-3',
   2: 'sm:col-span-2',
   1: 'sm:col-span-1',
-}
+};
 export const mdSpanClassMap: Record<number, string> = {
   12: 'md:col-span-12',
   11: 'md:col-span-11',
@@ -39,7 +39,7 @@ export const mdSpanClassMap: Record<number, string> = {
   3: 'md:col-span-3',
   2: 'md:col-span-2',
   1: 'md:col-span-1',
-}
+};
 export const lgSpanClassMap: Record<number, string> = {
   12: 'lg:col-span-12',
   11: 'lg:col-span-11',
@@ -53,7 +53,7 @@ export const lgSpanClassMap: Record<number, string> = {
   3: 'lg:col-span-3',
   2: 'lg:col-span-2',
   1: 'lg:col-span-1',
-}
+};
 export const xlSpanClassMap: Record<number, string> = {
   12: 'xl:col-span-12',
   11: 'xl:col-span-11',
@@ -67,7 +67,7 @@ export const xlSpanClassMap: Record<number, string> = {
   3: 'xl:col-span-3',
   2: 'xl:col-span-2',
   1: 'xl:col-span-1',
-}
+};
 export const xxlSpanClassMap: Record<number, string> = {
   12: '2xl:col-span-12',
   11: '2xl:col-span-11',
@@ -81,7 +81,7 @@ export const xxlSpanClassMap: Record<number, string> = {
   3: '2xl:col-span-3',
   2: '2xl:col-span-2',
   1: '2xl:col-span-1',
-}
+};
 
 export const spanClassMaps = {
   default: spanClassMap,
@@ -90,4 +90,4 @@ export const spanClassMaps = {
   lg: lgSpanClassMap,
   xl: xlSpanClassMap,
   xxl: xxlSpanClassMap,
-}
+};

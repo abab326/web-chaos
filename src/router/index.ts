@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
-import { eventBus } from '@/plugins/eventBus'
+import { eventBus } from '@/plugins/eventBus';
 // 静态路由
-import constantRoutes from './modules/constants'
-import { registerRouterGuards } from './guards'
+import constantRoutes from './modules/constants';
+import { registerRouterGuards } from './guards';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,20 +19,20 @@ const router = createRouter({
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { top: 0 }
+      return { top: 0 };
     }
   },
-})
+});
 // 注册路由守卫
-registerRouterGuards(router)
+registerRouterGuards(router);
 
 eventBus.on('user:logout', (redirect) => {
-  const currentPath = router.currentRoute.value.fullPath
+  const currentPath = router.currentRoute.value.fullPath;
   if (!currentPath.startsWith('/login')) {
-    router.replace({ name: 'login', query: { redirect: redirect || currentPath } })
+    router.replace({ name: 'login', query: { redirect: redirect || currentPath } });
   }
-})
+});
 
-export default router
+export default router;

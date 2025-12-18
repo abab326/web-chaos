@@ -12,15 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import BaseForm, { type FormItem } from '@/components/base-form'
+import { ref, reactive } from 'vue';
+import BaseForm, { type FormItem } from '@/components/base-form';
 
 // 表单数据
 const formData = reactive({
   name: '',
   email: '',
   age: null,
-})
+});
 
 // 表单配置项
 const formItems = ref<FormItem[]>([
@@ -42,10 +42,10 @@ const formItems = ref<FormItem[]>([
     label: '年龄',
     type: 'input-number',
   },
-])
+]);
 
 // 处理字段变化
 const handleFieldChange = (item: FormItem, value: any) => {
-  console.log(`字段 ${item.prop} 发生变化:`, value)
-}
+  console.log(`字段 ${item.prop} 发生变化:`, value);
+};
 </script>

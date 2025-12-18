@@ -143,6 +143,7 @@ watch(
 watch(
   formData,
   (newVal) => {
+    console.log('formData 变化:', newVal);
     emit('update:modelValue', { ...newVal });
   },
   { deep: true }

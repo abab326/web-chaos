@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import BaseForm, { type FormItem } from '@/components/base-form';
 
 // 表单数据
-const formData = reactive({
+const formData = ref({
   name: '',
   email: '',
   age: null,
@@ -30,6 +30,7 @@ const formItems = ref<FormItem[]>([
     type: 'input',
     placeholder: '请输入姓名',
     required: true,
+    rules: [{ min: 2, max: 10, message: '姓名长度必须在 2 到 10 个字符之间', trigger: 'blur' }],
   },
   {
     prop: 'email',
@@ -40,12 +41,13 @@ const formItems = ref<FormItem[]>([
   {
     prop: 'age',
     label: '年龄',
-    type: 'input-number',
+    type: 'number',
   },
 ]);
 
 // 处理字段变化
 const handleFieldChange = (item: FormItem, value: any) => {
   console.log(`字段 ${item.prop} 发生变化:`, value);
+  console.log('测试页面 formData 变化:', formData.value);
 };
 </script>

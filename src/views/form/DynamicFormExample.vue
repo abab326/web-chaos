@@ -60,7 +60,7 @@ const formItems = ref<FormItem[]>([
   {
     prop: 'age',
     label: '年龄',
-    type: 'input-number',
+    type: 'number',
     itemComponentProps: {
       min: 0,
       max: 120,
@@ -109,7 +109,7 @@ const formItems = ref<FormItem[]>([
   {
     prop: 'salary',
     label: '期望薪资',
-    type: 'input-number',
+    type: 'number',
     itemComponentProps: {
       min: 0,
       controlsPosition: 'right',

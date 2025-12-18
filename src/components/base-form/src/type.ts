@@ -13,7 +13,7 @@ export type FormItemSpan =
 export type FormItemComponent =
   | 'input'
   | 'textarea'
-  | 'input-number'
+  | 'number'
   | 'select'
   | 'radio'
   | 'checkbox'

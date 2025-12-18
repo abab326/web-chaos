@@ -1,11 +1,11 @@
 import { h, resolveComponent, type VNode, type Slots } from 'vue';
-import type { FormItem } from './type';
+import type { FormItem, FormItemComponent } from './type';
 
 /**
  * 表单控件类型映射表
  * 将表单项类型映射到对应的 Element Plus 组件名称
  */
-const COMPONENT_MAP: Record<string, string> = {
+const COMPONENT_MAP: Record<FormItemComponent, string> = {
   input: 'ElInput',
   textarea: 'ElInput',
   number: 'ElInputNumber',
@@ -16,6 +16,7 @@ const COMPONENT_MAP: Record<string, string> = {
   'date-picker': 'ElDatePicker',
   'time-picker': 'ElTimePicker',
   slider: 'ElSlider',
+  slot: 'slot',
 };
 
 /***
@@ -114,31 +115,11 @@ export const renderControl = (
     modelValue: formData[item.prop],
     ...item.itemComponentProps,
   };
-
   // 为不同类型的组件设置不同的事件处理函数
-  switch (item.type) {
-    case 'input':
-    case 'textarea':
-    case undefined:
-      componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
-      break;
-    case 'input-number':
-    case 'select':
-    case 'switch':
-    case 'date-picker':
-    case 'time-picker':
-    case 'slider':
-      componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
-      break;
-    case 'radio':
-      componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
-      break;
-    case 'checkbox':
-      componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
-      break;
-    default:
-      componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
+  if (item.type === 'textarea') {
+    componentProps['type'] = 'textarea';
   }
+  componentProps['onUpdate:modelValue'] = (value: any) => handleChange(item, value);
 
   // 处理选项渲染
   const options = handleOptionsRender(item);

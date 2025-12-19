@@ -16,7 +16,7 @@ const COMPONENT_MAP: Record<FormItemComponent, string> = {
   'date-picker': 'ElDatePicker',
   'time-picker': 'ElTimePicker',
   slider: 'ElSlider',
-  slot: 'slot',
+  slot: 'div',
 };
 
 /***

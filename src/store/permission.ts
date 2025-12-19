@@ -104,6 +104,43 @@ const mockMenus: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 14,
+    name: '图标方案',
+    path: '/icons',
+    component: 'layout',
+    icon: 'ElementPlus',
+    children: [
+      {
+        id: 15,
+        name: 'Element Plus 图标',
+        path: '/icons/element-plus',
+        component: 'icons/ElementPlusIcons',
+        icon: 'ElementPlus',
+      },
+      {
+        id: 16,
+        name: 'Lucide 图标',
+        path: '/icons/lucide',
+        component: 'icons/LucideIcons',
+        icon: 'Lucide',
+      },
+      {
+        id: 17,
+        name: 'Iconify Tailwind',
+        path: '/icons/iconify-tailwind',
+        component: 'icons/IconifyTailwind',
+        icon: 'Tailwind',
+      },
+      {
+        id: 18,
+        name: 'Iconify Vue',
+        path: '/icons/iconify-vue',
+        component: 'icons/IconifyVue',
+        icon: 'Iconify',
+      },
+    ],
+  },
 ];
 
 export const usePermissionStore = defineStore('permission', () => {

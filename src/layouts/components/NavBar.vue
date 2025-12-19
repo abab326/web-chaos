@@ -4,7 +4,7 @@
       <div
         v-for="item in navItems"
         :key="item.key"
-        :ref="(el) => setNavItemRef(el, item.key)"
+        :ref="(el: any) => setNavItemRef(el, item.key)"
         class="nav-item relative flex items-center rounded-lg transition-all duration-300 px-2 py-1 cursor-pointer whitespace-nowrap bg-fill-lighter text-t-regular border border-border-light hover:bg-fill-light hover:text-primary"
         :class="{
           'active-nav bg-primary-light-9 text-primary font-medium border-primary-light-7':
@@ -94,28 +94,39 @@ const handleNavClick = (key: string) => {
 
 // 滚动到指定的导航项
 const scrollToNavItem = (key: string) => {
-  nextTick(() => {
-    const targetItem = navItemRefs.value[key];
-    if (baseTabRef.value && targetItem) {
-      // 获取目标元素相对于容器的位置
-      const container = baseTabRef.value.$el.querySelector('.tab-content-container');
-      if (container) {
-        const containerRect = container.getBoundingClientRect();
-        const itemRect = targetItem.getBoundingClientRect();
+  // 添加空值检查，确保在组件可能被销毁时不会引发错误
+  if (!baseTabRef.value || !navItemRefs.value[key]) return;
 
-        // 计算需要滚动的位置
-        const scrollOffset =
-          itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2;
+  // 延迟滚动操作，确保路由跳转和DOM更新完成
+  setTimeout(() => {
+    nextTick(() => {
+      const targetItem = navItemRefs.value[key];
+      if (baseTabRef.value && targetItem && targetItem.parentNode) {
+        // 获取目标元素相对于容器的位置
+        const container = baseTabRef.value.$el.querySelector('.tab-content-container');
+        if (container && container.parentNode) {
+          try {
+            const containerRect = container.getBoundingClientRect();
+            const itemRect = targetItem.getBoundingClientRect();
 
-        // 使用BaseTab的滚动方法
-        if (scrollOffset > 0) {
-          baseTabRef.value.scrollRight();
-        } else {
-          baseTabRef.value.scrollLeft();
+            // 计算需要滚动的位置
+            const scrollOffset =
+              itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2;
+
+            // 使用BaseTab的滚动方法
+            if (scrollOffset > 0) {
+              baseTabRef.value.scrollRight();
+            } else {
+              baseTabRef.value.scrollLeft();
+            }
+          } catch (error) {
+            // 捕获可能的DOM操作错误，防止影响正常功能
+            console.error('导航项滚动失败:', error);
+          }
         }
       }
-    }
-  });
+    });
+  }, 100);
 };
 
 // 处理Tab滚动事件

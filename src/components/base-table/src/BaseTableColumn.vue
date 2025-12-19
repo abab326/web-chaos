@@ -35,7 +35,7 @@ const props = defineProps<BaseTableColumnProps<T>>();
 
 const columnProps = computed(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { children, ...rest } = props.column.value;
+  const { children, ...rest } = props.column;
   return rest;
 });
 </script>

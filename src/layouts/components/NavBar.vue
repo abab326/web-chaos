@@ -54,6 +54,8 @@ const navHistoryStore = useNavHistoryStore();
 // DOM引用
 const baseTabRef = useTemplateRef<typeof BaseTab>('baseTabRef');
 const navItemRefs = ref<Record<string, HTMLElement | null>>({});
+// 滚动位置
+const scrollPosition = ref(0);
 
 // Emits
 const emit = defineEmits<{
@@ -91,48 +93,19 @@ const handleNavClick = (key: string) => {
     router.push({ name: key });
   }
 };
-
-// 滚动到指定的导航项
+//
 const scrollToNavItem = (key: string) => {
-  // 添加空值检查，确保在组件可能被销毁时不会引发错误
-  if (!baseTabRef.value || !navItemRefs.value[key]) return;
-
-  // 延迟滚动操作，确保路由跳转和DOM更新完成
-  setTimeout(() => {
-    nextTick(() => {
-      const targetItem = navItemRefs.value[key];
-      if (baseTabRef.value && targetItem && targetItem.parentNode) {
-        // 获取目标元素相对于容器的位置
-        const container = baseTabRef.value.$el.querySelector('.tab-content-container');
-        if (container && container.parentNode) {
-          try {
-            const containerRect = container.getBoundingClientRect();
-            const itemRect = targetItem.getBoundingClientRect();
-
-            // 计算需要滚动的位置
-            const scrollOffset =
-              itemRect.left - containerRect.left - containerRect.width / 2 + itemRect.width / 2;
-
-            // 使用BaseTab的滚动方法
-            if (scrollOffset > 0) {
-              baseTabRef.value.scrollRight();
-            } else {
-              baseTabRef.value.scrollLeft();
-            }
-          } catch (error) {
-            // 捕获可能的DOM操作错误，防止影响正常功能
-            console.error('导航项滚动失败:', error);
-          }
-        }
-      }
-    });
-  }, 100);
+  const targetItem = navItemRefs.value[key];
+  if (targetItem) {
+    const itemRect = targetItem.getBoundingClientRect();
+    baseTabRef.value?.scrollToItemByRect(itemRect);
+  }
 };
 
 // 处理Tab滚动事件
 const handleTabScroll = (position: number) => {
-  // 可以在这里处理滚动事件
-  console.log('Tab scrolled to position:', position);
+  // 同步滚动位置
+  scrollPosition.value = position;
 };
 
 // 移除导航项
@@ -142,14 +115,19 @@ const removeNav = (key: string) => {
 
   // 如果关闭的是当前激活的页面，则导航到第一个页面或默认页面
   if (activeNav.value === key) {
-    if (navItems.value.length > 0) {
-      const firstItem = navItems.value[0];
-      router.push({ name: firstItem!.key });
-    } else {
-      router.push({ name: 'Dashboard' });
-    }
+    nextTick(() => {
+      if (navItems.value.length > 0) {
+        const firstItem = navItems.value[0];
+        router.push({ name: firstItem!.key });
+        // 滚动到新激活的导航项
+        setTimeout(() => {
+          scrollToNavItem(firstItem!.key);
+        }, 100);
+      } else {
+        router.push({ name: 'Dashboard' });
+      }
+    });
   }
-
   console.log('页面已关闭');
 };
 

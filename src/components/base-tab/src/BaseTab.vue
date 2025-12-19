@@ -148,6 +148,43 @@ const stopAutoScroll = () => {
     autoScrollTimer.value = null;
   }
 };
+// scrollToItemByRect 滚动到指定元素位置
+const scrollToItemByRect = (rect: DOMRect) => {
+  if (!tabContainerRef.value || !tabContentRef.value) return;
+
+  const containerRect = tabContainerRef.value.getBoundingClientRect();
+  const contentRect = tabContentRef.value.getBoundingClientRect();
+
+  // 检查元素是否已经在可视区域内
+  const isFullyVisible = rect.left >= containerRect.left && rect.right <= containerRect.right;
+
+  // 如果元素已经完全可见，则不需要滚动
+  if (isFullyVisible) {
+    return;
+  }
+
+  // 计算需要滚动的位置，使元素居中显示
+  const containerWidth = containerRect.width;
+  const itemWidth = rect.width;
+  const itemCenter = rect.left + itemWidth / 2;
+  const containerCenter = containerRect.left + containerWidth / 2;
+
+  // 计算滚动偏移量
+  const scrollOffset = itemCenter - containerCenter;
+
+  // 计算新的滚动位置
+  const newScrollPosition = scrollPosition.value - scrollOffset;
+
+  // 限制滚动范围，确保不会滚动过度
+  const maxScrollRight = 0; // 最大向右滚动位置（不能超过0）
+  const maxScrollLeft = Math.min(0, containerWidth - contentRect.width); // 最大向左滚动位置
+  const clampedScrollPosition = Math.max(
+    maxScrollLeft,
+    Math.min(maxScrollRight, newScrollPosition)
+  );
+
+  scrollToPosition(clampedScrollPosition);
+};
 
 // 滚动到指定位置
 const scrollToPosition = (position: number) => {
@@ -184,6 +221,7 @@ onUnmounted(() => {
 defineExpose({
   scrollLeft,
   scrollRight,
+  scrollToItemByRect,
 });
 </script>
 
@@ -192,6 +230,7 @@ defineExpose({
   display: flex;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
 .arrow-button {

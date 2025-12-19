@@ -252,11 +252,6 @@ const iconList = [
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.icon-item svg {
-  width: 32px;
-  height: 32px;
-}
-
 .icon-item span {
   font-size: 14px;
   color: #4b5563;

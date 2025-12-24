@@ -49,6 +49,9 @@ export default defineConfig([
       vue,
       '@typescript-eslint': tsConfig.plugin,
     },
+    rules: {
+      'vue/multi-word-component-names': 'off',
+    },
   },
   prettierRecommended,
 ]);

@@ -19,6 +19,7 @@
 
 <script setup generic="T extends Record<string, any>" lang="ts">
 import { computed } from 'vue';
+import { ElTableColumn } from 'element-plus';
 import type { TableColumn } from './type';
 
 interface BaseTableColumnProps<T> {
@@ -36,7 +37,7 @@ const props = defineProps<BaseTableColumnProps<T>>();
 const columnProps = computed(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { children, ...rest } = props.column;
-  return rest;
+  return rest as Record<string, any>;
 });
 </script>
 

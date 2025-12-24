@@ -36,6 +36,29 @@ const mockMenus: MenuItem[] = [
     ],
   },
   {
+    id: 6,
+    name: '图表',
+    path: '/charts',
+    component: 'layout',
+    icon: 'Chart',
+    children: [
+      {
+        id: 7,
+        name: '基础图表',
+        path: '/charts/bar',
+        component: 'charts/BarChart',
+        icon: 'ChartBar',
+      },
+      {
+        id: 8,
+        name: '折线图',
+        path: '/charts/line',
+        component: 'charts/LineChart',
+        icon: 'ChartLine',
+      },
+    ],
+  },
+  {
     id: 5,
     name: '表格',
     path: '/table',

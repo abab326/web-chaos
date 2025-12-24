@@ -32,6 +32,9 @@ export default defineConfig([
     plugins: {
       '@typescript-eslint': tsConfig.plugin,
     },
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
   },
 
   {
@@ -51,6 +54,7 @@ export default defineConfig([
     },
     rules: {
       'vue/multi-word-component-names': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
   prettierRecommended,

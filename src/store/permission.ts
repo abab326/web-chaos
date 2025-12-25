@@ -13,6 +13,13 @@ const mockMenus: MenuItem[] = [
     icon: 'DataAnalysis',
   },
   {
+    id: 11,
+    name: '煤电生产平台',
+    path: '/coal-power',
+    component: 'CoalPowerDashboard',
+    icon: 'Power',
+  },
+  {
     id: 2,
     name: '系统管理',
     path: '/system',

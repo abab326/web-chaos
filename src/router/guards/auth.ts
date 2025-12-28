@@ -8,6 +8,14 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, from, ne
   const userStore = useUserStore();
   const permissionStore = usePermissionStore();
   console.log('authGuard', to, from);
+  // 如果是登录页，且当前页面是登录页,不进行跳转
+  if (
+    to.name === 'Login' &&
+    (from.name === 'Login' || router.currentRoute.value.name === 'Login')
+  ) {
+    return;
+  }
+  // 如果是登录页，直接放行
   if (to.name === 'Login') {
     next();
     return;

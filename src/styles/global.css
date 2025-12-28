@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @plugin "@iconify/tailwind4" {
-  prefix: 'i';
+  prefix: 'icon';
   square: true;
-  icon-sets: from-folder('icon', './src/icons');
+  icon-sets: from-folder('local', './src/icons');
 }
 
 @theme {

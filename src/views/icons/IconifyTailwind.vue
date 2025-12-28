@@ -76,6 +76,10 @@ module.exports = {
             <i class="icon-[mdi--file] text-cyan-500"></i>
             <span>mdi:file</span>
           </div>
+          <div class="icon-item">
+            <i class="icon-[local--message] text-cyan-500"></i>
+            <span>local:message</span>
+          </div>
         </div>
       </div>
     </section>
@@ -88,20 +92,20 @@ module.exports = {
         <h3 class="text-lg font-medium mb-2">自定义尺寸和颜色</h3>
         <div class="icon-grid">
           <div class="icon-item">
-            <i class="icon-[mdi--home] text-blue-500 text-xl"></i>
+            <i class="icon-[mdi--home] text-blue-500 text-sm"></i>
             <span>text-xl</span>
           </div>
           <div class="icon-item">
-            <i class="icon-[mdi--home] text-blue-500 text-2xl"></i>
+            <i class="icon-[mdi--home] text-blue-500 text-base"></i>
             <span>text-2xl</span>
           </div>
           <div class="icon-item">
-            <i class="icon-[mdi--home] text-blue-500 text-3xl"></i>
+            <i class="icon-[mdi--home] text-blue-500 text-lg"></i>
             <span>text-3xl</span>
           </div>
           <div class="icon-item">
-            <i class="icon-[mdi--home] text-blue-500 text-4xl"></i>
-            <span>text-4xl</span>
+            <i class="icon-[mdi--home] text-blue-500 text-xl"></i>
+            <span>text-xl</span>
           </div>
         </div>
         <div class="bg-gray-50 p-4 rounded-md mt-4">
@@ -197,7 +201,7 @@ module.exports = {
       <h2 class="text-xl font-semibold mb-4">常用图标展示</h2>
       <div class="icon-grid">
         <div v-for="icon in iconList" :key="icon.name" class="icon-item">
-          <i :class="`icon-[${icon.name}] text-gray-600 text-2xl`"></i>
+          <i :class="`${icon.name} text-gray-600 text-2xl`"></i>
           <span>{{ icon.displayName }}</span>
         </div>
       </div>
@@ -208,33 +212,33 @@ module.exports = {
 <script setup lang="ts">
 // 图标列表用于展示
 const iconList = [
-  { name: 'mdi--home', displayName: 'mdi:home' },
-  { name: 'mdi--user', displayName: 'mdi:user' },
-  { name: 'mdi--settings', displayName: 'mdi:settings' },
-  { name: 'mdi--email', displayName: 'mdi:email' },
-  { name: 'mdi--calendar', displayName: 'mdi:calendar' },
-  { name: 'mdi--search', displayName: 'mdi:search' },
-  { name: 'mdi--bell', displayName: 'mdi:bell' },
-  { name: 'mdi--file', displayName: 'mdi:file' },
-  { name: 'mdi--download', displayName: 'mdi:download' },
-  { name: 'mdi--upload', displayName: 'mdi:upload' },
-  { name: 'mdi--edit', displayName: 'mdi:edit' },
-  { name: 'mdi--delete', displayName: 'mdi:delete' },
-  { name: 'mdi--check', displayName: 'mdi:check' },
-  { name: 'mdi--close', displayName: 'mdi:close' },
-  { name: 'mdi--plus', displayName: 'mdi:plus' },
-  { name: 'mdi--minus', displayName: 'mdi:minus' },
-  { name: 'mdi--arrow-left', displayName: 'mdi:arrow-left' },
-  { name: 'mdi--arrow-right', displayName: 'mdi:arrow-right' },
-  { name: 'mdi--refresh', displayName: 'mdi:refresh' },
-  { name: 'mdi--trash-can', displayName: 'mdi:trash-can' },
-  { name: 'mdi--save', displayName: 'mdi:save' },
-  { name: 'mdi--copy', displayName: 'mdi:copy' },
-  { name: 'mdi--share-variant', displayName: 'mdi:share' },
-  { name: 'mdi--star', displayName: 'mdi:star' },
-  { name: 'mdi--heart', displayName: 'mdi:heart' },
-  { name: 'mdi--message', displayName: 'mdi:message' },
-  { name: 'mdi--alert', displayName: 'mdi:alert' },
+  { name: 'icon-[mdi--home]', displayName: 'mdi:home' },
+  { name: 'icon-[mdi--user]', displayName: 'mdi:user' },
+  { name: 'icon-[mdi--settings]', displayName: 'mdi:settings' },
+  { name: 'icon-[mdi--email]', displayName: 'mdi:email' },
+  { name: 'icon-[mdi--calendar]', displayName: 'mdi:calendar' },
+  { name: 'icon-[mdi--search]', displayName: 'mdi:search' },
+  { name: 'icon-[mdi--bell]', displayName: 'mdi:bell' },
+  { name: 'icon-[mdi--file]', displayName: 'mdi:file' },
+  { name: 'icon-[mdi--download]', displayName: 'mdi:download' },
+  { name: 'icon-[mdi--upload]', displayName: 'mdi:upload' },
+  { name: 'icon-[mdi--edit]', displayName: 'mdi:edit' },
+  { name: 'icon-[mdi--delete]', displayName: 'mdi:delete' },
+  { name: 'icon-[mdi--check]', displayName: 'mdi:check' },
+  { name: 'icon-[mdi--close]', displayName: 'mdi:close' },
+  { name: 'icon-[mdi--plus]', displayName: 'mdi:plus' },
+  { name: 'icon-[mdi--minus]', displayName: 'mdi:minus' },
+  { name: 'icon-[mdi--arrow-left]', displayName: 'mdi:arrow-left' },
+  { name: 'icon-[mdi--arrow-right]', displayName: 'mdi:arrow-right' },
+  { name: 'icon-[mdi--refresh]', displayName: 'mdi:refresh' },
+  { name: 'icon-[mdi--trash-can]', displayName: 'mdi:trash-can' },
+  { name: 'icon-[mdi--save]', displayName: 'mdi:save' },
+  { name: 'icon-[mdi--copy]', displayName: 'mdi:copy' },
+  { name: 'icon-[mdi--share-variant]', displayName: 'mdi:share' },
+  { name: 'icon-[mdi--star]', displayName: 'mdi:star' },
+  { name: 'icon-[mdi--heart]', displayName: 'mdi:heart' },
+  { name: 'icon-[mdi--message]', displayName: 'mdi:message' },
+  { name: 'icon-[mdi--alert]', displayName: 'mdi:alert' },
 ];
 </script>
 
@@ -262,11 +266,9 @@ const iconList = [
 
 .icon-item:hover {
   border-color: #3b82f6;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.icon-item i {
-  font-size: 32px;
+  box-shadow:
+    0 -2px 8px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .icon-item span {

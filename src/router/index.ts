@@ -14,14 +14,7 @@ const router = createRouter({
       name: 'home',
       redirect: '/dashboard',
       component: () => import('@/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: '/coal-power',
-          name: 'coalPower',
-          component: () => import('@/views/CoalPowerDashboard.vue'),
-          meta: { title: '煤电生产运营平台', isAuth: true },
-        },
-      ],
+      children: [],
     },
   ],
   scrollBehavior(to, from, savedPosition) {

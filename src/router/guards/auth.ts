@@ -38,7 +38,7 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, from, ne
       dynamicRoutes.forEach((route) => {
         router.addRoute('home', route);
       });
-      console.log('currentRoutes', router.getRoutes());
+
       next({ path: to.fullPath });
       return;
     } catch (error) {

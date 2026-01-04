@@ -72,26 +72,6 @@
     @apply w-fit px-4 py-2 text-sm font-normal text-white bg-blue-600 rounded-lg hover:bg-blue-700;
   }
 }
-/* 全局样式重置 */
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family:
-    'Inter',
-    system-ui,
-    -apple-system,
-    sans-serif;
-}
-
-#app {
-  height: 100%;
-}
 
 /******************** 滚动条样式 ************************/
 ::-webkit-scrollbar {

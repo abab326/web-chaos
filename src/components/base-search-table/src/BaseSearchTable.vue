@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-col h-full w-full overflow-hidden">
     <!-- 搜索区 -->
-    <div v-if="slots.search" class="shrink-0">
+    <div v-if="slots.search" class="shrink-0 pb-2">
       <slot name="search"></slot>
     </div>
 
     <!-- 表格区 -->
     <div ref="tableAreaRef" class="flex-1 overflow-hidden">
       <!-- 功能区 -->
-      <div v-if="slots.action" ref="actionAreaRef" class="shrink-0">
+      <div v-if="slots.action" ref="actionAreaRef" class="shrink-0 pb-2">
         <slot name="action"></slot>
       </div>
       <slot :table-height="tableHeight"></slot>

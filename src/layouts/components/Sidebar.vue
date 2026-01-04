@@ -13,7 +13,7 @@
         shadow: isMobile,
         'z-1000': isMobile,
       }"
-      :width="isExpanded ? '220px' : isMobile ? '0' : '64px'"
+      :width="isExpanded ? '15rem' : isMobile ? '0' : '4rem'"
     >
       <div class="h-16 px-5 flex items-center justify-between border-b border-solid border-border">
         <div class="flex items-center gap-4">

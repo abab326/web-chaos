@@ -1,27 +1,37 @@
 // plugins/eventBus.ts
 import mitt from 'mitt';
 import type { Emitter } from 'mitt';
-// 事件类型定义
-export interface Events extends Record<string | symbol, any> {
-  // 通用事件
+
+// 定义基础接口
+interface Events {
   'user:logout': string | null;
+  'user:login': null;
 }
 
+// 创建工具类型：只允许已知事件
+type StrictEventKey<T> = T extends keyof Events ? T : never;
+
 class EventBus {
-  private emitter: Emitter<Events>;
+  private emitter: Emitter<Events & Record<string | symbol, unknown>>;
 
   constructor() {
-    this.emitter = mitt<Events>();
+    this.emitter = mitt<Events & Record<string | symbol, unknown>>();
   }
 
   // 监听事件
-  on<T extends keyof Events>(type: T, handler: (event: Events[T]) => void) {
+  on<T extends string | symbol>(
+    type: StrictEventKey<T>,
+    handler: (event: Events[StrictEventKey<T>]) => void
+  ) {
     this.emitter.on(type, handler);
   }
 
   // 一次性监听
-  once<T extends keyof Events>(type: T, handler: (event: Events[T]) => void) {
-    const onceHandler = (event: Events[T]) => {
+  once<T extends string | symbol>(
+    type: StrictEventKey<T>,
+    handler: (event: Events[StrictEventKey<T>]) => void
+  ) {
+    const onceHandler = (event: Events[StrictEventKey<T>]) => {
       handler(event);
       this.off(type, onceHandler);
     };
@@ -29,12 +39,15 @@ class EventBus {
   }
 
   // 移除监听
-  off<T extends keyof Events>(type: T, handler: (event: Events[T]) => void) {
+  off<T extends string | symbol>(
+    type: StrictEventKey<T>,
+    handler: (event: Events[StrictEventKey<T>]) => void
+  ) {
     this.emitter.off(type, handler);
   }
 
   // 触发事件
-  emit<T extends keyof Events>(type: T, event: Events[T]) {
+  emit<T extends string | symbol>(type: T, event: Events[StrictEventKey<T>]) {
     this.emitter.emit(type, event);
   }
 
@@ -44,7 +57,7 @@ class EventBus {
   }
 
   // 获取所有监听器
-  getListeners<T extends keyof Events>(type: T) {
+  getListeners<T extends string | symbol>(type: StrictEventKey<T>) {
     return this.emitter.all.get(type) || [];
   }
 }

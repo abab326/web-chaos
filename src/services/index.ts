@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError, type AxiosResponse } from 'axios';
 
 import { useUserStore } from '@/store/user';
 import { saveFileBlob } from '@/utils/file';
@@ -52,14 +52,11 @@ const createApiService = (): ApiServiceInstance => {
   // 响应拦截器
   axiosInstance.interceptors.response.use(
     (response: AxiosResponse<BaseResponse>) => {
-      // kv 解构赋值
-      const { status } = response;
-
       const res = response.data;
 
       // 根据业务需求自定义响应处理逻辑
       if (res.code && res.code !== 200) {
-        return handleError(new Error(res.message || '未知错误'), {
+        return handleError(new AxiosError(res.message || '未知错误', res.code + ''), {
           code: res.code,
           message: res.message,
           showError: true,

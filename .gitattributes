@@ -1,1 +1,12 @@
 * text eol=lf
+# 文本文件
+*.{css,html,js,json,md,scss,ts,vue} text
+# 二进制文件
+*.{jpg,jpeg,png,webp} binary
+# 可执行文件
+*.{exe,sh} binary
+# 配置文件
+*.{cfg,ini,yml,yaml} text
+# svg 文件
+*.svg text
+

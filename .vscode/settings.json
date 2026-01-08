@@ -81,5 +81,6 @@
   // 自动导入
   "auto-import.autoComplete": true,
   "auto-import.doubleQuotes": false,
-  "auto-import.useSemi": false
+  "auto-import.useSemi": false,
+  "cSpell.words": ["echarts", "xgplayer"]
 }

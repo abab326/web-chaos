@@ -13,18 +13,28 @@ export interface UseSearchTableOptions<T, S = Record<string, any>> {
   fetchData?: FetchDataFn<T, S>;
   convertData?: (data: T[]) => T[];
   initialSearchParams?: { [K in keyof S]?: S[K] };
+  // 不可重置的搜索参数
+  noResetSearchParams?: (keyof S)[];
+  // 初始分页参数
   initialPagination?: Partial<PaginationParams>;
 }
 
 export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
-  const { url, method, fetchData, convertData, initialSearchParams, initialPagination } = options;
+  const {
+    url,
+    method,
+    fetchData,
+    convertData,
+    initialSearchParams,
+    initialPagination,
+    noResetSearchParams = [],
+  } = options;
   if (!url && !fetchData) {
     throw new Error('url、fetchData 必须提供一个');
   }
   // 分页参数
   const defaultPagination: PaginationParams = { page: 1, size: 20 };
-  const finalPagination = { ...defaultPagination, ...initialPagination };
-  const pagination = ref<PaginationParams>(finalPagination);
+  const pagination = ref<PaginationParams>({ ...defaultPagination, ...initialPagination });
   // 搜索参数
   const searchParams = ref<S>({ ...(initialSearchParams || {}) } as S);
 
@@ -101,15 +111,21 @@ export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
    *
    */
   const search = () => {
-    pagination.value = { ...finalPagination, page: 1 };
+    pagination.value = { ...pagination.value, page: 1 };
     fetchTableData();
   };
   /**
    *  重置搜索
    */
   const resetSearch = () => {
-    searchParams.value = { ...(initialSearchParams || {}) };
-    pagination.value = { ...finalPagination, page: 1 };
+    // 获取不需要重置的搜索参数
+    const noResetParams = noResetSearchParams.reduce(
+      (acc, key) => ({ ...acc, [key]: searchParams.value[key] }),
+      {}
+    );
+    searchParams.value = { ...(initialSearchParams || {}), ...noResetParams };
+
+    pagination.value = { ...pagination.value, page: 1 };
     fetchTableData();
   };
 

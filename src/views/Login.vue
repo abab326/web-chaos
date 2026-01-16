@@ -24,62 +24,49 @@
         <div
           class="bg-white/10 backdrop-blur-lg rounded-xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl border border-white/20"
         >
-          <el-form
-            ref="formRef"
-            :model="form"
-            :rules="rules"
-            class="space-y-6"
-            @submit.prevent="handleLogin"
-          >
+          <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
+            <!-- 邮箱 -->
             <el-form-item prop="email">
               <el-input
                 v-model="form.email"
                 type="email"
-                size="large"
                 placeholder="邮箱地址"
                 :prefix-icon="Message"
                 autocomplete="email"
-                @input="handleEmailInput"
               />
-              <div v-if="emailError" class="mt-1 text-sm text-red-500">{{ emailError }}</div>
             </el-form-item>
-
+            <!-- 密码 -->
             <el-form-item prop="password">
               <el-input
                 v-model="form.password"
                 type="password"
-                size="large"
                 placeholder="密码"
                 :prefix-icon="Lock"
                 autocomplete="current-password"
                 show-password
-                @input="handlePasswordInput"
               />
             </el-form-item>
 
-            <div class="flex justify-between items-center">
-              <el-checkbox v-model="form.rememberMe" label="记住我" class="text-white/90" />
-              <el-link type="primary" href="#" class="text-xs text-blue-300">忘记密码？</el-link>
-            </div>
-
             <!-- 验证码 -->
-            <el-form-item v-if="showCaptcha" prop="captcha">
-              <div class="flex space-x-2">
-                <el-input
-                  v-model="form.captcha"
-                  size="large"
-                  placeholder="验证码"
-                  :prefix-icon="Key"
-                />
+            <el-form-item prop="captcha">
+              <div class="flex w-full space-x-2">
+                <el-input v-model="form.captcha" placeholder="验证码" :prefix-icon="Key" />
                 <div
-                  class="flex items-center justify-center w-32 h-12 bg-white/20 rounded-md cursor-pointer border border-white/30"
+                  class="flex items-center justify-center w-30 h-8 bg-white/20 rounded-md cursor-pointer border border-white/30"
                   @click="refreshCaptcha"
                 >
-                  <span class="text-sm font-mono text-white">{{ captchaText }}</span>
+                  <span class="text-base font-mono text-white">{{ captchaText }}</span>
                 </div>
               </div>
             </el-form-item>
-
+            <!-- 记住我 -->
+            <el-form-item prop="rememberMe">
+              <div class="flex w-full justify-between items-center">
+                <el-checkbox v-model="form.rememberMe" label="记住我" class="text-white/90" />
+                <el-link type="primary" href="#" class="text-xs text-blue-300">忘记密码？</el-link>
+              </div>
+            </el-form-item>
+            <!-- 登录按钮 -->
             <el-form-item>
               <el-button
                 type="primary"
@@ -92,16 +79,6 @@
                 {{ loading ? '登录中...' : '登录' }}
               </el-button>
             </el-form-item>
-
-            <!-- 错误消息 -->
-            <el-alert
-              v-if="error"
-              :title="error"
-              type="error"
-              show-icon
-              :closable="false"
-              class="rounded-lg bg-red-500/20 border border-red-300/30 text-white"
-            />
 
             <!-- 注册链接 -->
             <div class="text-center text-sm text-white/80">
@@ -117,16 +94,11 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { Lock, Message, Key } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 
-import { useUserStore } from '@/store/user';
-
 defineOptions({ name: 'Login' });
-const router = useRouter();
-const userStore = useUserStore();
 
 // 粒子动画相关引用
 const particlesContainer = ref<HTMLCanvasElement | null>(null);
@@ -157,11 +129,7 @@ const form = reactive<LoginForm>({
 });
 
 const loading = ref(false);
-const error = ref('');
 const formRef = ref<FormInstance>();
-const emailError = ref('');
-const failedAttempts = ref(0);
-const showCaptcha = ref(false);
 const captchaText = ref('');
 
 // 表单验证规则
@@ -283,7 +251,7 @@ onMounted(() => {
     canvas.className = 'particles-canvas';
     particlesContainer.value.appendChild(canvas);
     particlesContainer.value = canvas;
-
+    refreshCaptcha();
     // 初始化画布大小
     resizeCanvas();
 
@@ -302,30 +270,14 @@ onBeforeUnmount(() => {
 
 // 表单是否无效
 const isFormInvalid = computed(() => {
-  return !form.email || !form.password || (showCaptcha.value && !form.captcha);
+  return !form.email || !form.password || !form.captcha;
 });
-
-// 处理邮箱输入
-const handleEmailInput = () => {
-  // 简单的邮箱格式验证
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (form.email && !emailRegex.test(form.email)) {
-    emailError.value = '请输入有效的邮箱地址';
-  } else {
-    emailError.value = '';
-  }
-};
-
-// 处理密码输入
-const handlePasswordInput = () => {
-  // 密码强度实时反馈已经在computed中处理
-};
 
 // 生成随机验证码
 const generateCaptcha = () => {
   const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
   let result = '';
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 6; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   captchaText.value = result;
@@ -336,56 +288,7 @@ const refreshCaptcha = () => {
   generateCaptcha();
 };
 
-// 检查是否需要显示验证码
-const checkCaptchaRequirement = () => {
-  showCaptcha.value = failedAttempts.value >= 2;
-  if (showCaptcha.value) {
-    generateCaptcha();
-  }
-};
-
-const handleLogin = async () => {
-  if (!formRef.value) return;
-
-  try {
-    // 如果需要验证码，验证验证码
-    if (showCaptcha.value && form.captcha !== captchaText.value) {
-      error.value = '验证码错误';
-      failedAttempts.value++;
-      checkCaptchaRequirement();
-      return;
-    }
-
-    loading.value = true;
-    error.value = '';
-    const result = await userStore.login({ username: form.email, password: form.password });
-    if (!result) {
-      return;
-    }
-    // 如果选择了记住我，保存到localStorage
-    if (form.rememberMe) {
-      localStorage.setItem('rememberMe', 'true');
-      localStorage.setItem('email', form.email);
-    } else {
-      localStorage.removeItem('rememberMe');
-      localStorage.removeItem('email');
-    }
-
-    // 跳转到仪表板
-    router.push('/');
-  } catch (err: unknown) {
-    // 登录失败
-    if (err instanceof Error) {
-      error.value = err.message || '登录失败，请稍后重试';
-    } else {
-      error.value = '登录失败，请稍后重试';
-    }
-    failedAttempts.value++;
-    checkCaptchaRequirement();
-  } finally {
-    loading.value = false;
-  }
-};
+const handleLogin = async () => {};
 
 // 页面加载时检查是否记住我
 onMounted(() => {
@@ -428,7 +331,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.15) 0%, transparent 20%),
+    radial-gradient(circle at 10% 40%, rgba(29, 78, 216, 0.15) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.15) 0%, transparent 20%);
 }
 

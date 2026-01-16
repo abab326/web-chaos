@@ -4,15 +4,16 @@
     <div v-if="slots.search" class="shrink-0 pb-2">
       <slot name="search"></slot>
     </div>
-
+    <!-- 默认插槽 -->
+    <slot name="default"></slot>
     <!-- 表格区 -->
     <div ref="tableAreaRef" class="flex-1 overflow-hidden">
       <!-- 功能区 -->
       <div v-if="slots.action" ref="actionAreaRef" class="shrink-0 pb-2">
         <slot name="action"></slot>
       </div>
-      <slot :table-height="tableHeight"></slot>
-
+      <!-- 表格插槽 -->
+      <slot name="table" :table-height="tableHeight"></slot>
       <!-- 分页区 -->
       <div v-if="slots.pagination" ref="paginationAreaRef" class="pt-2">
         <slot name="pagination"></slot>

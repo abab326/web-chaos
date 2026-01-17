@@ -93,10 +93,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, reactive, computed, onMounted, onBeforeUnmount, h } from 'vue';
 
-import { Lock, Message, Key } from '@element-plus/icons-vue';
-import type { FormInstance, FormRules } from 'element-plus';
+import { Lock, Message, Key, MessageBox } from '@element-plus/icons-vue';
+import { ElMessageBox, type FormInstance, type FormRules } from 'element-plus';
 
 defineOptions({ name: 'Login' });
 
@@ -288,7 +288,11 @@ const refreshCaptcha = () => {
   generateCaptcha();
 };
 
-const handleLogin = async () => {};
+const handleLogin = async () => {
+  ElMessageBox.confirm('message', {
+    title: { message: () => h('span', '确认登录吗？') },
+  });
+};
 
 // 页面加载时检查是否记住我
 onMounted(() => {

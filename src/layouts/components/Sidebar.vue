@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Close } from '@element-plus/icons-vue';
+import { Close, ElementPlus } from '@element-plus/icons-vue';
 import { useWindowSize } from '@vueuse/core';
 import { usePermissionStore } from '@/store/modules/permission';
 defineProps<{

@@ -7,22 +7,7 @@ import { registerRouterGuards } from './guards';
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    ...constantRoutes,
-    {
-      path: '/',
-      name: 'home',
-      redirect: '/dashboard',
-      component: () => import('@/layouts/MainLayout.vue'),
-      children: [
-        {
-          path: '/dashboard',
-          name: 'Dashboard',
-          component: () => import('@/views/Dashboard.vue'),
-        },
-      ],
-    },
-  ],
+  routes: [{ path: '/', redirect: '/dashboard' }, ...constantRoutes],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition;

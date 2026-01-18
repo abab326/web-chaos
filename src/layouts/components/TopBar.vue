@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/icons-vue';
+import { Fold, Bell, ArrowDown, User, Lock, SwitchButton, Tools } from '@element-plus/icons-vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 import { useDark, useToggle } from '@vueuse/core';

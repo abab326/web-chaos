@@ -1,10 +1,12 @@
 import type { NavigationGuardWithThis } from 'vue-router';
 import { useUserStore } from '@/store/modules/user';
+import { usePermissionStore } from '@/store/modules/permission';
 import router from '@/router';
 
 // 1. 认证守卫
-export const authGuard: NavigationGuardWithThis<undefined> = async (to, from, next) => {
+export const authGuard: NavigationGuardWithThis<undefined> = async (to, from) => {
   const userStore = useUserStore();
+  const permissionStore = usePermissionStore();
 
   console.log('authGuard', to, from);
   // 如果是登录页，且当前页面是登录页,不进行跳转
@@ -12,20 +14,26 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, from, ne
     to.name === 'Login' &&
     (from.name === 'Login' || router.currentRoute.value.name === 'Login')
   ) {
-    return;
+    return false;
   }
   // 如果是登录页，直接放行
   if (to.name === 'Login') {
-    next();
-    return;
+    return true;
   }
   // 如果没有登录，跳转到登录页
   if (!userStore.isLoggedIn) {
-    next({ name: 'Login' });
-    return;
+    return { name: 'Login', replace: true };
   }
   // 如果已经登录，检查是否已经加载了动态路由
+  if (permissionStore.dynamicMenus.length === 0) {
+    await permissionStore.loadMenus();
 
+    if (!permissionStore.dynamicMenusLoaded) {
+      return { name: 'Login', replace: true };
+    }
+    permissionStore.addDynamicRoutesToRouter(router);
+    return { path: to.path, replace: true, query: to.query, hash: to.hash };
+  }
   // 已加载动态路由，直接放行
-  next();
+  return true;
 };

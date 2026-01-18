@@ -1,0 +1,31 @@
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $border-radius: (
+    'base': 8px,
+  ),
+  $fill-color: (
+    '': #f0f2f5,
+    'light': #f5f7fa,
+    'lighter': #fafafa,
+    'extra-light': #fafcff,
+    'dark': #ebedf0,
+    'darker': #e6e8eb,
+    'blank': #ffffff,
+  )
+);
+@use 'element-plus/theme-chalk/src/index.scss' as *;
+
+/************************ 重置element-plus样式 ************************/
+
+/*** 重置element-plus MessageBox ***/
+.el-message-box {
+  --el-messagebox-title-color: var(--el-text-color-primary);
+  --el-messagebox-width: 560px;
+  --el-messagebox-border-radius: var(--el-border-radius-round);
+  --el-messagebox-box-shadow: var(--el-box-shadow);
+  --el-messagebox-font-size: var(--el-font-size-large);
+  --el-messagebox-content-font-size: var(--el-font-size-base);
+  --el-messagebox-content-color: var(--el-text-color-regular);
+  --el-messagebox-error-font-size: 12px;
+  --el-messagebox-padding-primary: var(--base-padding, 16px);
+  --el-messagebox-font-line-height: var(--el-font-line-height-primary);
+}

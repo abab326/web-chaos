@@ -143,25 +143,7 @@ const refreshCaptcha = () => {
   generateCaptcha();
 };
 
-const handleLogin = async () => {
-  loading.value = true;
-  loginFormRef.value
-    ?.validate()
-    .then(async (valid) => {
-      if (valid) {
-        const res = await userStore.login({
-          username: form.email,
-          password: form.password,
-        });
-        if (res) {
-          router.push({ path: '/' });
-        }
-      }
-    })
-    .finally(() => {
-      loading.value = false;
-    });
-};
+const handleLogin = async () => {};
 
 // 页面加载时检查是否记住我
 onMounted(() => {

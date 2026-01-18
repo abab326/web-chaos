@@ -8,44 +8,15 @@
 @theme {
   /** 定义变量适配element-plus  **/
   --color-primary: var(--el-color-primary);
-  --color-primary-light-3: var(--el-color-primary-light-3);
-  --color-primary-light-5: var(--el-color-primary-light-5);
-  --color-primary-light-7: var(--el-color-primary-light-7);
-  --color-primary-light-8: var(--el-color-primary-light-8);
-  --color-primary-light-9: var(--el-color-primary-light-9);
-  --color-primary-dark-2: var(--el-color-primary-dark-2);
   --color-success: var(--el-color-success);
-  --color-success-light-3: var(--el-color-success-light-3);
-  --color-success-light-5: var(--el-color-success-light-5);
-  --color-success-light-7: var(--el-color-success-light-7);
-  --color-success-light-8: var(--el-color-success-light-8);
-  --color-success-light-9: var(--el-color-success-light-9);
-  --color-success-dark-2: var(--el-color-success-dark-2);
   --color-warning: var(--el-color-warning);
-  --color-warning-light-3: var(--el-color-warning-light-3);
-  --color-warning-light-5: var(--el-color-warning-light-5);
-  --color-warning-light-7: var(--el-color-warning-light-7);
-  --color-warning-light-8: var(--el-color-warning-light-8);
-  --color-warning-light-9: var(--el-color-warning-light-9);
-  --color-warning-dark-2: var(--el-color-warning-dark-2);
   --color-danger: var(--el-color-danger);
-  --color-danger-light-3: var(--el-color-danger-light-3);
-  --color-danger-light-5: var(--el-color-danger-light-5);
-  --color-danger-light-7: var(--el-color-danger-light-7);
-  --color-danger-light-8: var(--el-color-danger-light-8);
-  --color-danger-light-9: var(--el-color-danger-light-9);
-  --color-danger-dark-2: var(--el-color-danger-dark-2);
   --color-info: var(--el-color-info);
-  --color-info-light-3: var(--el-color-info-light-3);
-  --color-info-light-5: var(--el-color-info-light-5);
-  --color-info-light-7: var(--el-color-info-light-7);
-  --color-info-light-8: var(--el-color-info-light-8);
-  --color-info-light-9: var(--el-color-info-light-9);
-  --color-info-dark-2: var(--el-color-info-dark-2);
+
   /** 定义边框颜色适配element-plus **/
   --color-border: var(--el-border-color);
   --color-border-light: var(--el-border-color-light);
-  --color-border-lighcolorter: var(--el-border-color-lighter);
+  --color-border-lighter: var(--el-border-color-lighter);
   --color-border-extra-light: var(--el-border-color-extra-light);
   /** 定义填充颜色适配element-plus **/
   --color-fill--darker: var(--el-fill-color-darker);
@@ -67,23 +38,9 @@
   --color-bg-overlay: var(--el-bg-color-overlay);
 }
 /** 自定义样式 */
-@layer components {
+@layer  components  {
   .common-button {
     @apply w-fit px-4 py-2 text-sm font-normal text-white bg-blue-600 rounded-lg hover:bg-blue-700;
   }
 }
 
-/******************** 滚动条样式 ************************/
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}

@@ -15,7 +15,7 @@ import { computed } from 'vue';
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
 
 // 计算缓存的组件列表
-import { useKeepAliveStore } from '@/store/keepalive';
+import { useKeepAliveStore } from '@/store/modules/keepalive';
 const cachedList = computed(() => useKeepAliveStore().cachedList);
 
 // 动态生成组件 key

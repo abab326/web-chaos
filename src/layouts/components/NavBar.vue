@@ -44,7 +44,7 @@ import {
   useTemplateRef,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useNavHistoryStore } from '@/store/navHistory';
+import { useNavHistoryStore } from '@/store/modules/navHistory';
 import BaseTab from '@/components/base-tab';
 
 const route = useRoute();

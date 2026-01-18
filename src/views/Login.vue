@@ -1,11 +1,5 @@
 <template>
   <div class="login-background">
-    <!-- 背景粒子动画 -->
-    <div ref="particlesContainer" class="particles-container"></div>
-
-    <!-- 渐变遮罩层 -->
-    <div class="overlay"></div>
-
     <!-- 登录表单容器 -->
     <div class="flex justify-center items-center px-4 py-12 min-h-screen sm:px-6 lg:px-8">
       <div class="relative space-y-8 w-full max-w-md z-10">
@@ -24,12 +18,11 @@
         <div
           class="bg-white/10 backdrop-blur-lg rounded-xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl border border-white/20"
         >
-          <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
+          <el-form ref="loginFormRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
             <!-- 邮箱 -->
             <el-form-item prop="email">
               <el-input
                 v-model="form.email"
-                type="email"
                 placeholder="邮箱地址"
                 :prefix-icon="Message"
                 autocomplete="email"
@@ -73,7 +66,7 @@
                 size="large"
                 :loading="loading"
                 native-type="submit"
-                class="w-full rounded-lg font-medium transition-all duration-300 hover:shadow-md"
+                class="w-full"
                 :disabled="isFormInvalid"
               >
                 {{ loading ? '登录中...' : '登录' }}
@@ -93,27 +86,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
-
+import { ref, reactive, computed, onMounted, useTemplateRef } from 'vue';
+import { useRouter } from 'vue-router';
 import { Lock, Message, Key } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 
+import { useUserStore } from '@/store/modules/user';
+
 defineOptions({ name: 'Login' });
-
-// 粒子动画相关引用
-const particlesContainer = ref<HTMLCanvasElement | null>(null);
-let animationFrameId: number | null = null;
-let particles: Particle[] = [];
-
-interface Particle {
-  x: number;
-  y: number;
-  size: number;
-  speedX: number;
-  speedY: number;
-  opacity: number;
-  color: string;
-}
 
 interface LoginForm {
   email: string;
@@ -122,150 +102,25 @@ interface LoginForm {
   captcha?: string;
 }
 
+const router = useRouter();
+const userStore = useUserStore();
+
 const form = reactive<LoginForm>({
   email: '',
   password: '',
   rememberMe: false,
+  captcha: '',
 });
 
 const loading = ref(false);
-const formRef = ref<FormInstance>();
 const captchaText = ref('');
+const loginFormRef = useTemplateRef<FormInstance>('loginFormRef');
 
 // 表单验证规则
 const rules = reactive<FormRules<LoginForm>>({
-  email: [
-    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-    { type: 'email', message: '请输入有效的邮箱地址', trigger: 'blur' },
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
-  ],
+  email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-});
-
-// 初始化粒子动画
-const initParticles = () => {
-  if (!particlesContainer.value) return;
-
-  const container = particlesContainer.value;
-  const particleCount = Math.floor((window.innerWidth * window.innerHeight) / 5000);
-
-  // 清空现有粒子
-  particles = [];
-
-  // 创建粒子
-  for (let i = 0; i < particleCount; i++) {
-    particles.push({
-      x: Math.random() * container.clientWidth,
-      y: Math.random() * container.clientHeight,
-      size: Math.random() * 3 + 1,
-      speedX: (Math.random() - 0.5) * 0.5,
-      speedY: (Math.random() - 0.5) * 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
-      color: `rgba(${Math.floor(Math.random() * 100 + 155)}, ${Math.floor(Math.random() * 100 + 155)}, 255, ${Math.random() * 0.5 + 0.2})`,
-    });
-  }
-
-  // 开始动画循环
-  animateParticles();
-};
-
-// 粒子动画循环
-const animateParticles = () => {
-  if (!particlesContainer.value) return;
-
-  const container = particlesContainer.value;
-  const ctx = container.getContext('2d');
-  if (!ctx) return;
-
-  // 清空画布
-  ctx.clearRect(0, 0, container.width, container.height);
-
-  // 更新和绘制粒子
-  particles.forEach((particle) => {
-    // 更新位置
-    particle.x += particle.speedX;
-    particle.y += particle.speedY;
-
-    // 边界检查
-    if (particle.x < 0 || particle.x > container.width) particle.speedX *= -1;
-    if (particle.y < 0 || particle.y > container.height) particle.speedY *= -1;
-
-    // 绘制粒子
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-    ctx.fillStyle = particle.color;
-    ctx.globalAlpha = particle.opacity;
-    ctx.fill();
-  });
-
-  // 绘制连接线
-  drawParticleConnections(ctx);
-
-  // 继续动画循环
-  animationFrameId = requestAnimationFrame(animateParticles);
-};
-
-// 绘制粒子间连接线
-const drawParticleConnections = (ctx: CanvasRenderingContext2D) => {
-  const maxDistance = 100;
-
-  for (let i = 0; i < particles.length; i++) {
-    const particleI = particles[i]!;
-    for (let j = i + 1; j < particles.length; j++) {
-      const particleJ = particles[j]!;
-      const dx = particleI.x - particleJ.x;
-      const dy = particleI.y - particleJ.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      if (distance < maxDistance) {
-        const opacity = 1 - distance / maxDistance;
-        ctx.beginPath();
-        ctx.moveTo(particleI.x, particleI.y);
-        ctx.lineTo(particleJ.x, particleJ.y);
-        ctx.strokeStyle = `rgba(100, 150, 255, ${opacity * 0.3})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-    }
-  }
-};
-
-// 调整画布大小
-const resizeCanvas = () => {
-  if (!particlesContainer.value) return;
-
-  const container = particlesContainer.value;
-  container.width = window.innerWidth;
-  container.height = window.innerHeight;
-  initParticles();
-};
-
-// 页面加载时初始化
-onMounted(() => {
-  // 创建canvas元素
-  if (particlesContainer.value) {
-    const canvas = document.createElement('canvas');
-    canvas.className = 'particles-canvas';
-    particlesContainer.value.appendChild(canvas);
-    particlesContainer.value = canvas;
-    refreshCaptcha();
-    // 初始化画布大小
-    resizeCanvas();
-
-    // 监听窗口大小变化
-    window.addEventListener('resize', resizeCanvas);
-  }
-});
-
-// 组件卸载前清理资源
-onBeforeUnmount(() => {
-  if (animationFrameId) {
-    cancelAnimationFrame(animationFrameId);
-  }
-  window.removeEventListener('resize', resizeCanvas);
 });
 
 // 表单是否无效
@@ -288,10 +143,29 @@ const refreshCaptcha = () => {
   generateCaptcha();
 };
 
-const handleLogin = async () => {};
+const handleLogin = async () => {
+  loading.value = true;
+  loginFormRef.value
+    ?.validate()
+    .then(async (valid) => {
+      if (valid) {
+        const res = await userStore.login({
+          username: form.email,
+          password: form.password,
+        });
+        if (res) {
+          router.push({ path: '/' });
+        }
+      }
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
 
 // 页面加载时检查是否记住我
 onMounted(() => {
+  refreshCaptcha();
   const rememberMe = localStorage.getItem('rememberMe');
   const email = localStorage.getItem('email');
 
@@ -312,68 +186,6 @@ onMounted(() => {
   height: 100%;
   background: linear-gradient(135deg, #0f172a, #1e293b, #0f172a);
   overflow: hidden;
-}
-
-/* 粒子容器 */
-.particles-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 渐变遮罩层 */
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background:
-    radial-gradient(circle at 10% 40%, rgba(29, 78, 216, 0.15) 0%, transparent 20%),
-    radial-gradient(circle at 90% 80%, rgba(30, 64, 175, 0.15) 0%, transparent 20%);
-}
-
-/* 卡片样式调整 */
-.bg-white\/10 {
-  background: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* 标题和描述文字颜色调整 */
-.text-white {
-  color: #f8fafc;
-}
-
-.text-white\/70 {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.text-white\/80 {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.text-white\/90 {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.text-blue-100 {
-  color: #dbeafe;
-}
-
-.text-blue-300 {
-  color: #93c5fd;
-}
-
-/* 阴影效果增强 */
-.shadow-xl {
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-
-.shadow-2xl {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 /* 毛玻璃效果 */

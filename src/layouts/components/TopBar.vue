@@ -54,7 +54,7 @@ import { Fold, Bell, ArrowDown, User, Lock, SwitchButton } from '@element-plus/i
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 import { useDark, useToggle } from '@vueuse/core';
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/store/modules/user';
 
 const router = useRouter();
 const isDark = useDark();

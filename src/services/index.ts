@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AxiosError, type AxiosResponse } from 'axios';
 
-import { useUserStore } from '@/store/user';
+import { useUserStore } from '@/store/modules/user';
 import { saveFileBlob } from '@/utils/file';
 import type {
   ApiServiceInstance,

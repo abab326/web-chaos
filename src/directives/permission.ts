@@ -1,6 +1,6 @@
 import type { Directive, DirectiveBinding } from 'vue';
 
-import { usePermissionStore } from '@/store/permission';
+import { usePermissionStore } from '@/store/modules/permission';
 
 type PermissionMode = 'any' | 'all';
 export type PermissionChecker = (requiredPermissions: string[], mode: PermissionMode) => boolean;

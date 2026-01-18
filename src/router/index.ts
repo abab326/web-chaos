@@ -14,7 +14,13 @@ const router = createRouter({
       name: 'home',
       redirect: '/dashboard',
       component: () => import('@/layouts/MainLayout.vue'),
-      children: [],
+      children: [
+        {
+          path: '/dashboard',
+          name: 'Dashboard',
+          component: () => import('@/views/Dashboard.vue'),
+        },
+      ],
     },
   ],
   scrollBehavior(to, from, savedPosition) {

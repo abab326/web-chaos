@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { userApi } from '@/api/user';
 import type { UserInfo } from '@/types/user';
-import type { MenuItem } from '@/types/menu';
 
 export const useUserStore = defineStore(
   'user',
@@ -13,16 +12,12 @@ export const useUserStore = defineStore(
     const userToken = ref<string>('');
     // 计算属性，根据token是否存在判断是否登录
     const isLoggedIn = computed(() => !!userToken.value);
-    // 登录用户 菜单列表
-    const menuList = ref<MenuItem[]>([]);
+
     // 获取token
     const getToken = () => {
       return userToken.value;
     };
-    // 获取菜单列表
-    const getMenuList = () => {
-      return menuList.value;
-    };
+
     // 清空token
     const clearToken = () => {
       userToken.value = '';
@@ -54,8 +49,8 @@ export const useUserStore = defineStore(
       userToken,
       userInfo,
       isLoggedIn,
+
       getToken,
-      getMenuList,
       logout,
       login,
     };

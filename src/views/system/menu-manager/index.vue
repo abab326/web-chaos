@@ -35,7 +35,7 @@ const tableColumns = ref<TableColumn<Menu>[]>([
   {
     prop: 'expand',
     label: '',
-    width: '80',
+    width: '55',
     align: 'center',
     headerAlign: 'center',
   },

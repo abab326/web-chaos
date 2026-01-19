@@ -1,19 +1,21 @@
 import { computed, ref, type Component } from 'vue';
 import type { Router, RouteRecordRaw } from 'vue-router';
 import { defineStore } from 'pinia';
-import type { MenuItem } from '@/types/menu';
+import type { Menu } from '@/types/menu';
 
 // 使用 import.meta.glob 动态导入所有视图组件
 const modules = import.meta.glob('../../views/**/*.vue');
 
 // 修正后的模拟菜单数据
-const mockMenus: MenuItem[] = [
+const mockMenus: Menu[] = [
   {
     id: 1,
     path: '/main',
     name: '首页',
     component: 'layout', // 布局组件
     icon: 'Home',
+    isShow: true,
+    type: 'dir',
     children: [
       {
         id: 2,
@@ -21,6 +23,8 @@ const mockMenus: MenuItem[] = [
         name: '首页',
         component: 'Dashboard', // 注意路径格式
         icon: 'home',
+        isShow: true,
+        type: 'menu',
         children: [],
       },
     ],
@@ -31,6 +35,8 @@ const mockMenus: MenuItem[] = [
     name: 'system',
     component: 'layout', // 注意路径格式
     icon: 'user',
+    isShow: true,
+    type: 'dir',
     children: [
       {
         id: 4,
@@ -38,6 +44,8 @@ const mockMenus: MenuItem[] = [
         name: 'Menu',
         component: 'system/menu-manager/index', // 注意路径格式
         icon: 'user',
+        isShow: true,
+        type: 'menu',
         children: [],
       },
     ],
@@ -48,7 +56,7 @@ export const usePermissionStore = defineStore('permission', () => {
   // 状态
   const permissions = ref<string[]>(['admin', 'user']);
   // 动态菜单
-  const dynamicMenus = ref<MenuItem[]>([]);
+  const dynamicMenus = ref<Menu[]>([]);
   // 动态菜单是否加载完成
   const dynamicMenusLoaded = computed(() => dynamicMenus.value.length > 0);
 
@@ -127,7 +135,7 @@ export const usePermissionStore = defineStore('permission', () => {
   /**
    * 递归添加路由及其子路由
    */
-  const addRouteRecursively = (router: Router, menu: MenuItem, parentName = ''): string | null => {
+  const addRouteRecursively = (router: Router, menu: Menu, parentName = ''): string | null => {
     if (!menu.name || !menu.component) {
       return null;
     }
@@ -183,7 +191,7 @@ export const usePermissionStore = defineStore('permission', () => {
   /**
    * 将菜单转换为路由
    */
-  const generateDynamicRoutesByMenus = (menus: MenuItem[], router: Router) => {
+  const generateDynamicRoutesByMenus = (menus: Menu[], router: Router) => {
     if (!menus || menus.length === 0) {
       return;
     }

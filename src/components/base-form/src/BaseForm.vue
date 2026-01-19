@@ -1,8 +1,8 @@
 <template>
-  <div class="base-form">
+  <div class="base-form flex gap-2">
     <el-form
       ref="formRef"
-      class="grid grid-cols-12 gap-x-3"
+      class="flex-1 grid grid-cols-12 gap-x-3"
       :model="formData"
       :rules="mergedRules"
       :label-width="formConfig.labelWidth || '80px'"
@@ -23,18 +23,18 @@
           <slot :name="item.prop" :item="item" :form-data="formData" />
         </template>
       </BaseFormItem>
-      <el-form-item v-if="showActionButtons" class="col-span-12" label-width="0">
-        <el-button type="primary" @click="handleSubmit">{{ submitText }}</el-button>
-        <el-button v-if="showResetButton" type="default" @click="handleReset">
-          {{ resetText }}
-        </el-button>
-      </el-form-item>
     </el-form>
+    <div v-if="showActionButtons" class="">
+      <el-button type="primary" @click="handleSubmit">{{ submitText }}</el-button>
+      <el-button v-if="showResetButton" type="default" @click="handleReset">
+        {{ resetText }}
+      </el-button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, reactive, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { ElForm, type FormRules } from 'element-plus';
 import BaseFormItem from './BaseFormItem';
 import type { FormConfig, FormItem } from './type';
@@ -45,8 +45,6 @@ interface Props {
   formItems: FormItem[];
   // 表单配置
   formConfig?: FormConfig;
-  // 表单数据
-  modelValue?: Record<string, any>;
   // 表单规则
   rules?: FormRules;
   // 提交加载状态
@@ -55,7 +53,6 @@ interface Props {
 
 // 组件事件定义
 interface Emits {
-  (e: 'update:modelValue', value: Record<string, any>): void;
   (e: 'submit', formData: Record<string, any>): void;
   (e: 'reset'): void;
   (e: 'field-change', item: FormItem, value: any): void;
@@ -77,7 +74,9 @@ const emit = defineEmits<Emits>();
 const formRef = ref<InstanceType<typeof ElForm>>();
 
 // 表单数据
-const formData = reactive<Record<string, any>>({ ...props.modelValue });
+const formData = defineModel<Record<string, any>>('modelValue', {
+  default: () => ({}),
+});
 
 // 合并规则
 const mergedRules = computed<FormRules>(() => {
@@ -120,41 +119,16 @@ const resetText = computed(() => formConfig.value.resetText);
 // 初始化默认值
 onMounted(() => {
   props.formItems.forEach((item) => {
-    if (item.defaultValue !== undefined && formData[item.prop] === undefined) {
-      formData[item.prop] = item.defaultValue;
+    if (item.defaultValue !== undefined && formData.value[item.prop] === undefined) {
+      formData.value[item.prop] = item.defaultValue;
     }
   });
-  // 更新父组件的modelValue
-  emit('update:modelValue', { ...formData });
 });
-
-// 监听modelValue变化
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    Object.keys(newVal).forEach((key) => {
-      formData[key] = newVal[key];
-    });
-  },
-  { deep: true }
-);
-
-// 监听formData变化
-watch(
-  formData,
-  (newVal) => {
-    console.log('formData 变化:', newVal);
-    emit('update:modelValue', { ...newVal });
-  },
-  { deep: true }
-);
 
 const getSpanClass = (item: FormItem) => {
   const spanClass = [];
-  if (item.span && typeof item.span === 'object') {
-    const defaultSpan = item.span.default || 12;
-    spanClass.push(spanClassMaps['default'][defaultSpan]);
 
+  if (item.span && typeof item.span === 'object') {
     if (item.span.sm) {
       spanClass.push(spanClassMaps['sm'][item.span.sm]);
     }
@@ -170,6 +144,8 @@ const getSpanClass = (item: FormItem) => {
     if (item.span.xxl) {
       spanClass.push(spanClassMaps['xxl'][item.span.xxl]);
     }
+    // 处理默认列数
+    spanClass.push(spanClassMaps['default'][item.span.default || 12]);
   } else {
     spanClass.push(spanClassMaps['default'][item.span || 12]);
   }
@@ -180,8 +156,8 @@ const getSpanClass = (item: FormItem) => {
 const handleChange = (item: FormItem, value: any) => {
   console.log('字段变化:', item.prop, value);
   // 更新表单数据
-  formData[item.prop] = value;
-
+  formData.value[item.prop] = value;
+  console.log('更新表单数据:', formData.value);
   // 触发字段变化事件
   emit('field-change', item, value);
 };
@@ -191,7 +167,7 @@ const handleSubmit = async () => {
   try {
     const valid = await formRef.value?.validate();
     if (valid) {
-      emit('submit', { ...formData });
+      emit('submit', { ...formData.value });
     }
   } catch (error) {
     console.error('表单验证失败:', error);
@@ -204,7 +180,7 @@ const handleReset = () => {
   // 重置为默认值
   props.formItems.forEach((item) => {
     if (item.defaultValue !== undefined) {
-      formData[item.prop] = item.defaultValue;
+      formData.value[item.prop] = item.defaultValue;
     }
   });
   emit('reset');
@@ -235,10 +211,5 @@ defineExpose({
 
 <style lang="scss" scoped>
 .base-form {
-  :deep(.el-form) {
-    .el-form-item__content {
-      align-items: flex-start;
-    }
-  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table :data="tableData" style="width: 100%" :row-key="'name'">
     <slot name="default"></slot>
     <base-table-column
       v-for="item in tableColumns"
@@ -12,6 +12,11 @@
         </slot>
       </template>
     </base-table-column>
+    <el-table-column v-if="$slots.operation" label="操作" prop="action" fixed="right">
+      <template #default="scope">
+        <slot name="operation" v-bind="scope"></slot>
+      </template>
+    </el-table-column>
   </el-table>
 </template>
 
@@ -31,6 +36,8 @@ interface BaseTableSlots<T> {
   default: () => any;
   // 自定义 cell slot，保持向后兼容
   cell: (props: { row: T; column: TableColumn<T>; value: any }) => any;
+  // 自��作插槽
+  operation: (props: { row: T; column: TableColumn<T> }) => any;
 }
 
 defineProps<Props>();

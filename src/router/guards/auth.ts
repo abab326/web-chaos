@@ -32,7 +32,7 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, from) =>
       return { name: 'Login', replace: true };
     }
     permissionStore.addDynamicRoutesToRouter(router);
-    return { path: to.path, replace: true, query: to.query, hash: to.hash };
+    return { path: to.path, query: to.query };
   }
   // 已加载动态路由，直接放行
   return true;

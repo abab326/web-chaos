@@ -1,9 +1,7 @@
-import { computed, ref, type Component } from 'vue';
+import { computed, defineAsyncComponent, ref, type Component } from 'vue';
 import type { Router, RouteRecordRaw } from 'vue-router';
 import { defineStore } from 'pinia';
 import type { MenuItem } from '@/types/menu';
-
-import MainLayout from '@/layouts/MainLayout.vue';
 
 // 使用 import.meta.glob 动态导入所有视图组件
 const modules = import.meta.glob('../../views/**/*.vue');
@@ -13,16 +11,33 @@ const mockMenus: MenuItem[] = [
   {
     id: 1,
     path: '/main',
-    name: 'main',
+    name: '首页',
     component: 'layout', // 布局组件
     icon: 'Home',
     children: [
       {
         id: 2,
         path: '/dashboard',
-        name: 'Dashboard',
+        name: '首页',
         component: 'Dashboard', // 注意路径格式
         icon: 'home',
+        children: [],
+      },
+    ],
+  },
+  {
+    id: 3,
+    path: '/system',
+    name: 'system',
+    component: 'layout', // 注意路径格式
+    icon: 'user',
+    children: [
+      {
+        id: 4,
+        path: '/menu',
+        name: 'Menu',
+        component: 'system/menu-manager/index', // 注意路径格式
+        icon: 'user',
         children: [],
       },
     ],
@@ -41,14 +56,14 @@ export const usePermissionStore = defineStore('permission', () => {
   const addedRouteNames = ref<string[]>([]);
 
   /**
-   * 动态导入组件 - 修正版
+   * 动态导入组件
    * @param componentPath 组件路径
    * @returns 组件导入函数
    */
   const dynamicImport = (componentPath: string): Component | (() => Promise<any>) => {
     // 处理布局组件
     if (componentPath === 'layout') {
-      return MainLayout;
+      return defineAsyncComponent(() => import('@/layouts/MainLayout.vue'));
     }
 
     // 查找匹配的模块
@@ -67,7 +82,44 @@ export const usePermissionStore = defineStore('permission', () => {
     if (modules[possiblePath]) {
       return modules[possiblePath];
     }
-    return () => import('@/views/NotFound.vue');
+    return defineAsyncComponent(() => import('@/views/NotFound.vue'));
+  };
+  /**
+   * 生成布局路由名称 每次生成的名称是维一的
+   *
+   * @returns 路由名称
+   */
+  const generateLayoutRouteName = (): string => {
+    return `Layout${Date.now()}`;
+  };
+
+  /**
+   * 从组件路径中获取路由名称 例如：/views/system/dashboard-manager/index.vue -> dashboardManager
+   * @param componentPath 组件路径
+   * @returns 路由名称
+   */
+  const getRouteNameFromComponentPath = (componentPath: string): string => {
+    if (!componentPath || componentPath === 'layout') {
+      return generateLayoutRouteName();
+    }
+    // 从组件路径生成基础名称
+    let routeName = '';
+
+    const parts = componentPath.split('/');
+    const fileName = parts[parts.length - 1]!.replace('.vue', '');
+    // 处理 index.vue
+    if (fileName === 'index' && parts.length > 1) {
+      routeName = parts[parts.length - 2]!;
+    } else {
+      routeName = fileName;
+    }
+
+    // 转换为小驼峰
+    routeName = routeName
+      .replace(/[-_](.)/g, (_, char) => char.toUpperCase())
+      .replace(/^(.)/, (_, char) => char.toLowerCase());
+
+    return routeName;
   };
 
   /**
@@ -78,7 +130,7 @@ export const usePermissionStore = defineStore('permission', () => {
       return null;
     }
 
-    const routeName = menu.name.replace(/\s+/g, '');
+    const routeName = getRouteNameFromComponentPath(menu.component);
     console.log('路由名称---1:', routeName);
     // 创建路由对象
     const route: RouteRecordRaw = {
@@ -126,7 +178,7 @@ export const usePermissionStore = defineStore('permission', () => {
   };
 
   /**
-   * 将菜单转换为路由 - 修正版
+   * 将菜单转换为路由
    */
   const generateDynamicRoutesByMenus = (menus: MenuItem[], router: Router) => {
     if (!menus || menus.length === 0) {
@@ -140,10 +192,9 @@ export const usePermissionStore = defineStore('permission', () => {
     menus.forEach((menu) => {
       addRouteRecursively(router, menu);
     });
-    setTimeout(() => {
-      // 验证路由是否添加成功
-      console.log('当前所有路由:', router.getRoutes());
-    }, 1000 * 5);
+
+    // 验证路由是否添加成功
+    console.log('当前所有路由:', router.getRoutes());
   };
 
   /**

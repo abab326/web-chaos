@@ -19,7 +19,9 @@ export interface UseSearchTableOptions<T, S = Record<string, any>> {
   initialPagination?: Partial<PaginationParams>;
 }
 
-export const useSearchTable = <T, S>(options: UseSearchTableOptions<T, S>) => {
+export const useSearchTable = <T, S = Record<string, any>>(
+  options: UseSearchTableOptions<T, S>
+) => {
   const {
     url,
     method,

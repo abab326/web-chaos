@@ -18,14 +18,19 @@
 
 /*** 重置element-plus MessageBox ***/
 .el-message-box {
-  --el-messagebox-title-color: var(--el-text-color-primary);
-  --el-messagebox-width: 560px;
+  --el-messagebox-width: 660px;
   --el-messagebox-border-radius: var(--el-border-radius-round);
-  --el-messagebox-box-shadow: var(--el-box-shadow);
-  --el-messagebox-font-size: var(--el-font-size-large);
-  --el-messagebox-content-font-size: var(--el-font-size-base);
-  --el-messagebox-content-color: var(--el-text-color-regular);
-  --el-messagebox-error-font-size: 12px;
-  --el-messagebox-padding-primary: var(--base-padding, 16px);
+  --el-messagebox-padding-primary: 32px;
   --el-messagebox-font-line-height: var(--el-font-line-height-primary);
+  --el-message-close-size: 20px;
+  .el-message-box__header.show-close {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 0;
+    .el-message-box__headerbtn {
+      position: relative;
+    }
+  }
 }

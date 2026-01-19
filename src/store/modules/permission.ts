@@ -1,4 +1,4 @@
-import { computed, defineAsyncComponent, ref, type Component } from 'vue';
+import { computed, ref, type Component } from 'vue';
 import type { Router, RouteRecordRaw } from 'vue-router';
 import { defineStore } from 'pinia';
 import type { MenuItem } from '@/types/menu';
@@ -54,6 +54,8 @@ export const usePermissionStore = defineStore('permission', () => {
 
   // 存储已添加的路由名称，便于管理和移除
   const addedRouteNames = ref<string[]>([]);
+  // 路由实例
+  const layoutIndex = ref<number>(1);
 
   /**
    * 动态导入组件
@@ -63,7 +65,7 @@ export const usePermissionStore = defineStore('permission', () => {
   const dynamicImport = (componentPath: string): Component | (() => Promise<any>) => {
     // 处理布局组件
     if (componentPath === 'layout') {
-      return defineAsyncComponent(() => import('@/layouts/MainLayout.vue'));
+      return () => import('@/layouts/MainLayout.vue');
     }
 
     // 查找匹配的模块
@@ -82,7 +84,7 @@ export const usePermissionStore = defineStore('permission', () => {
     if (modules[possiblePath]) {
       return modules[possiblePath];
     }
-    return defineAsyncComponent(() => import('@/views/NotFound.vue'));
+    return () => import('@/views/NotFound.vue');
   };
   /**
    * 生成布局路由名称 每次生成的名称是维一的
@@ -90,7 +92,7 @@ export const usePermissionStore = defineStore('permission', () => {
    * @returns 路由名称
    */
   const generateLayoutRouteName = (): string => {
-    return `Layout${Date.now()}`;
+    return `Layout ${layoutIndex.value++}`;
   };
 
   /**
@@ -159,7 +161,8 @@ export const usePermissionStore = defineStore('permission', () => {
       } else {
         router.addRoute(route);
       }
-
+      // 验证路由是否添加成功
+      console.log('当前所有路由--->:', router.getRoutes());
       // 记录已添加的路由
       addedRouteNames.value.push(routeName);
 
@@ -192,9 +195,6 @@ export const usePermissionStore = defineStore('permission', () => {
     menus.forEach((menu) => {
       addRouteRecursively(router, menu);
     });
-
-    // 验证路由是否添加成功
-    console.log('当前所有路由:', router.getRoutes());
   };
 
   /**

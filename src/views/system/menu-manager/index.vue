@@ -12,6 +12,7 @@
       </template>
       <template #operation>
         <el-button type="primary" link size="small">编辑</el-button>
+        <el-button type="primary" link size="small">新增子菜单</el-button>
         <el-button type="danger" link size="small">删除</el-button>
       </template>
     </BaseTable>

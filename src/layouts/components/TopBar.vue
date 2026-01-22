@@ -74,31 +74,33 @@ const handleToggleSidebar = () => {
 const handleToggleDarkMode = () => {
   toggleDarkMode();
 };
+// 退出登录
+const handleLogout = async () => {
+  try {
+    await ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
+    ElMessage.success('退出登录成功');
+    const userStore = useUserStore();
+    await userStore.logout();
+    router.push('/login');
+  } catch {
+    // 用户取消操作
+  }
+};
 
 // 处理用户菜单命令
 const handleUserCommand = async (command: string) => {
-  switch (command) {
-    case 'profile':
-      ElMessage.info('打开个人设置');
-      break;
-    case 'password':
-      ElMessage.info('打开修改密码');
-      break;
-    case 'logout':
-      try {
-        await ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
-        });
-        ElMessage.success('退出登录成功');
-        const userStore = useUserStore();
-        await userStore.logout();
-        router.push('/login');
-      } catch {
-        // 用户取消操作
-      }
-      break;
+  const commandMap: Record<string, () => any> = {
+    profile: () => ElMessage.info('打开个人设置'),
+    password: () => ElMessage.info('打开修改密码'),
+    logout: handleLogout,
+  };
+  const handler = commandMap[command];
+  if (handler) {
+    handler();
   }
 };
 </script>

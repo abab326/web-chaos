@@ -1,9 +1,12 @@
 <template>
   <div class="base-title flex items-center gap-2">
-    <div class="base-title__text" :style="{ fontSize: computedFontSize }">
+    <div
+      class="base-title__text flex items-center gap-1 text-(--title-font-size)"
+      :style="{ '--title-font-size': computedFontSize }"
+    >
       <span
         v-if="showTitleLabel"
-        class="w-1 inline-block h-full bg-(--el-color-primary) rounded-[1px]"
+        class="w-1 inline-block h-(--title-font-size) bg-(--el-color-primary) rounded-[1px]"
       >
         &nbsp;
       </span>

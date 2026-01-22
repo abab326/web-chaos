@@ -36,18 +36,35 @@
   --color-bg: var(--el-bg-color);
   --color-bg-page: var(--el-bg-color-page);
   --color-bg-overlay: var(--el-bg-color-overlay);
+  /** 定义阴影适配element-plus **/
+  --shadow-md: var(--el-box-shadow);
+  --shadow-lg: var(--el-box-shadow-light);
+  --shadow-xl: var(--el-box-shadow-lighter);
+  --shadow-dark: var(--el-box-shadow-dark);
+  /** 定义圆角适配element-plus **/
+  --radius-base: var(--el-border-radius-base);
+  --radius-small: var(--el-border-radius-small);
+  --radius-round: var(--el-border-radius-round);
 }
 
 @layer base {
-  * {
-    font-size: 16px;
-    line-height: 1.2;
-  }
 }
 
 /** 自定义样式 */
 @layer components {
-  .common-button {
-    @apply w-fit px-4 py-2 text-sm font-normal text-white bg-blue-600 rounded-lg hover:bg-blue-700;
+}
+
+@layer utilities {
+  /** 定义通用主要文字样式 */
+  .text-main {
+    @apply text-base font-bold text-t-primary;
+  }
+  /** 定义通用次要文字样式 */
+  .text-secondary {
+    @apply text-sm font-normal text-t-regular;
+  }
+  /** 定义通用描述文字样式 */
+  .text-desc {
+    @apply text-xs font-normal text-t-secondary;
   }
 }

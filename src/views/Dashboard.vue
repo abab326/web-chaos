@@ -34,15 +34,32 @@
     <div class="card">
       <BaseTitle title="圆角示例" />
       <div class="flex gap-x-2">
-        <div class="w-20 h-20 bg-primary rounded-xs"></div>
-        <div class="w-20 h-20 bg-primary rounded-sm"></div>
-        <div class="w-20 h-20 bg-primary rounded-md"></div>
-        <div class="w-20 h-20 bg-success rounded-lg"></div>
-        <div class="w-20 h-20 bg-warning rounded-base"></div>
-        <div class="w-20 h-20 bg-warning rounded-xl"></div>
-        <div class="w-20 h-20 bg-danger rounded-2xl"></div>
-        <div class="w-20 h-20 bg-primary rounded-round"></div>
-        <div class="w-20 h-20 bg-info rounded-full"></div>
+        <div class="w-30 h-30 flex items-center justify-center bg-primary rounded-xs">
+          圆角 0.25rem
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-primary rounded-sm">
+          圆角 0.5rem
+        </div>
+
+        <div class="w-30 h-30 flex items-center justify-center bg-primary rounded-md">
+          圆角 0.375rem
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-success rounded-lg">
+          圆角 0.5rem
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-warning rounded-base">
+          圆角 element-plus base 圆角半径
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-warning rounded-xl">
+          圆角 0.75rem
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-danger rounded-2xl">
+          圆角 1rem
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-primary rounded-round">
+          圆角 element-plus round圆角半径
+        </div>
+        <div class="w-30 h-30 flex items-center justify-center bg-info rounded-full">圆角 100%</div>
       </div>
     </div>
     <div class="card">

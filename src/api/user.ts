@@ -1,4 +1,4 @@
-import { apiService } from '../services/index';
+import { httpClient } from '../services/index';
 import type { UserInfo } from '@/types/user';
 
 // 登录请求接口
@@ -35,14 +35,14 @@ const loginByUserName = (data: LoginRequest) => {
  * 获取用户信息
  */
 const getUserInfo = () => {
-  return apiService.get<UserInfo>('/auth/userInfo');
+  return httpClient.get<UserInfo>('/auth/userInfo');
 };
 
 /**
  * 退出登录
  */
 const logout = () => {
-  return apiService.post<string>('/auth/logout');
+  return httpClient.post<string>('/auth/logout');
 };
 
 /**
@@ -50,7 +50,7 @@ const logout = () => {
  * @param params 查询参数
  */
 const getUserList = (params?: { page?: number; pageSize?: number; keyword?: string }) => {
-  return apiService.get<{
+  return httpClient.get<{
     list: UserInfo[];
     total: number;
   }>('/users', { params });

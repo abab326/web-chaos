@@ -1,9 +1,12 @@
-import { ElTableColumn } from 'element-plus';
-
-export type TableColumn<T = Record<string, any>> = Partial<typeof ElTableColumn> & {
-  prop?: keyof T;
+import { type TableColumnCtx } from 'element-plus';
+type BaseTableColumnProps<T extends Record<string, any> = Record<string, any>> = Omit<
+  Partial<TableColumnCtx<T>>,
+  'prop' | 'label' | 'children'
+>;
+// 完整的列配置
+export interface TableColumn<T extends Record<string, any> = Record<string, any>>
+  extends BaseTableColumnProps<T> {
+  prop: keyof T & string;
   label: string;
-  width?: string | number;
-  'min-width'?: string | number;
-  children?: TableColumn<T>[];
-};
+  children?: Array<TableColumn<T>>;
+}

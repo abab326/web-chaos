@@ -12,7 +12,8 @@
     </template>
     <slot></slot>
     <template #footer>
-      <div class="dialog-footer">
+      <div class="dialog-footer flex justify-end items-center">
+        <slot name="footer"></slot>
         <el-button @click="handleCancel"> 取 消 </el-button>
         <el-button type="primary" @click="handleOk"> 确 定 </el-button>
       </div>

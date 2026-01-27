@@ -12,7 +12,9 @@
           </template>
         </base-table-column>
       </template>
-      <slot v-else name="cell" :row="row" :column="column" :value="row[column.prop]" />
+      <slot v-else name="cell" :row="row" :column="column" :value="row[column.prop]">
+        {{ row[column.prop] }}
+      </slot>
     </template>
   </el-table-column>
 </template>
@@ -22,21 +24,21 @@ import { computed } from 'vue';
 import { ElTableColumn } from 'element-plus';
 import type { TableColumn } from './type';
 
-interface BaseTableColumnProps<T> {
+interface BaseTableColumnProps {
   column: TableColumn<T>;
 }
 
-interface BaseTableColumnSlots<T> {
+interface BaseTableColumnSlots {
   // 自定义 cell slot，保持向后兼容
   cell: (props: { row: T; column: TableColumn<T>; value: any }) => any;
 }
 
-defineSlots<BaseTableColumnSlots<T>>();
-const props = defineProps<BaseTableColumnProps<T>>();
+defineSlots<BaseTableColumnSlots>();
+const props = defineProps<BaseTableColumnProps>();
 
 const columnProps = computed(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { children, ...rest } = props.column;
+  const rest = { ...props.column };
+  delete rest.children;
   return rest as Record<string, any>;
 });
 </script>

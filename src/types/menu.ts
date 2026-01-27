@@ -4,7 +4,12 @@ export const MENU_TYPE = {
 } as const;
 export type MenuType = keyof typeof MENU_TYPE;
 export interface Menu {
+  // 菜单ID
   id: number;
+  // 父菜单ID
+  parentId?: number;
+  // 是否展开
+  expand?: boolean;
   // 菜单名称
   name: string;
   // 路由路径

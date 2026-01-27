@@ -7,12 +7,10 @@
       :column="item"
     >
       <template #cell="scope">
-        <slot name="cell" v-bind="scope">
-          {{ scope.value }}
-        </slot>
+        <slot name="cell" v-bind="scope"> </slot>
       </template>
     </base-table-column>
-    <el-table-column v-if="$slots.operation" label="操作" prop="action" fixed="right">
+    <el-table-column v-if="$slots.operation" v-bind="operationOption">
       <template #default="scope">
         <slot name="operation" v-bind="scope"></slot>
       </template>
@@ -20,18 +18,22 @@
   </el-table>
 </template>
 
-<script setup lang="ts" generic="T extends Record<string, any>">
+<script setup lang="ts" generic="T extends Record<string, any> = Record<string, any>">
 import BaseTableColumn from './BaseTableColumn.vue';
 import type { TableColumn } from './type';
 
+type OperationProp = Omit<TableColumn<T>, 'prop' | 'children'> & {
+  prop: 'operation' & string;
+};
 // 定义组件属性
 interface Props {
   tableData: T[];
   tableColumns: TableColumn<T>[];
+  operationOption?: OperationProp;
 }
 
 // 定义插槽类型
-interface BaseTableSlots<T> {
+interface BaseTableSlots {
   // 默认的 cell slot，保持向后兼容
   default: () => any;
   // 自定义 cell slot，保持向后兼容
@@ -43,7 +45,7 @@ interface BaseTableSlots<T> {
 defineProps<Props>();
 
 // 定义插槽，提供类型提示
-defineSlots<BaseTableSlots<T>>();
+defineSlots<BaseTableSlots>();
 </script>
 
 <style lang="scss" scoped></style>

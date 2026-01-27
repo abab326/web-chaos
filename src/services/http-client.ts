@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AxiosInstance, AxiosRequestConfig, AxiosError } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import {
   defaultRequestInterceptor,
   defaultResponseInterceptor,
@@ -36,9 +36,7 @@ export class HttpClient {
    */
   private setupInterceptors(): void {
     // 请求拦截器
-    this.instance.interceptors.request.use(defaultRequestInterceptor, (error: AxiosError) => {
-      return Promise.reject(error);
-    });
+    this.instance.interceptors.request.use(defaultRequestInterceptor, defaultErrorInterceptor);
 
     // 响应拦截器
     this.instance.interceptors.response.use(defaultResponseInterceptor, defaultErrorInterceptor);
@@ -48,12 +46,7 @@ export class HttpClient {
    * 发送请求
    */
   request<T = any>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    return new Promise((resolve, reject) => {
-      this.instance
-        .request<ApiResponse<T>>(config)
-        .then((response) => resolve(response.data))
-        .catch(reject);
-    });
+    return this.instance.request<ApiResponse<T>>(config).then((response) => response.data);
   }
 
   /**

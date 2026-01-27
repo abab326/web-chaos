@@ -6,6 +6,8 @@ import type { Emitter } from 'mitt';
 interface Events {
   'user:logout': string | null;
   'user:login': null;
+  // 重新登录事件
+  're-login': boolean;
 }
 
 // 创建工具类型：只允许已知事件

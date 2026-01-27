@@ -5,7 +5,7 @@ import {
   defaultResponseInterceptor,
   defaultErrorInterceptor,
 } from './interceptor';
-import type { BaseResponse } from './types';
+import type { ApiResponse } from './types';
 import { createCacheAdapter } from './cach-adapter';
 
 /**
@@ -47,43 +47,69 @@ export class HttpClient {
   /**
    * 发送请求
    */
-  request<T = any>(config: AxiosRequestConfig): Promise<BaseResponse<T>> {
-    return this.instance.request<BaseResponse<T>>(config).then((response) => response.data);
+  request<T = any>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    return new Promise((resolve, reject) => {
+      this.instance
+        .request<ApiResponse<T>>(config)
+        .then((response) => resolve(response.data))
+        .catch(reject);
+    });
   }
 
   /**
    * GET 请求
    */
-  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request({ url, method: 'get', ...config });
   }
 
   /**
    * POST 请求
    */
-  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request({ url, method: 'post', ...config, data });
   }
 
   /**
    * PUT 请求
    */
-  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request({ url, method: 'put', ...config, data });
   }
 
   /**
    * DELETE 请求
    */
-  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request({ url, method: 'delete', ...config });
   }
 
   /**
    * PATCH 请求
    */
-  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
     return this.request({ url, method: 'patch', ...config, data });
+  }
+  /**
+   *  下载文件
+   * @param url 下载地址
+   * @param config axios 配置
+   * @returns Promise<Blob>
+   */
+  download(url: string, config?: AxiosRequestConfig): Promise<Blob> {
+    return this.instance
+      .request({ url, method: 'get', ...config, responseType: 'blob' })
+      .then((response) => response.data);
+  }
+  /**
+   *  上传文件
+   * @param url 上传地址
+   * @param data 上传数据
+   * @param config axios 配置
+   * @returns Promise<BaseResponse>
+   */
+  upload(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse> {
+    return this.request({ url, method: 'post', ...config, data });
   }
 }
 

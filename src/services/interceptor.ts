@@ -1,6 +1,7 @@
-import type { AxiosResponse, InternalAxiosRequestConfig, AxiosError } from 'axios';
+import { type AxiosResponse, type InternalAxiosRequestConfig, AxiosError } from 'axios';
 import { useUserStore } from '@/store/modules/user';
-import type { BaseResponse } from './types';
+import type { ApiResponse, ApiError } from './types';
+import { eventBus } from '@/plugins/eventBus';
 
 // 请求拦截器
 export const defaultRequestInterceptor = <T>(config: InternalAxiosRequestConfig<T>) => {
@@ -13,26 +14,42 @@ export const defaultRequestInterceptor = <T>(config: InternalAxiosRequestConfig<
 };
 
 // 响应拦截器
-export const defaultResponseInterceptor = <T = any>(response: AxiosResponse<BaseResponse<T>>) => {
-  const { status, data } = response;
-
+export const defaultResponseInterceptor = <T = any>(response: AxiosResponse<T>) => {
+  const { status, data, statusText } = response;
+  // 处理非 200 状态码
+  if (status !== 200) {
+    const error: ApiError = {
+      code: status || 500,
+      message: statusText || `请求失败: ${status}`,
+      type: 'http',
+    };
+    return Promise.reject(error);
+  }
   // 处理 Blob 响应
   if (data instanceof Blob) {
     return response;
   }
-
+  const apiData = data as ApiResponse<any>;
   // 确保响应格式一致
-  if (status === 200) {
-    return response;
+  if (apiData.code && apiData.code !== 200) {
+    const error: ApiError = {
+      code: apiData?.code || status || 500,
+      message: apiData?.message || statusText || `请求失败: ${status}`,
+      type: 'business',
+    };
+    return Promise.reject(error);
   }
-
-  return response;
+  return response.data;
 };
 
 // 错误拦截器
-export const defaultErrorInterceptor = (error: AxiosError<BaseResponse>) => {
-  const { response, message } = error;
-
+export const defaultErrorInterceptor = (error: AxiosError<ApiResponse>) => {
+  const { response, request, message } = error;
+  const apiError: ApiError = {
+    code: 500,
+    message: message || `请求失败: ${status}`,
+    type: 'http',
+  };
   if (response) {
     // 服务器返回错误状态码
     const { status, data } = response;
@@ -40,31 +57,36 @@ export const defaultErrorInterceptor = (error: AxiosError<BaseResponse>) => {
     switch (status) {
       case 401: {
         // 未授权，清除 token 并跳转到登录页
-        console.error('未授权，请重新登录');
-        const userStore = useUserStore();
-        userStore.logout();
-        // 这里可以添加跳转到登录页的逻辑
+        eventBus.emit('re-login', true);
+        apiError.code = 401;
+        apiError.message = '未授权，清除 token 并跳转到登录页';
         break;
       }
       case 403:
-        console.error('拒绝访问');
+        apiError.code = 403;
+        apiError.message = '拒绝访问';
         break;
       case 404:
-        console.error('请求资源不存在');
+        apiError.code = 404;
+        apiError.message = '请求资源不存在';
         break;
       case 500:
-        console.error('服务器内部错误');
+        apiError.code = 500;
+        apiError.message = '服务器内部错误';
         break;
       default:
-        console.error(data?.message || `请求失败: ${status}`);
+        apiError.message = data?.message || `请求失败: ${status}`;
+        break;
     }
-  } else if (error.request) {
+  } else if (request) {
     // 请求已发出，但没有收到响应
-    console.error('网络错误，无法连接到服务器');
+    apiError.code = 504;
+    apiError.message = '网络错误，无法连接到服务器';
   } else {
     // 请求配置出错
-    console.error('请求配置错误:', message);
+    apiError.code = 400;
+    apiError.message = '请求配置错误:' + message;
   }
 
-  return Promise.reject(error);
+  return Promise.reject(apiError);
 };

@@ -3,7 +3,7 @@ import mitt from 'mitt';
 import type { Emitter } from 'mitt';
 
 // 定义基础接口
-interface Events {
+interface Events extends Record<string | symbol, unknown> {
   'user:logout': string | null;
   'user:login': null;
   // 重新登录事件
@@ -14,25 +14,19 @@ interface Events {
 type StrictEventKey<T> = T extends keyof Events ? T : never;
 
 class EventBus {
-  private emitter: Emitter<Events & Record<string | symbol, unknown>>;
+  private emitter: Emitter<Events>;
 
   constructor() {
-    this.emitter = mitt<Events & Record<string | symbol, unknown>>();
+    this.emitter = mitt<Events>();
   }
 
   // 监听事件
-  on<T extends string | symbol>(
-    type: StrictEventKey<T>,
-    handler: (event: Events[StrictEventKey<T>]) => void
-  ) {
+  on<T>(type: StrictEventKey<T>, handler: (event: Events[StrictEventKey<T>]) => void) {
     this.emitter.on(type, handler);
   }
 
   // 一次性监听
-  once<T extends string | symbol>(
-    type: StrictEventKey<T>,
-    handler: (event: Events[StrictEventKey<T>]) => void
-  ) {
+  once<T>(type: StrictEventKey<T>, handler: (event: Events[StrictEventKey<T>]) => void) {
     const onceHandler = (event: Events[StrictEventKey<T>]) => {
       handler(event);
       this.off(type, onceHandler);
@@ -41,15 +35,12 @@ class EventBus {
   }
 
   // 移除监听
-  off<T extends string | symbol>(
-    type: StrictEventKey<T>,
-    handler: (event: Events[StrictEventKey<T>]) => void
-  ) {
+  off<T>(type: StrictEventKey<T>, handler: (event: Events[StrictEventKey<T>]) => void) {
     this.emitter.off(type, handler);
   }
 
   // 触发事件
-  emit<T extends string | symbol>(type: T, event: Events[StrictEventKey<T>]) {
+  emit<T>(type: StrictEventKey<T>, event: Events[StrictEventKey<T>]) {
     this.emitter.emit(type, event);
   }
 
@@ -67,9 +58,10 @@ class EventBus {
 export const eventBus = new EventBus();
 
 // Vue 插件形式
-export default {
-  install(app: any) {
-    app.config.globalProperties.$eventBus = eventBus;
-    app.provide('eventBus', eventBus);
-  },
+
+(eventBus as any).install = (app: any) => {
+  app.config.globalProperties.$eventBus = eventBus;
+  app.provide('eventBus', eventBus);
 };
+
+export default eventBus;

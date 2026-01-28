@@ -1,6 +1,6 @@
 import { onMounted, ref } from 'vue';
 import type { PaginatedResponse, PaginationParams } from '@/types';
-import { apiService } from '@/services/index';
+import { apiService } from '@/api/core/index';
 
 export type FetchDataFn<T, S> = (
   params: S & PaginationParams

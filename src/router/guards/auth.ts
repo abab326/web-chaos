@@ -7,8 +7,6 @@ import router from '@/router';
 export const authGuard: NavigationGuardWithThis<undefined> = async (to, from) => {
   const userStore = useUserStore();
   const permissionStore = usePermissionStore();
-
-  console.log('authGuard', to, from);
   // 如果是登录页，且当前页面是登录页,不进行跳转
   if (
     to.name === 'Login' &&
@@ -20,11 +18,14 @@ export const authGuard: NavigationGuardWithThis<undefined> = async (to, from) =>
   if (to.name === 'Login') {
     return true;
   }
-  // 如果没有登录，跳转到登录页
-  if (!userStore.isLoggedIn) {
-    return { name: 'Login', replace: true };
+  // 未加载用户信息
+  if (!userStore.isLogged) {
+    const result = await userStore.getUserInfoByNetwork();
+    if (!result) {
+      return { name: 'Login', replace: true };
+    }
   }
-  // 如果已经登录，检查是否已经加载了动态路由
+  // 是否已经加载了动态路由
   if (permissionStore.dynamicMenus.length === 0) {
     await permissionStore.loadMenus();
 

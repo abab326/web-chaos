@@ -1,38 +1,43 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+
+import { clearAccessToken, setAccessToken } from '@/utils/authUtils';
+
 import { userApi } from '@/api/user';
-import type { UserInfo } from '@/types/user';
+import type { LoginRequest, UserInfo } from '@/types/user';
 
 export const useUserStore = defineStore(
   'user',
   () => {
     // 用户信息
     const userInfo = ref<UserInfo | null>(null);
-    // 登录状态的token
-    const userToken = ref<string>('');
-    // 计算属性，根据token是否存在判断是否登录
-    const isLoggedIn = computed(() => !!userToken.value);
 
-    // 获取token
-    const getToken = () => {
-      return userToken.value;
-    };
+    // 是否加载用户信息
+    const isLogged = computed(() => !!userInfo.value && userInfo.value.id !== '');
 
-    // 清空token
-    const clearToken = () => {
-      userToken.value = '';
-      localStorage.removeItem('token');
-    };
     // 用户登录
-    const login = async (data: { username: string; password: string }) => {
+    const login = async (data: LoginRequest) => {
       const [error, res] = await userApi.loginByUserName(data);
+      console.log('loginByUserName', error, res);
       if (error) {
         return false;
       }
-      userToken.value = res.token;
-      userInfo.value = res.user;
-      // 登录成功后，将token保存到localStorage
-      localStorage.setItem('token', userToken.value);
+      setAccessToken(res?.token || '');
+      const success = await getUserInfoByNetwork();
+      return success;
+    };
+    // 获取用户信息
+    const getUserInfoByNetwork = async () => {
+      console.log('getUserInfo', userInfo.value);
+      if (userInfo.value) {
+        return true;
+      }
+      const [apiError, result] = await userApi.getUserInfo();
+      console.log('getUserInfo', apiError, result);
+      if (apiError) {
+        return false;
+      }
+      userInfo.value = result;
       return true;
     };
     // 退出登录
@@ -41,23 +46,24 @@ export const useUserStore = defineStore(
       if (error) {
         return false;
       }
-      clearToken();
+
+      userInfo.value = null;
+      clearAccessToken();
       return true;
     };
 
     return {
-      userToken,
       userInfo,
-      isLoggedIn,
+      isLogged,
 
-      getToken,
       logout,
       login,
+      getUserInfoByNetwork,
     };
   },
   {
     persist: {
-      pick: ['userInfo', 'userToken'],
+      pick: ['userInfo'],
     },
   }
 );

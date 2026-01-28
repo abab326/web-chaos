@@ -1,5 +1,5 @@
 // 用户实体类
-export interface UserBean {
+export interface User {
   id: string | number;
   username: string;
   email: string;
@@ -13,4 +13,15 @@ export interface UserBean {
   lastLoginTime: string;
 }
 
-export type UserInfo = Pick<UserBean, 'id' | 'username' | 'role' | 'avatar'>;
+export type UserInfo = Pick<User, 'id' | 'username' | 'role' | 'avatar'>;
+export interface LoginRequest {
+  userName: string;
+  password: string;
+  captcha: string;
+}
+
+// 登录响应接口
+export interface LoginResponse {
+  token: string;
+  user: UserInfo;
+}

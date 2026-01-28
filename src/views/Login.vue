@@ -20,13 +20,8 @@
         >
           <el-form ref="loginFormRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
             <!-- 邮箱 -->
-            <el-form-item prop="email">
-              <el-input
-                v-model="form.email"
-                placeholder="邮箱地址"
-                :prefix-icon="Message"
-                autocomplete="email"
-              />
+            <el-form-item prop="userName">
+              <el-input v-model="form.userName" placeholder="邮箱地址" :prefix-icon="Message" />
             </el-form-item>
             <!-- 密码 -->
             <el-form-item prop="password">
@@ -35,7 +30,6 @@
                 type="password"
                 placeholder="密码"
                 :prefix-icon="Lock"
-                autocomplete="current-password"
                 show-password
               />
             </el-form-item>
@@ -91,22 +85,19 @@ import { useRouter } from 'vue-router';
 import { Lock, Message, Key } from '@element-plus/icons-vue';
 import type { FormInstance, FormRules } from 'element-plus';
 
+import type { LoginRequest } from '@/types/user';
 import { useUserStore } from '@/store/modules/user';
 
-defineOptions({ name: 'Login' });
-
-interface LoginForm {
-  email: string;
-  password: string;
+type LoginForm = LoginRequest & {
   rememberMe: boolean;
-  captcha?: string;
-}
+};
+defineOptions({ name: 'Login' });
 
 const router = useRouter();
 const userStore = useUserStore();
 
 const form = reactive<LoginForm>({
-  email: '',
+  userName: '',
   password: '',
   rememberMe: false,
   captcha: '',
@@ -118,14 +109,14 @@ const loginFormRef = useTemplateRef<FormInstance>('loginFormRef');
 
 // 表单验证规则
 const rules = reactive<FormRules<LoginForm>>({
-  email: [{ required: true, message: '请输入邮箱地址', trigger: 'blur' }],
+  userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
   captcha: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 });
 
 // 表单是否无效
 const isFormInvalid = computed(() => {
-  return !form.email || !form.password || !form.captcha;
+  return !form.userName || !form.password || !form.captcha;
 });
 
 // 生成随机验证码
@@ -143,16 +134,24 @@ const refreshCaptcha = () => {
   generateCaptcha();
 };
 
-const handleLogin = async () => {};
+const handleLogin = async () => {
+  loginFormRef.value?.validate().then(() => {
+    userStore.login(form).then((result) => {
+      if (result) {
+        router.push({ path: '/dashboard' });
+      }
+    });
+  });
+};
 
 // 页面加载时检查是否记住我
 onMounted(() => {
   refreshCaptcha();
   const rememberMe = localStorage.getItem('rememberMe');
-  const email = localStorage.getItem('email');
+  const userName = localStorage.getItem('userName');
 
-  if (rememberMe === 'true' && email) {
-    form.email = email;
+  if (rememberMe === 'true' && userName) {
+    form.userName = userName;
     form.rememberMe = true;
   }
 });

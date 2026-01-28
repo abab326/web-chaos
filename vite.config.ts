@@ -1,15 +1,23 @@
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import tailwindcss from '@tailwindcss/vite';
+import console from 'node:console';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import console from 'node:console';
+import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
+import { viteMockServe } from 'vite-plugin-mock';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 console.log('__dirname ==', __dirname);
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [
+    vue(),
+    viteMockServe({
+      mockPath: 'mock', // mock 文件目录
+      logger: true, // 控制台打印 mock 日志
+    }),
+    tailwindcss(),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),

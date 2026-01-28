@@ -5,7 +5,7 @@ import {
   defaultResponseInterceptor,
   defaultErrorInterceptor,
 } from './interceptor';
-import type { ApiResponse } from './types';
+import type { ApiError, ApiResponse } from './types';
 import { createCacheAdapter } from './cach-adapter';
 
 /**
@@ -45,55 +45,62 @@ export class HttpClient {
   /**
    * 发送请求
    */
-  request<T = any>(config: AxiosRequestConfig): Promise<ApiResponse<T>> {
-    return this.instance.request<ApiResponse<T>>(config).then((response) => response.data);
+  request<T = any>(config: AxiosRequestConfig): Promise<[ApiError | null, T | null]> {
+    return new Promise((resolve) => {
+      this.instance
+        .request<ApiResponse<T>>(config)
+        .then((response) => resolve([null, response.data.data]))
+        .catch((error: ApiError) => resolve([error, null]));
+    });
   }
 
   /**
    * GET 请求
    */
-  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'get', ...config });
   }
 
   /**
    * POST 请求
    */
-  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'post', ...config, data });
   }
 
   /**
    * PUT 请求
    */
-  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'put', ...config, data });
   }
 
   /**
    * DELETE 请求
    */
-  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'delete', ...config });
   }
 
   /**
    * PATCH 请求
    */
-  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+  patch<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'patch', ...config, data });
   }
-  /**
-   *  下载文件
-   * @param url 下载地址
-   * @param config axios 配置
-   * @returns Promise<Blob>
-   */
-  download(url: string, config?: AxiosRequestConfig): Promise<Blob> {
-    return this.instance
-      .request({ url, method: 'get', ...config, responseType: 'blob' })
-      .then((response) => response.data);
-  }
+
   /**
    *  上传文件
    * @param url 上传地址
@@ -101,8 +108,26 @@ export class HttpClient {
    * @param config axios 配置
    * @returns Promise<BaseResponse>
    */
-  upload(url: string, data?: any, config?: AxiosRequestConfig): Promise<ApiResponse> {
+  upload<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'post', ...config, data });
+  }
+  /**
+   *  下载文件
+   * @param url 下载地址
+   * @param config axios 配置
+   * @returns Promise<Blob>
+   */
+  download(url: string, config?: AxiosRequestConfig): Promise<[ApiError | null, Blob | null]> {
+    return new Promise((resolve) => {
+      this.instance
+        .request({ url, method: 'get', ...config, responseType: 'blob' })
+        .then((response) => resolve([null, response.data]))
+        .catch((error: ApiError) => resolve([error, null]));
+    });
   }
 }
 

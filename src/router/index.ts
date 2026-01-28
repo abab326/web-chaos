@@ -20,10 +20,9 @@ const router = createRouter({
 registerRouterGuards(router);
 
 eventBus.on('user:logout', (redirect) => {
-  console.log('user:logout', redirect);
   const currentPath = router.currentRoute.value.fullPath;
   if (!currentPath.startsWith('/login')) {
-    router.replace({ name: 'Login', query: { redirect: redirect || currentPath } });
+    router.replace({ name: 'Login', query: { redirect: redirect ?? currentPath } });
   }
 });
 

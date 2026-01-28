@@ -1,41 +1,21 @@
-import { httpClient } from '../services/index';
-import type { UserInfo } from '@/types/user';
+import { httpClient } from './core/index';
+import type { UserInfo, LoginRequest } from '@/types/user';
 
 // 登录请求接口
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
-
-// 登录响应接口
-export interface LoginResponse {
-  token: string;
-  user: UserInfo;
-}
 
 /**
  * 用户登录
  * @param data 登录信息
  */
 const loginByUserName = (data: LoginRequest) => {
-  const result: LoginResponse = {
-    token: '123456',
-    user: {
-      username: data.username,
-      role: 'USER',
-      avatar: 'https://example.com/avatar.jpg',
-      id: '123456',
-    },
-  };
-  return Promise.resolve<[any, LoginResponse]>([null, result]);
-  // return apiService.post<LoginResponse>('/auth/login', data)
+  return httpClient.post<{ token: string }>('/auth/login', data);
 };
 
 /**
  * 获取用户信息
  */
 const getUserInfo = () => {
-  return httpClient.get<UserInfo>('/auth/userInfo');
+  return httpClient.get<UserInfo>('/auth/info');
 };
 
 /**

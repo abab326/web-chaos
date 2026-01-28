@@ -4,7 +4,7 @@ import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
-import axios from 'axios';
+import axios, { getAdapter } from 'axios';
 import type { RequestConfig } from './types';
 
 interface CacheItem<T = any> {
@@ -96,7 +96,8 @@ class CacheManager {
 }
 export function createCacheAdapter(options: CacheAdapterOptions) {
   const cache = new CacheManager(options.cache);
-  const defaultAdapter = options.adapter || (axios.defaults.adapter as AxiosAdapter);
+  const resolvedAdapter = getAdapter(axios.defaults.adapter);
+  const defaultAdapter = options.adapter || resolvedAdapter;
 
   return async function (config: RequestConfig & InternalAxiosRequestConfig) {
     // 检查是否启用缓存

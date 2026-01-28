@@ -1,12 +1,12 @@
 import { type AxiosResponse, type InternalAxiosRequestConfig, AxiosError } from 'axios';
-import { useUserStore } from '@/store/modules/user';
+import { getAccessToken } from '@/utils/authUtils';
+
 import type { ApiResponse, ApiError } from './types';
 import { eventBus } from '@/plugins/eventBus';
 
 // 请求拦截器
 export const defaultRequestInterceptor = <T>(config: InternalAxiosRequestConfig<T>) => {
-  const userStore = useUserStore();
-  const token = userStore.getToken();
+  const token = getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -39,7 +39,7 @@ export const defaultResponseInterceptor = <T = any>(response: AxiosResponse<T>) 
     };
     return Promise.reject(error);
   }
-  return response.data;
+  return response;
 };
 
 // 错误拦截器

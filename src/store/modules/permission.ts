@@ -232,10 +232,9 @@ export const usePermissionStore = defineStore('permission', () => {
    * 加载菜单列表
    */
   const loadMenus = async () => {
-    // 这里应该调用API获取菜单数据，暂时使用模拟数据
+    // TODO 这里应该调用API获取菜单数据，暂时使用模拟数据
     dynamicMenus.value = mockMenus;
-
-    return dynamicMenus.value;
+    return true;
   };
 
   /**

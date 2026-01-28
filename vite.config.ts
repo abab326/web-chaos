@@ -17,6 +17,7 @@ export default defineConfig({
     vue(),
     viteMockServe({
       mockPath: 'mock', // mock 文件目录
+      enable: true, // 开启 mock
       logger: true, // 控制台打印 mock 日志
     }),
 

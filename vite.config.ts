@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url';
 import vue from '@vitejs/plugin-vue';
 import tailwindcss from '@tailwindcss/vite';
 import { viteMockServe } from 'vite-plugin-mock';
+import compression from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,6 +19,14 @@ export default defineConfig({
       mockPath: 'mock', // mock 文件目录
       logger: true, // 控制台打印 mock 日志
     }),
+
+    compression({
+      algorithm: 'gzip',
+      threshold: 1024,
+      disable: true,
+    }),
+    visualizer(),
+    vueDevTools(),
     tailwindcss(),
   ],
   resolve: {

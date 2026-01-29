@@ -48,6 +48,16 @@ const mockMenus: Menu[] = [
         type: 'menu',
         children: [],
       },
+      {
+        id: 5,
+        path: '/user',
+        name: '用户管理',
+        component: 'system/user-manager/index', // 注意路径格式
+        icon: 'user',
+        isShow: true,
+        type: 'menu',
+        children: [],
+      },
     ],
   },
 ];

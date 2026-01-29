@@ -1,4 +1,4 @@
-import type { FormItemRule } from 'element-plus';
+import type { FormItemRule, FormProps } from 'element-plus';
 
 export type FormItemSpan =
   | number
@@ -60,7 +60,7 @@ export interface FormConfig {
   // 表单尺寸
   size?: 'large' | 'default' | 'small';
   // 其他表单属性
-  formProps?: Record<string, any>;
+  formProps?: Partial<FormProps>;
   // 是否显示操作按钮
   showActionButtons?: boolean;
   // 提交按钮文本

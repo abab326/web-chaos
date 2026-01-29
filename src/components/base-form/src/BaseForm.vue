@@ -1,6 +1,7 @@
 <template>
   <div class="base-form flex gap-2">
     <el-form
+      v-bind="formConfig.formProps"
       ref="formRef"
       class="flex-1 grid grid-cols-12 gap-x-3"
       :model="formData"
@@ -8,7 +9,6 @@
       :label-width="formConfig.labelWidth || '80px'"
       :label-position="formConfig.labelPosition || 'right'"
       :size="formConfig.size || 'default'"
-      v-bind="formConfig.formProps"
     >
       <!-- 渲染表单项 -->
       <BaseFormItem

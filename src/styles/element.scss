@@ -5,8 +5,11 @@
 );
 @use 'element-plus/theme-chalk/src/index.scss' as *;
 
+@use 'element-plus/theme-chalk/dark/css-vars.css';
 /************************ 重置element-plus样式 ************************/
-
+.el-select {
+  min-width: 130px;
+}
 /*** 重置element-plus MessageBox ***/
 .el-message-box {
   --el-messagebox-width: 660px;

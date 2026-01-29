@@ -3,7 +3,7 @@
     <el-form
       v-bind="formConfig.formProps"
       ref="formRef"
-      class="flex-1 grid grid-cols-12 gap-x-3"
+      class="flex grid-cols-12 gap-x-3"
       :model="formData"
       :rules="mergedRules"
       :label-width="formConfig.labelWidth || '80px'"
@@ -24,7 +24,7 @@
         </template>
       </BaseFormItem>
     </el-form>
-    <div v-if="showActionButtons" class="">
+    <div v-if="showActionButtons" class="shrink-0">
       <el-button type="primary" @click="handleSubmit">{{ submitText }}</el-button>
       <el-button v-if="showResetButton" type="default" @click="handleReset">
         {{ resetText }}
@@ -49,6 +49,8 @@ interface Props {
   rules?: FormRules;
   // 提交加载状态
   submitLoading?: boolean;
+  // 全局设置表单项的span 值
+  span?: number;
 }
 
 // 组件事件定义
@@ -66,6 +68,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: () => ({}),
   rules: () => ({}),
   submitLoading: false,
+  span: 3,
 });
 
 const emit = defineEmits<Emits>();
@@ -145,9 +148,9 @@ const getSpanClass = (item: FormItem) => {
       spanClass.push(spanClassMaps['xxl'][item.span.xxl]);
     }
     // 处理默认列数
-    spanClass.push(spanClassMaps['default'][item.span.default || 12]);
+    spanClass.push(spanClassMaps['default'][item.span.default || props.span]);
   } else {
-    spanClass.push(spanClassMaps['default'][item.span || 12]);
+    spanClass.push(spanClassMaps['default'][item.span || props.span]);
   }
 
   return spanClass.join(' ');
@@ -211,5 +214,8 @@ defineExpose({
 
 <style lang="scss" scoped>
 .base-form {
+  :deep(.el-date-editor.el-input) {
+    --el-date-editor-width: 100%;
+  }
 }
 </style>

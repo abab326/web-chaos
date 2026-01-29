@@ -56,9 +56,9 @@ export interface FormConfig {
   // 标签宽度
   labelWidth?: string;
   // 标签位置
-  labelPosition?: 'left' | 'right' | 'top';
+  labelPosition?: ('left' | 'right' | 'top') & string;
   // 表单尺寸
-  size?: 'large' | 'default' | 'small';
+  size?: ('large' | 'default' | 'small') & string;
   // 其他表单属性
   formProps?: Partial<FormProps>;
   // 是否显示操作按钮

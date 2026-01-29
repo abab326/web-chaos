@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData" style="width: 100%" :row-key="'name'">
+  <el-table class="base-table" :data="tableData" style="width: 100%" :row-key="'name'">
     <slot name="default"></slot>
     <base-table-column
       v-for="item in tableColumns"
@@ -48,4 +48,8 @@ defineProps<Props>();
 defineSlots<BaseTableSlots>();
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.base-table {
+  --el-table-header-bg-color: var(--el-bg-color-page);
+}
+</style>

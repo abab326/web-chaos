@@ -1,5 +1,5 @@
 <template>
-  <nav class="border-b border-border-light py-2 px-3">
+  <nav class="bg-bg border-b border-border-light py-2 px-3">
     <BaseTab ref="baseTabRef" @scroll="handleTabScroll">
       <div
         v-for="item in navItems"

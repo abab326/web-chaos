@@ -34,8 +34,8 @@
   --color-t-disabled: var(--el-text-color-disabled);
   /** 定义背景颜色适配element-plus **/
   --color-bg: var(--el-bg-color);
-  --color-bg-page: var(--el-bg-color-page);
-  --color-bg-overlay: var(--el-bg-color-overlay);
+  --color-page: var(--el-bg-color-page);
+  --color-overlay: var(--el-bg-color-overlay);
   /** 定义阴影适配element-plus **/
   --shadow-md: var(--el-box-shadow);
   --shadow-lg: var(--el-box-shadow-light);

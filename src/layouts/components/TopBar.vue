@@ -1,5 +1,5 @@
 <template>
-  <el-header class="h-16! flex items-center border-b border-border-light p-0!">
+  <el-header class="h-16! bg-bg flex items-center border-b border-border-light p-0!">
     <div class="h-full w-full flex justify-between items-center px-2">
       <el-icon class="cursor-pointer m-2" :size="16" @click="handleToggleSidebar">
         <Fold />

@@ -1,6 +1,14 @@
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #2b3fff,
+    ),
+  ),
   $border-radius: (
     'base': 8px,
+  ),
+  $bg-color: (
+    'page': #f5f7fa,
   )
 );
 @use 'element-plus/theme-chalk/src/index.scss' as *;
@@ -8,7 +16,7 @@
 @use 'element-plus/theme-chalk/dark/css-vars.css';
 /************************ 重置element-plus样式 ************************/
 .el-select {
-  min-width: 130px;
+  min-width: 120px;
 }
 /*** 重置element-plus MessageBox ***/
 .el-message-box {

@@ -8,7 +8,12 @@
       ></BaseForm>
     </template>
     <template #table>
-      <BaseTable :table-data="tableData" :table-columns="tableColumns" :table-config="tableConfig">
+      <BaseTable
+        :table-data="tableData"
+        :table-columns="tableColumns"
+        :table-config="tableConfig"
+        border
+      >
         <template #cell="{ row, column }">
           <div v-if="column.prop === 'avatar'">
             <BaseFilePreview :file-url="row.avatar" file-type="image" :size="80" />

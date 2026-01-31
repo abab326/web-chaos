@@ -14,27 +14,23 @@
       :z-index="9999"
     />
     <!-- 预览文件 -->
-    <div
+    <el-link
       v-else-if="fileType === 'file'"
       class="file-preview-container w-full h-full flex items-center justify-center border border-dashed border-gray-300 [&:not(.is-disabled)]:hover:border-primary"
+      :href="fileUrl"
+      underline="never"
     >
-      <el-link :href="fileUrl" underline="never">
-        <span class="break-all p-2">
-          <el-icon class="mr-2">
-            <Document />
-          </el-icon>
-          {{ fileName || '文件' }}
-        </span>
-      </el-link>
-    </div>
+      <span class="break-all p-2">
+        <el-icon class="mr-2">
+          <Document />
+        </el-icon>
+        {{ fileName || '文件' }}
+      </span>
+    </el-link>
     <!-- 预览视频 -->
-    <div v-else-if="fileType === 'video'" class="file-preview-container w-full">
-      <video :src="fileUrl" controls class="w-full aspect-video" />
-    </div>
+    <video v-else-if="fileType === 'video'" :src="fileUrl" controls class="w-full aspect-video" />
     <!-- 预览音频 -->
-    <div v-else-if="fileType === 'audio'" class="file-preview-container w-full">
-      <audio :src="fileUrl" controls class="w-full aspect-video" />
-    </div>
+    <audio v-else-if="fileType === 'audio'" :src="fileUrl" controls class="w-full aspect-video" />
   </div>
 </template>
 

@@ -1,8 +1,17 @@
 <template>
-  <div class="space-y-4">
+  <div class="dashboard-container">
+    <header class="header-card">
+      <div class="flex justify-between items-center">
+        <p class="text-2xl font-bold">Web Chaos</p>
+        <el-link underline="never" type="primary" link>
+          查看详情 <i class="icon-[mdi--arrow-right]"></i>
+        </el-link>
+      </div>
+    </header>
     <h1>主题样式示例</h1>
     <div class="card">
       <BaseTitle title="文本示例" />
+      <p class="text-xl text-primary">这是一个基础文字</p>
       <p class="text-main">这是一个主要文字</p>
       <p class="text-secondary">这是一个次要文字</p>
       <p class="text-desc">这是一个描述文字</p>
@@ -81,7 +90,4 @@ import BaseTitle from '@/components/base-title';
 defineOptions({ name: 'Dashboard' });
 </script>
 
-<style scoped>
-.card {
-}
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 <template>
-  <el-container class="h-screen bg-page">
+  <el-container class="layout-container h-screen c-bg-page">
     <!-- 侧边栏 -->
     <Sidebar :is-expanded="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
 

@@ -55,6 +55,10 @@
 }
 
 @layer utilities {
+  /** 定义背景颜色 */
+  .c-bg-page {
+    background: var(--color-page);
+  }
   /** 定义通用主要文字样式 */
   .text-main {
     @apply text-base font-bold text-t-primary;

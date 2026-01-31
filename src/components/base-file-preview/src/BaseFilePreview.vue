@@ -8,7 +8,7 @@
       v-if="fileType === 'image'"
       :src="fileUrl"
       alt="预览图片"
-      class="w-(--base-file-preview-size) h-(--base-file-preview-size) object-cover"
+      class="h-(--base-file-preview-size) w-(--base-file-preview-size) object-cover"
       :preview-src-list="[fileUrl]"
       :preview-teleported="true"
       :z-index="9999"
@@ -16,11 +16,11 @@
     <!-- 预览文件 -->
     <el-link
       v-else-if="fileType === 'file'"
-      class="file-preview-container w-full h-full flex items-center justify-center border border-dashed border-gray-300 [&:not(.is-disabled)]:hover:border-primary"
+      class="file-preview-container [&:not(.is-disabled)]:hover:border-primary flex h-full w-full items-center justify-center border border-dashed border-gray-300"
       :href="fileUrl"
       underline="never"
     >
-      <span class="break-all p-2">
+      <span class="p-2 break-all">
         <el-icon class="mr-2">
           <Document />
         </el-icon>
@@ -28,9 +28,9 @@
       </span>
     </el-link>
     <!-- 预览视频 -->
-    <video v-else-if="fileType === 'video'" :src="fileUrl" controls class="w-full aspect-video" />
+    <video v-else-if="fileType === 'video'" :src="fileUrl" controls class="aspect-video w-full" />
     <!-- 预览音频 -->
-    <audio v-else-if="fileType === 'audio'" :src="fileUrl" controls class="w-full aspect-video" />
+    <audio v-else-if="fileType === 'audio'" :src="fileUrl" controls class="aspect-video w-full" />
   </div>
 </template>
 

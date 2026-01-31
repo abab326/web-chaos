@@ -104,7 +104,7 @@ const handleOptionsRender = (item: FormItem) => {
 export const renderControl = (
   item: FormItem,
   formData: Record<string, any>,
-  handleChange: (item: FormItem, value: any) => void
+  handleChange: (item: FormItem, value: any) => void,
 ) => {
   // 渲染不同类型的表单控件
   const componentName = COMPONENT_MAP[item.type || 'input'] || 'ElInput';
@@ -142,7 +142,7 @@ export const renderFormItem = (
   item: FormItem,
   formData: Record<string, any>,
   handleChange: (item: FormItem, value: any) => void,
-  slots: Slots
+  slots: Slots,
 ) => {
   // 如果字段被隐藏，不渲染任何内容
   if (item.hidden) {
@@ -166,6 +166,6 @@ export const renderFormItem = (
     },
     {
       default: () => childComponent,
-    }
+    },
   );
 };

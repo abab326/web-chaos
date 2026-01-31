@@ -12,10 +12,10 @@
     </template>
     <slot></slot>
     <template #footer>
-      <div class="dialog-footer flex justify-end items-center">
+      <div class="dialog-footer flex items-center justify-end">
         <slot name="footer"></slot>
-        <el-button @click="handleCancel"> 取 消 </el-button>
-        <el-button type="primary" @click="handleOk"> 确 定 </el-button>
+        <el-button @click="handleCancel">取 消</el-button>
+        <el-button type="primary" @click="handleOk">确 定</el-button>
       </div>
     </template>
   </el-dialog>

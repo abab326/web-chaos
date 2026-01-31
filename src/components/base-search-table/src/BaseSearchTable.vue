@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-full overflow-hidden">
+  <div class="flex h-full w-full flex-col overflow-hidden">
     <!-- 搜索区 -->
     <div v-if="slots.search" class="shrink-0 pb-2">
       <slot name="search"></slot>
@@ -43,13 +43,13 @@ const { height: tableAreaHeight } = useElementSize(tableAreaRef);
 const { height: paginationAreaHeight } = useElementSize(
   paginationAreaRef,
   { width: 0, height: 0 },
-  { box: 'border-box' }
+  { box: 'border-box' },
 );
 // 功能区容器元素尺寸
 const { height: actionAreaHeight } = useElementSize(
   actionAreaRef,
   { width: 0, height: 0 },
-  { box: 'border-box' }
+  { box: 'border-box' },
 );
 
 /**
@@ -57,7 +57,7 @@ const { height: actionAreaHeight } = useElementSize(
  * 表格高度 = 表格容器高度 - 分页容器高度 - 功能区容器高度
  */
 const tableHeight = computed(
-  () => tableAreaHeight.value - paginationAreaHeight.value - actionAreaHeight.value
+  () => tableAreaHeight.value - paginationAreaHeight.value - actionAreaHeight.value,
 );
 
 // 定义插槽类型

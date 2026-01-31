@@ -13,9 +13,9 @@
       </template>
       <template #operation="{ row }">
         <el-button type="primary" link size="small">编辑</el-button>
-        <el-button type="primary" link size="small" @click="addChildMenu(row)"
-          >新增子菜单</el-button
-        >
+        <el-button type="primary" link size="small" @click="addChildMenu(row)">
+          新增子菜单
+        </el-button>
         <el-button type="danger" link size="small">删除</el-button>
       </template>
     </BaseTable>

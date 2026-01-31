@@ -1,22 +1,22 @@
 <template>
   <div class="login-background">
     <!-- 登录表单容器 -->
-    <div class="flex justify-center items-center px-4 py-12 min-h-screen sm:px-6 lg:px-8">
-      <div class="relative space-y-8 w-full max-w-md z-10">
+    <div class="flex min-h-screen items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div class="relative z-10 w-full max-w-md space-y-8">
         <!-- 登录表单头部 -->
         <div class="text-center">
           <div
-            class="mx-auto flex justify-center items-center w-16 h-16 rounded-full bg-linear-to-br from-blue-500 to-indigo-600 shadow-lg"
+            class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-blue-500 to-indigo-600 shadow-lg"
           >
             <el-icon :size="32" class="text-white"><Lock /></el-icon>
           </div>
-          <h1 class="mt-6 text-3xl font-bold text-white tracking-tight">欢迎登录</h1>
+          <h1 class="mt-6 text-3xl font-bold tracking-tight text-white">欢迎登录</h1>
           <p class="mt-2 text-sm text-blue-100">请输入您的账户信息以继续</p>
         </div>
 
         <!-- 登录表单 -->
         <div
-          class="bg-white/10 backdrop-blur-lg rounded-xl shadow-xl p-8 sm:p-10 transition-all duration-300 hover:shadow-2xl border border-white/20"
+          class="rounded-xl border border-white/20 bg-white/10 p-8 shadow-xl backdrop-blur-lg transition-all duration-300 hover:shadow-2xl sm:p-10"
         >
           <el-form ref="loginFormRef" :model="form" :rules="rules" @submit.prevent="handleLogin">
             <!-- 邮箱 -->
@@ -39,16 +39,16 @@
               <div class="flex w-full space-x-2">
                 <el-input v-model="form.captcha" placeholder="验证码" :prefix-icon="Key" />
                 <div
-                  class="flex items-center justify-center w-30 h-8 bg-white/20 rounded-md cursor-pointer border border-white/30"
+                  class="flex h-8 w-30 cursor-pointer items-center justify-center rounded-md border border-white/30 bg-white/20"
                   @click="refreshCaptcha"
                 >
-                  <span class="text-base font-mono text-white">{{ captchaText }}</span>
+                  <span class="font-mono text-base text-white">{{ captchaText }}</span>
                 </div>
               </div>
             </el-form-item>
             <!-- 记住我 -->
             <el-form-item prop="rememberMe">
-              <div class="flex w-full justify-between items-center">
+              <div class="flex w-full items-center justify-between">
                 <el-checkbox v-model="form.rememberMe" label="记住我" class="text-white/90" />
                 <el-link type="primary" href="#" class="text-xs text-blue-300">忘记密码？</el-link>
               </div>

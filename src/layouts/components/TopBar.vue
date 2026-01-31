@@ -1,15 +1,15 @@
 <template>
-  <el-header class="h-16! bg-bg flex items-center border-b border-border-light p-0!">
-    <div class="h-full w-full flex justify-between items-center px-2">
-      <el-icon class="cursor-pointer m-2" :size="16" @click="handleToggleSidebar">
+  <el-header class="bg-bg border-border-light flex h-16! items-center border-b p-0!">
+    <div class="flex h-full w-full items-center justify-between px-2">
+      <el-icon class="m-2 cursor-pointer" :size="16" @click="handleToggleSidebar">
         <Fold />
       </el-icon>
       <div class="flex-1"></div>
 
       <div class="flex items-center gap-2">
         <!-- 通知图标 -->
-        <el-badge :value="3" :max="99" class="flex! mr-2 cursor-pointer">
-          <el-icon :size="24"><Bell /> </el-icon>
+        <el-badge :value="3" :max="99" class="mr-2 flex! cursor-pointer">
+          <el-icon :size="24"><Bell /></el-icon>
         </el-badge>
         <!-- dark 模式切换 -->
         <el-icon class="cursor-pointer" :size="24" @click="handleToggleDarkMode">
@@ -18,12 +18,12 @@
         <!-- 用户头像 -->
         <el-dropdown trigger="click" @command="handleUserCommand">
           <span
-            class="outline-none py-2 px-3 rounded transition-colors duration-200 flex items-center space-x-2 cursor-pointer text-t-primary hover:bg-primary-light-5"
+            class="text-t-primary hover:bg-primary-light-5 flex cursor-pointer items-center space-x-2 rounded px-3 py-2 transition-colors duration-200 outline-none"
           >
             <el-avatar :size="32">
-              <span class="font-semibold text-t-primary">A</span>
+              <span class="text-t-primary font-semibold">A</span>
             </el-avatar>
-            <span class="text-sm font-medium text-t-primary">管理员</span>
+            <span class="text-t-primary text-sm font-medium">管理员</span>
             <el-icon><ArrowDown /></el-icon>
           </span>
           <template #dropdown>

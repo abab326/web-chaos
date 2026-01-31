@@ -6,7 +6,7 @@
     >
       <span
         v-if="showTitleLabel"
-        class="w-1 inline-block h-(--title-font-size) bg-(--el-color-primary) rounded-[1px]"
+        class="inline-block h-(--title-font-size) w-1 rounded-[1px] bg-(--el-color-primary)"
       >
         &nbsp;
       </span>

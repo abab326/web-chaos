@@ -58,4 +58,23 @@ export default defineConfig([
     },
   },
   prettierRecommended,
+  {
+    rules: {
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+          trailingComma: 'all',
+          tabWidth: 2,
+          useTabs: false,
+          endOfLine: 'lf',
+          arrowParens: 'always',
+          bracketSpacing: true,
+          bracketSameLine: false,
+          htmlWhitespaceSensitivity: 'ignore',
+          vueIndentScriptAndStyle: false,
+        },
+      ],
+    },
+  },
 ]);

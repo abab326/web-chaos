@@ -34,7 +34,7 @@ watch(
   (newOption) => {
     setOption(newOption, props.setOptionOpts);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {

@@ -31,5 +31,5 @@ export const useKeepAliveStore = defineStore(
     persist: {
       pick: ['cachedList'],
     },
-  }
+  },
 );

@@ -67,7 +67,7 @@ export class HttpClient {
   post<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'post', ...config, data });
   }
@@ -78,7 +78,7 @@ export class HttpClient {
   put<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'put', ...config, data });
   }
@@ -96,7 +96,7 @@ export class HttpClient {
   patch<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'patch', ...config, data });
   }
@@ -111,7 +111,7 @@ export class HttpClient {
   upload<T = any>(
     url: string,
     data?: any,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<[ApiError | null, T | null]> {
     return this.request({ url, method: 'post', ...config, data });
   }

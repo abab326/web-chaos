@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@iconify/tailwind4" {
+@plugin '@iconify/tailwind4' {
   prefix: 'icon';
   square: true;
   icon-sets: from-folder('local', './src/icons');
@@ -59,16 +59,19 @@
   .c-bg-page {
     background: var(--color-page);
   }
+  .c-card {
+    @apply bg-bg rounded-lg p-4 shadow-md;
+  }
   /** 定义通用主要文字样式 */
   .text-main {
-    @apply text-base font-bold text-t-primary;
+    @apply text-t-primary text-base font-bold;
   }
   /** 定义通用次要文字样式 */
   .text-secondary {
-    @apply text-sm font-normal text-t-regular;
+    @apply text-t-regular text-sm font-normal;
   }
   /** 定义通用描述文字样式 */
   .text-desc {
-    @apply text-xs font-normal text-t-secondary;
+    @apply text-t-secondary text-xs font-normal;
   }
 }

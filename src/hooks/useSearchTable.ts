@@ -1,9 +1,9 @@
 import { onMounted, ref } from 'vue';
 import type { PaginatedResponse, PaginationParams } from '@/types';
-import { apiService } from '@/api/core/index';
+import { httpClient } from '@/api/core/index';
 
 export type FetchDataFn<T, S> = (
-  params: S & PaginationParams
+  params: S & PaginationParams,
 ) => Promise<PaginatedResponse<T> | T[]>;
 
 export interface UseSearchTableOptions<T, S = Record<string, any>> {
@@ -20,7 +20,7 @@ export interface UseSearchTableOptions<T, S = Record<string, any>> {
 }
 
 export const useSearchTable = <T, S = Record<string, any>>(
-  options: UseSearchTableOptions<T, S>
+  options: UseSearchTableOptions<T, S>,
 ) => {
   const {
     url,
@@ -55,7 +55,7 @@ export const useSearchTable = <T, S = Record<string, any>>(
         result = [];
         return;
       }
-      result = data;
+      result = data || [];
     } else {
       result = await fetchData!(params);
     }
@@ -79,12 +79,12 @@ export const useSearchTable = <T, S = Record<string, any>>(
   const getDataByUrl = async (
     url: string,
     params: S & PaginationParams,
-    method?: 'GET' | 'POST'
+    method?: 'GET' | 'POST',
   ) => {
     if (method && method === 'POST') {
-      return apiService.post<PaginatedResponse<T> | T[]>(url, params);
+      return httpClient.post<PaginatedResponse<T> | T[]>(url, params);
     } else {
-      return apiService.get<PaginatedResponse<T> | T[]>(url, params);
+      return httpClient.get<PaginatedResponse<T> | T[]>(url, { params });
     }
   };
 
@@ -123,7 +123,7 @@ export const useSearchTable = <T, S = Record<string, any>>(
     // 获取不需要重置的搜索参数
     const noResetParams = noResetSearchParams.reduce(
       (acc, key) => ({ ...acc, [key]: searchParams.value[key] }),
-      {}
+      {},
     );
     searchParams.value = { ...(initialSearchParams || {}), ...noResetParams };
 

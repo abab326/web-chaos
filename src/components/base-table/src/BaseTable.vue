@@ -7,7 +7,7 @@
       :column="item"
     >
       <template #cell="scope">
-        <slot name="cell" v-bind="scope"> </slot>
+        <slot name="cell" v-bind="scope"></slot>
       </template>
     </base-table-column>
     <el-table-column v-if="$slots.operation" v-bind="operationOption">

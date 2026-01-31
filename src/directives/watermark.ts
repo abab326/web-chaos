@@ -57,7 +57,7 @@ function cleanupWatermark(el: HTMLElement): void {
  */
 function createWatermark(
   el: HTMLElement,
-  binding: DirectiveBinding<string | string[] | WatermarkOptions>
+  binding: DirectiveBinding<string | string[] | WatermarkOptions>,
 ): void {
   // 先清理现有的水印
   cleanupWatermark(el);
@@ -83,7 +83,7 @@ function createWatermark(
     options.text,
     options.fontSize!,
     options.color!,
-    options.angle!
+    options.angle!,
   );
   // 创建水印容器
   const watermarkContainer = document.createElement('div');
@@ -137,7 +137,7 @@ function createWatermarkImage(
   text: string | string[] = 'Watermark',
   fontSize: number,
   color: string,
-  angle: number
+  angle: number,
 ): { url: string; width: number; height: number } {
   // 处理文本为数组格式
   const textArray = Array.isArray(text) ? text : [text];

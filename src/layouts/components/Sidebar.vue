@@ -7,7 +7,7 @@
       @click="toggleExpand"
     ></div>
     <el-aside
-      class="h-full bg-bg border-r border-solid border-border sidebar-aside"
+      class="bg-bg border-border sidebar-aside h-full border-r border-solid"
       :class="{
         fixed: isMobile,
         shadow: isMobile,
@@ -15,7 +15,7 @@
       }"
       :width="isExpanded ? '15rem' : isMobile ? '0' : '4rem'"
     >
-      <div class="h-16 px-5 flex items-center justify-between border-b border-solid border-border">
+      <div class="border-border flex h-16 items-center justify-between border-b border-solid px-5">
         <div class="flex items-center gap-4">
           <el-icon :size="24" class="text-primary!"><ElementPlus /></el-icon>
           <span v-if="isExpanded" class="text-primary text-xl">Web Chaos</span>

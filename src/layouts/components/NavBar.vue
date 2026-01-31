@@ -1,13 +1,13 @@
 <template>
-  <nav class="bg-bg border-b border-border-light py-2 px-3">
+  <nav class="bg-bg border-border-light border-b px-3 py-2">
     <BaseTab ref="baseTabRef" @scroll="handleTabScroll">
       <div
         v-for="item in navItems"
         :key="item.key"
         :ref="(el: any) => setNavItemRef(el, item.key)"
-        class="nav-item relative flex items-center rounded-lg transition-all duration-300 px-2 py-1 cursor-pointer whitespace-nowrap bg-fill-lighter text-t-regular border border-border-light hover:bg-fill-light hover:text-primary"
+        class="nav-item bg-fill-lighter text-t-regular border-border-light hover:bg-fill-light hover:text-primary relative flex cursor-pointer items-center rounded-lg border px-2 py-1 whitespace-nowrap transition-all duration-300"
         :class="{
-          'active-nav bg-primary-light-9 text-primary font-medium border-primary-light-7':
+          'active-nav bg-primary-light-9 text-primary border-primary-light-7 font-medium':
             activeNav === item.key,
         }"
         @click="handleNavClick(item.key)"
@@ -16,7 +16,7 @@
         <span class="close-icon" @click="removeNav(item.key)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="close-icon-svg w-4 h-4"
+            class="close-icon-svg h-4 w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

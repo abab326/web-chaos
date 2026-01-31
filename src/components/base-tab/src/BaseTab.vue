@@ -180,7 +180,7 @@ const scrollToItemByRect = (rect: DOMRect) => {
   const maxScrollLeft = Math.min(0, containerWidth - contentRect.width); // 最大向左滚动位置
   const clampedScrollPosition = Math.max(
     maxScrollLeft,
-    Math.min(maxScrollRight, newScrollPosition)
+    Math.min(maxScrollRight, newScrollPosition),
   );
 
   scrollToPosition(clampedScrollPosition);

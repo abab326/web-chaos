@@ -140,7 +140,7 @@ export function createCacheAdapter(options: CacheAdapterOptions) {
           statusText: response.statusText,
           headers: response.headers,
         },
-        ttl
+        ttl,
       );
 
       // 添加缓存头

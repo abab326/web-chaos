@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex justify-end min-w-fit overflow-x-auto">
+  <div class="flex w-full min-w-fit justify-end overflow-x-auto">
     <el-pagination
       v-model:current-page="modelValue.page"
       v-model:page-size="modelValue.page"

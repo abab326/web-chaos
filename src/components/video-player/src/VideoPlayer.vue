@@ -49,7 +49,7 @@ const props = withDefaults(
     width: '100%',
     height: '100%',
     playbackRate: 1,
-  }
+  },
 );
 
 // 定义事件
@@ -126,7 +126,7 @@ watch(
   () => props.src,
   () => {
     initPlayer();
-  }
+  },
 );
 
 // 播放方法
